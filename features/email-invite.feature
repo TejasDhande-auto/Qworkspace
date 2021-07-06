@@ -1,4 +1,3 @@
-from behave_webdriver.steps import *
 Feature: Set user password
 Scenario Outline: Set Password
 Given Open Browser

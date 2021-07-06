@@ -1,6 +1,5 @@
 from behave import *
 from selenium import webdriver
-from behave_webdriver.steps import *
 
 @given('Open Browser')
 def step_impl(context):
