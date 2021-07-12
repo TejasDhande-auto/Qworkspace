@@ -10,7 +10,7 @@ def openPage(context):
     context.driver.get("https://platform-dev.quantuvos.com/confirm-email/client/RjytANpGGnxwrwz")
     context.driver.maximize_window()
 
-@when(u'Enter the "{email}" address')
+@when('Enter the "{email}" address')
 def enterEmail(context,email):
     context.driver.find_element_by_id("email").send_keys(email)
 @when(u'click on send button')
