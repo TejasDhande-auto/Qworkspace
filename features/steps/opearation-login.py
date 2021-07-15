@@ -14,10 +14,10 @@ def openurl(context):
     context.driver.maximize_window()
 
 
-@when('Enter valid Email and Password')
-def entercredentials(context):
-    context.driver.find_element_by_id("inputEmailID").send_keys("admin@quantuvos.com")
-    context.driver.find_element_by_id("inputPasswordID").send_keys("Qwerty123@")
+@when('Enter email "{email}" and password "{password}"')
+def entercredentials(context,email,password):
+    context.driver.find_element_by_id("inputEmailID").send_keys(email)
+    context.driver.find_element_by_id("inputPasswordID").send_keys(password)
 
 @when('Click on Login')
 def clicksubmit(context):

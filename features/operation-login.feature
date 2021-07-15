@@ -3,7 +3,7 @@ Feature: Operation Dashboard Functionality
   Background:
     Given Launch the browser
     When Open the login Url
-    And Enter valid Email and Password
+    And Enter email "admin@quantuvos.com" and password "Qwerty123@"
     And Click on Login
     Then Login successful
 
