@@ -1,5 +1,4 @@
 import time
-
 from behave import *
 from selenium import webdriver
 
@@ -31,6 +30,7 @@ def login(context):
 def clickonboarding(context):
     time.sleep(5)
     context.driver.find_element_by_xpath('//*[@id="opt-onboardingid"]').click()
+    context.driver.find_element_by_xpath('//*[@id="opt-Welcomeid"]').click()
 
 
 @when('Select Individual client')
@@ -78,8 +78,8 @@ def enterccdetails(context,customerfirstname,customerlastname,customeremail,cust
     context.driver.find_element_by_name("customerclientfirstname").send_keys(customerfirstname)
     context.driver.find_element_by_name("customerclientlastname").send_keys(customerlastname)
     context.driver.find_element_by_name("customerclientcompanyid").send_keys(customercompanyid)
-    context.driver.find_element_by_name("customerclientmanagername").send_keys(customermanagername)
-    context.driver.find_element_by_name("customerclienthrmanagername").send_keys(customerhrmanagername)
+    #context.driver.find_element_by_name("customerclientmanagername").send_keys(customermanagername)
+    #context.driver.find_element_by_name("customerclienthrmanagername").send_keys(customerhrmanagername)
     context.driver.find_element_by_name("customerclientemail").send_keys(customeremail)
     context.driver.find_element_by_name("customerclientallocationhour").send_keys(customerallocatedcoachinghours)
 

@@ -1,0 +1,504 @@
+import asyncio
+import os
+import subprocess
+import sys
+import time
+import shutil
+
+
+import selenium.webdriver.common.utils
+import selenium.webdriver.chrome.webdriver
+import selenium.webdriver.chromium.options
+import selenium.webdriver.chromium.service
+import selenium.webdriver.chromium.webdriver
+
+import selenium.webdriver.common.options
+import selenium.webdriver.common.service
+import tempfile
+import websockets
+
+
+from .patcher import Patcher
+from ._util import addict
+
+DEFAULT_PORT = 0
+DEFAULT_SERVICE_LOG_PATH = None
+DEFAULT_KEEP_ALIVE = None
+
+_IS_POSIX = sys.platform.startswith(("darwin", "cygwin", "linux"))
+
+desiredCapabilities = dict(
+
+    browserName="chrome",
+    # Browser name	"browserName"	string	Identifies thqe user agent.
+
+    browserPrefix="goog",
+
+    browserVersion="",
+    # Browser version	"browserVersion"	string	Identifies the version of the user agent.
+
+    platformName="ANY",
+    # Platform name	"platformName"	string	Identifies the operating system of the endpoint node.
+
+    acceptInsecureCerts=True,
+    # Accept insecure TLS certificates	"acceptInsecureCerts"	boolean	Indicates whether untrusted and
+    # self-signed TLS certificates are implicitly trusted on navigation for the duration of the session.
+
+    pageLoadStrategy="",
+    # Page load strategy	"pageLoadStrategy"	string	Defines the current session’s page load strategy.
+
+    proxy=None,
+    # Proxy configuration	"proxy"	JSON Object	Defines the current session’s proxy configuration.
+
+    setWindowRect=False,
+    # Window dimensioning/positioning	"setWindowRect"	boolean	Indicates whether the remote end supports all
+    # of the resizing and repositioning commands.
+
+    timeouts=None,
+    # Session timeouts	"timeouts"	JSON Object	Describes the timeouts imposed on certain session operations.
+
+    strictFileInteractability=False,
+    # Strict file interactability	"strictFileInteractability"	boolean	Defines the current session’s strict file
+    # interactability.
+
+    unhandledPromptBehavior="accept",
+    # Unhandled prompt behavior	"unhandledPromptBehavior"	string	Describes the current session’s user prompt
+    # handler. Defaults to the dismiss and notify state.
+)
+
+perfLoggingPrefs = dict(
+
+    enableNetwork=True,
+    # boolean	true	Whether or not to collect events from Network domain.
+
+    enablePage=True,
+    # boolean   true    Whether or not to collect events from Page domain.
+
+    traceCategories='',
+    # A comma-separated string of Chrome tracing categories for which
+    # trace events should be collected. An unspecified or empty string disables tracing.
+
+    bufferUsageReportingInterval=1000,
+    # positive integer	1000	The requested number of milliseconds between DevTools trace buffer usage events.
+    # for example, if 1000, then once per second, DevTools will report how full the trace
+    # buffer is. If a report indicates the buffer usage is 100%, a warning will be issued.
+)
+
+
+class ChromeOptions(selenium.webdriver.chromium.options.ChromiumOptions):
+    """
+    args 	    list of strings
+        List of command-line arguments to use when starting Chrome. Arguments with an associated value should be
+        separated by a '=' sign (e.g., ['start-maximized', 'user-data-dir=/tmp/temp_profile']).
+        See here for a list of Chrome arguments.
+
+    binary	    string
+        Path to the Chrome executable to use (on Mac OS X, this should be the actual binary, not just the app.
+         e.g., '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+
+    extensions	list of strings
+        A list of Chrome extensions to install on startup. Each item in the list should be a base-64 encoded
+        packed Chrome extension (.crx)
+
+    localState	dictionary
+        A dictionary with each entry consisting of the name of the preference and its value. These preferences
+        are applied to the Local State file in the user data folder.
+
+    prefs	    dictionary
+        A dictionary with each entry consisting of the name of the preference and its value. These preferences are
+        only applied to the user profile in use. See the 'Preferences' file in Chrome's user data
+        directory for examples.
+
+    detach	    boolean	false
+        If false, Chrome will be quit when ChromeDriver is killed, regardless of whether the session is quit.
+        If true, Chrome will only be quit if the session is quit (or closed). Note, if true, and the session is
+        not quit, ChromeDriver cannot clean up the temporary user data directory that the running Chrome
+        instance is using.
+
+    debuggerAddress	string
+        An address of a Chrome debugger server to connect_browser to, in the form of <hostname/ip:port>, e.g. '127.0.0.1:38947'
+
+    excludeSwitches	list of strings
+        List of Chrome command line switches to exclude that ChromeDriver by default passes when starting Chrome.
+        Do not prefix switches with --.
+
+    minidumpPath 	string
+        Directory to store Chrome minidumps . (Supported only on Linux.)
+
+    mobileEmulation	dictionary
+        A dictionary with either a value for “deviceName,” or values for “deviceMetrics”
+        and “userAgent.” Refer to Mobile Emulation for more information.
+
+    perfLoggingPrefs	dictionary
+        An optional dictionary that specifies performance logging preferences.
+        See below for more information.
+
+    windowTypes	 list of strings
+        A list of window types that will appear in the list of window handles. For access to <webview>
+        elements, include "webview" in this list.
+    """
+
+
+class Chromium(selenium.webdriver.chromium.webdriver.ChromiumDriver):
+    """
+    - browser_name - Browser name used when matching capabilities.
+    - vendor_prefix - Company prefix to apply to vendor-specific WebDriver extension commands.
+    - port - Deprecated: port you would like the service to run, if left as 0, a free port will be found.
+    - options - this takes an instance of ChromiumOptions
+    - service_args - Deprecated: List of args to pass to the driver service
+    - desired_capabilities - Deprecated: Dictionary object with non-browser specific
+        capabilities only, such as "proxy" or "loggingPref".
+    - service_log_path - Deprecated: Where to log information from the driver.
+    - keep_alive - Deprecated: Whether to configure ChromiumRemoteConnection to use HTTP keep-alive.
+    """
+
+    def __init__(self,  # noqa
+                 browser_name=desiredCapabilities['browserName'],
+                 vendor_prefix=desiredCapabilities['browserPrefix'],
+                 port=DEFAULT_PORT,
+                 options:
+                    selenium.webdriver.common.options.BaseOptions = None,
+                 service:
+                    selenium.webdriver.common.service.Service = None
+                 ):
+
+        # super().__init__(browser_name, vendor_prefix, port, options, service)
+        # super().quit()
+        # print(selenium.webdriver.chromium.webdriver.ChromiumDriver.__class__.mro())
+        # print(selenium.webdriver.chromium.webdriver.ChromiumRemoteConnection)
+
+        import time
+        rng = time.time()
+
+        if not options:
+            options = ChromeOptions()
+
+        if not service:
+            try:
+                appdata = os.environ.get('APPDATA', '~/appdata/Roaming')
+            except KeyError:
+                appdata = os.environ.get("XDG_DATA_HOME", "~/.local/share")
+
+            exe_path = os.path.join(appdata, 'undetected_chromedriver')
+            exe_name = 'chromedriver%s' % ("" if _IS_POSIX else ".exe")
+            exe_fp = os.path.join(exe_path, exe_name)
+
+            # service = selenium.webdriver.chromium.service.ChromiumService(
+            #     executable_path=exe_fp,
+            #     port=port,
+            #     start_error_message=" ",
+            #     log_path='c:\\temp\\driver_service%s.log' % rng,
+            # )
+
+
+        dbg_host = '127.0.0.1'
+        dbg_port = selenium.webdriver.common.utils.free_port()
+
+        # options.add_argument('--disable-blink-features')
+        # options.add_argument("--disable-blink-features=AutomationControlled")
+
+        options.add_argument('--remote-debugging-host=%s' % dbg_host)
+        options.add_argument('--remote-debugging-port=%d' % dbg_port)
+        options.debugger_address = '%s:%d' % (dbg_host, dbg_port)
+
+        if not options.binary_location:
+            options.binary_location = find_chrome_executable()
+            # options.binary_location = r"C:\users\leon\downloads\chrome-win\chrome.exe"
+
+        datadir = None
+        for arg in options.arguments:
+            if all([x in arg for x in ('user', 'data', 'dir')]):
+                if '=' in arg:
+                    datadir = arg.split('=')[-1]
+                else:
+                    datadir = arg.split(' ')[-1]
+        if not datadir:
+            datadir = tempfile.TemporaryDirectory(prefix='uc_profile').name
+
+        options.add_argument('--user-data-dir=%s' % datadir)
+        options.datadir = datadir
+
+        self.options = options
+        cmd = [options.binary_location, *options.arguments]
+
+        self.cdp = CDP(dbg_port)
+
+        # selenium.webdriver.chromium.webdriver.ChromiumDriver()
+        self.browser_process = subprocess.Popen(
+           cmd,
+           env=os.environ,
+           close_fds= _IS_POSIX,
+           stdout=subprocess.PIPE,
+           stderr=subprocess.PIPE,
+           stdin=subprocess.PIPE,
+           creationflags=0x0)
+
+    def __del__(self):
+
+        self.browser_process.kill()
+        while os.path.exists(self.options.datadir):
+            try:
+                shutil.rmtree(self.options.datadir, ignore_errors=False)
+            except (OSError, PermissionError):
+                continue
+            else:
+                break
+
+    def get(self, url):
+        try:
+            asyncio.get_running_loop()
+            return self.cdp.send('Page.navigate', url=url)
+        except Exception as e:
+            asyncio.get_event_loop().run_until_complete(
+                self.cdp.send('Page.navigate', url=url)
+            )
+
+    def __getattribute__(self, item):
+        try:
+            val = super(Chromium, self).__getattribute__(item)
+            return val
+        except KeyError:
+            val = getattr(super(Chromium, self), item)
+            return val
+
+
+
+
+class ChromeDirect:
+    """"
+    - options - this takes an instance of ChromiumOptions
+    -loglevel = 1 = verbose, 2 = less verbose
+    """
+    def __init__(
+         self,
+         options: ChromeOptions = None,
+         log='chrome.log',
+         port=DEFAULT_PORT,
+    ):
+        import time
+        rng = time.time()
+
+        if not options:
+            options = ChromeOptions()
+
+        dbg_host = '127.0.0.1'
+        dbg_port = port
+        if not port:
+            dbg_port = selenium.webdriver.common.utils.free_port()
+
+
+        options.add_argument('--remote-debugging-host=%s' % dbg_host)
+        options.add_argument('--remote-debugging-port=%d' % dbg_port)
+        options.add_argument('--enable-logging --v=1')
+        # options.debugger_address = '%s:%d' % (dbg_host, dbg_port)
+
+        if not options.binary_location:
+            options.binary_location = find_chrome_executable()
+
+        datadir = None
+        for arg in options.arguments:
+            if all([x in arg for x in ('user', 'data', 'dir')]):
+                if '=' in arg:
+                    datadir = arg.split('=')[-1]
+                else:
+                    datadir = arg.split(' ')[-1]
+        if not datadir:
+            datadir = tempfile.TemporaryDirectory(prefix='uc_profile').name
+            self.clean_profile_on_exit = True
+        else:
+            self.clean_profile_on_exit = False
+
+        options.add_argument('--user-data-dir=%s' % datadir)
+        options.datadir = datadir
+
+        self.options = options
+        cmd = [options.binary_location, *options.arguments]
+
+        self.cdp = CDP(dbg_port)
+
+        # selenium.webdriver.chromium.webdriver.ChromiumDriver()
+        self.browser_process = subprocess.Popen(
+            cmd,
+            env=os.environ,
+            close_fds=_IS_POSIX,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
+
+    def __del__(self):
+        import shutil
+        for _ in range(5):
+            self.browser_process.terminate()
+            self.browser_process.kill()
+            self.browser_process.wait(1)
+            if self.clean_profile_on_exit:
+                if self.options and hasattr(self.options, 'datadir'):
+                    shutil.rmtree(self.options.datadir, ignore_errors=True)
+            time.sleep(.1)
+
+
+    def get(self, url):
+        try:
+            asyncio.get_running_loop()
+            return self.cdp.send('Page.navigate', url=url)
+        except Exception as e:
+            asyncio.get_event_loop().run_until_complete(
+                self.cdp.send('Page.navigate', url=url)
+            )
+
+
+
+
+import json
+
+def http_request(url, json_response=True):
+    import urllib.request
+    req = urllib.request.Request(url)
+    with urllib.request.urlopen(req) as response:
+        if json_response:
+            import json
+            return json.loads(response.read())
+        else:
+            return response.read()
+
+
+def patch_import_devtools():
+
+    import selenium.webdriver.remote.log
+
+    Log = selenium.webdriver.remote.log.Log
+
+    import selenium.webdriver.common.bidi.cdp
+
+    import_devtools = selenium.webdriver.common.bidi.cdp.import_devtools
+
+    def patch(ver=91):
+        if int(ver) > 91:
+            _ver = 92
+        else:
+            _ver = ver
+        return import_devtools(_ver)
+
+    selenium.webdriver.common.bidi.cdp.import_devtools = patch
+
+
+def find_chrome_executable():
+    """
+    Finds the chrome, chrome beta, chrome canary, chromium executable
+
+    Returns
+    -------
+    executable_path :  str
+        the full file path to found executable
+
+    """
+
+    candidates = set()
+    if _IS_POSIX:
+        for item in os.environ.get("PATH").split(os.pathsep):
+            for subitem in ("google-chrome", "chromium", "chromium-browser"):
+                candidates.add(os.sep.join((item, subitem)))
+        if "darwin" in sys.platform:
+            candidates.update(
+                ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"]
+            )
+    else:
+        for item in map(
+                os.environ.get, ("PROGRAMFILES", "PROGRAMFILES(X86)", "LOCALAPPDATA")
+        ):
+            for subitem in (
+                    "Google/Chrome/Application",
+                    "Google/Chrome Beta/Application",
+                    "Google/Chrome Canary/Application",
+            ):
+                candidates.add(os.sep.join((item, subitem, "chrome.exe")))
+    for candidate in candidates:
+        if os.path.exists(candidate) and os.access(candidate, os.X_OK):
+            return os.path.normpath(candidate)
+
+
+
+
+class CDP(object):
+
+    def __init__(self, debug_port:int , debug_host='127.0.0.1'):
+        self._debug_port = debug_port
+        self._debug_host = debug_host
+        self._request_id = 0
+        self._sessions = []
+        self._ws_url = None
+
+    @property
+    def sessions(self):
+        self._sessions = http_request(f'http://{self._debug_host}:{self._debug_port}/json', True)
+        return self._sessions
+
+    @property
+    def ws_url(self):
+        return self.sessions[-1]['webSocketDebuggerUrl']
+
+    async def send(self, method, **params):
+        """
+
+        Parameters
+        ----------
+        method
+        paramsi
+
+        Returns
+        -------
+
+        """
+        self._request_id += 1
+        cmd = dict(
+            method=method,
+            params=params,
+            id=self._request_id,
+        )
+
+        async with websockets.connect(self.ws_url) as ws:
+            await ws.send(json.dumps(cmd))
+            rsp = await ws.recv()
+            messages = ws.messages
+            rv = [addict(json.loads(rsp))]
+            rv.extend([addict(json.loads(m)) for m in messages])
+            return rv
+
+
+    # helpers
+    async def getTarget(self):
+        targets = await self.getTargets()
+        for target in targets:
+            if target.attached:
+                return target
+
+    async def getTargets(self):
+        res = await self.send('Target.getTargets')
+        return res[0].result.targetInfos
+
+    async def createTarget(self, url):
+        res = await self.send('Target.createTarget', url=url)
+        return res[0]
+
+    async def closeTarget(self, target):
+        if isinstance(target, (dict, addict,)):
+            targetId=target['targetId']
+        else:
+            targetId=target
+        return await self.send('Target.closeTarget', targetId=targetId)
+
+
+
+class Meta(type):
+
+    def __call__(cls):
+        pass
+
+if __name__ == '__main__':
+
+
+    # asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(testv3(1))
+    pass

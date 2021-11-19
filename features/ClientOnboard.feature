@@ -14,5 +14,10 @@ Feature: Onboard individual client
     And Enter the password "Qwerty@123" and "Qwerty@123" and click on next
     And Again hit the Quantuvos login URL
     And paste the email address and enter password "Qwerty@123" and click on login
-    Then client is opened
+    And client form opened and filled the details
+    And Operation user selects three coaches
+    And Again client logged in
+    And select one of the coach
+    And Schedule first session
+    Then Popup should display
 

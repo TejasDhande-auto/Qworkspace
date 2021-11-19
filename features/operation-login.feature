@@ -3,7 +3,7 @@ Feature: Operation Dashboard Functionality
   Background:
     Given Launch the browser
     When Open the login Url
-    And Enter email "admin@quantuvos.com" and password "Qwerty123@"
+    And Enter email "opsqdev2021@outlook.com" and password "Quantuvos@123"
     And Click on Login
     Then Login successful
 
@@ -31,11 +31,11 @@ Feature: Operation Dashboard Functionality
     Then Email invitation send to customer-client
 
     Examples:
-      | customerfirstname | customerlastname | customeremail | customercompanyid | customermanagername | customerhrmanagername | customerallocatedcoachinghours |
-      | Test              | user             | xyz@gmail.com | 2                 | abc                 | xyz                   | 120                            |
-      | Test              | user             | zy@gmail.com  | 3                 | abc                 | xyz                   | 120                            |
-      | Test              | user             | tes95@ain.com | 2                 | abc                 | xyz                   | 120                            |
-      | Test              | user             | iywhd.gmail   | 1                 | abc                 | xyz                   | 120                            |
+      | customerfirstname | customerlastname | customeremail | customercompanyid | customerallocatedcoachinghours |
+      | Test              | user             | xyz@gmail.com | 2                 | 120                            |
+      | Test              | user             | zy@gmail.com  | 3                 | 120                            |
+      | Test              | user             | tes95@ain.com | 2                 | 120                            |
+      | Test              | user             | iywhd.gmail   | 1                 | 120                            |
 
 
   Scenario Outline: Coach onboarding
