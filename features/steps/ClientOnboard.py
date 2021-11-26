@@ -1,11 +1,11 @@
-import time
 from behave import *
-from selenium import webdriver
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+from allure_commons.types import AttachmentType
+import allure
+import time
+import myglobal as gb
 
 @given('Hit Chrome browser')
 def HitBrowser(context):
@@ -15,7 +15,7 @@ def HitBrowser(context):
 
 @when(u'Hit the temp mail link')
 def hit_tempmail_link(context):
-    context.driver.get("https://temp-mail.org/en/")
+    context.driver.get(gb.TEMPURL)
     context.driver.maximize_window()
 
 
@@ -31,17 +31,17 @@ def step_impl(context):
     time.sleep(5)
 
 
-@when(u'Hit the Qunatuvos login URL and logged in as operation user "{email}" and "{password}"')
-def step_impl(context,email,password):
-    context.driver.execute_script("window.open('about:blank','secondtab');")
-    context.driver.switch_to.window("secondtab")
-    context.driver.get('https://platform-dev.quantuvos.com/login')
+@when(u'Hit the Qunatuvos login URL and logged in as ops user')
+def step_impl(context):
+    context.driver.execute_script("window.open('about:blank','opsdashboard');")
+    context.driver.switch_to.window("opsdashboard")
+    context.driver.get(gb.URL)
     context.driver.maximize_window()
     time.sleep(10)
 
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys(email)
-    context.driver.find_element_by_name("password").send_keys(password)
+    context.driver.find_element_by_name("email").send_keys(gb.email)
+    context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
@@ -66,7 +66,8 @@ def step_impl(context):
     context.driver.find_element_by_name("individualclientallocationhour").send_keys("5")
     time.sleep(5)
     context.driver.find_element_by_id("btndisable").click()
-
+    time.sleep(3)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(10)
 
 
@@ -92,6 +93,8 @@ def step_impl(context):
     context.driver.find_element_by_id('email').send_keys(Keys.CONTROL, 'v')
     time.sleep(3)
     context.driver.find_element_by_id('btnSubmit').click()
+    time.sleep(3)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(10)
 
 
@@ -99,7 +102,7 @@ def step_impl(context):
 def step_impl(context):
     context.driver.execute_script("window.open('about:blank','thirdtab');")
     context.driver.switch_to.window("thirdtab")
-    context.driver.get('https://temp-mail.org/en/')
+    context.driver.get(gb.TEMPURL)
     context.driver.execute_script("window.scrollTo(0, 500)")
     time.sleep(10)
 
@@ -114,28 +117,30 @@ def step_impl(context):
     time.sleep(10)
 
 
-@when(u'Enter the password "{pwd1}" and "{pwd2}" and click on next')
-def step_impl(context,pwd1,pwd2):
-    context.driver.find_element_by_id("password").send_keys(pwd1)
-    context.driver.find_element_by_id("confirmPassword").send_keys(pwd2)
+@when(u'Enter the password and click on next')
+def step_impl(context):
+    context.driver.find_element_by_id("password").send_keys(gb.password)
+    context.driver.find_element_by_id("confirmPassword").send_keys(gb.password)
+
     time.sleep(3)
     context.driver.find_element_by_id("btnNext").click()
+    time.sleep(5)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
 
 
 @when(u'Again hit the Quantuvos login URL')
 def step_impl(context):
     time.sleep(5)
-    context.driver.get('https://platform-dev.quantuvos.com/login')
-    context.driver.execute_script("document.body.style.zoom='zoom 90%'")
+    context.driver.get(gb.URL)
     time.sleep(5)
 
 
-@when(u'paste the email address and enter password "{pwd}" and click on login')
-def step_impl(context,pwd):
+@when(u'paste the email address and enter password and click on login')
+def step_impl(context):
     context.driver.implicitly_wait(10)
     context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("password").send_keys(pwd)
+    context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
@@ -183,7 +188,9 @@ def step_impl(context):
     context.driver.find_element_by_name("data[Agreement]").click()
     time.sleep(10)
     context.driver.find_element_by_xpath("/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()
-    time.sleep(10)
+    time.sleep(5)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    time.sleep(5)
 
 @when('Popup should display')
 def step_impl(context):
@@ -198,20 +205,7 @@ def step_impl(context):
 
 @when(u'Operation user selects three coaches')
 def coachselection(context):
-    context.driver.execute_script("window.open('about:blank','forthtab');")
-    context.driver.switch_to.window("forthtab")
-    context.driver.get('https://platform-dev.quantuvos.com/login')
-    context.driver.maximize_window()
-    time.sleep(10)
-
-    context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys("opsqdev2021@outlook.com")
-    context.driver.find_element_by_name("password").send_keys("Quantuvos@123")
-    context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
-    time.sleep(10)
-
-    time.sleep(5)
-    context.driver.find_element_by_xpath('//*[@id="opt-onboardingid"]').click()
+    context.driver.switch_to.window("opsdashboard")
     time.sleep(5)
     context.driver.find_element_by_xpath("/html/body/app-root/app-dashboard-navbar/div/div/section[3]/ul/ul[1]/li[4]/a/span").click()
     time.sleep(5)
@@ -224,7 +218,9 @@ def coachselection(context):
     context.driver.find_element_by_id("ag-486-input").click()
     time.sleep(5)
     context.driver.find_element_by_xpath("/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[7]/button").click()
-    time.sleep(10)
+    time.sleep(5)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    time.sleep(5)
 
 
 
@@ -232,13 +228,13 @@ def coachselection(context):
 def loginforfirstsession(context):
     context.driver.execute_script("window.open('about:blank','forthtab');")
     context.driver.switch_to.window("forthtab")
-    context.driver.get('https://platform-dev.quantuvos.com/login')
+    context.driver.get(gb.URL)
     context.driver.maximize_window()
     time.sleep(10)
 
     context.driver.implicitly_wait(10)
     context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("password").send_keys("Qwerty@123")
+    context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(5)
 
@@ -338,6 +334,8 @@ def schedulefirstsession(context):
 
     context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
     time.sleep(15)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    time.sleep(5)
 
 @then(u'Popup should display')
 def sessionscheduled(context):
@@ -346,3 +344,4 @@ def sessionscheduled(context):
         time.sleep(6)
     except:
         print("There is problem")
+
