@@ -1,6 +1,7 @@
 from behave import *
 from selenium import webdriver
-
+from allure_commons.types import AttachmentType
+import allure
 #@given('Open browser')
 #def openBrowser(context):
     #clscontext.driver = webdriver.Chrome()
@@ -17,10 +18,16 @@ def enterEmail(context,email):
 def clickSend(context):
     try:
         context.driver.find_element_by_id("btnSubmit").click()
+        allure.attach('screenshot', context.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
 
     except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach('screenshot', context.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
         context.driver.close()
         assert False,"Test failed"
+
 
 
 @then(u'Confirmation email send successfully')

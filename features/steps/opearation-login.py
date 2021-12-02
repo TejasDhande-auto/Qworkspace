@@ -1,7 +1,7 @@
 import time
 from behave import *
 from selenium import webdriver
-
+import myglobal as gb
 @given('Launch the browser')
 def lauchbrowser(context):
     context.driver = webdriver.Chrome()
@@ -14,9 +14,9 @@ def openurl(context):
 
 
 @when('Enter email "{email}" and password "{password}"')
-def entercredentials(context,email,password):
-    context.driver.find_element_by_id("inputEmailID").send_keys(email)
-    context.driver.find_element_by_id("inputPasswordID").send_keys(password)
+def entercredentials(context):
+    context.driver.find_element_by_id("inputEmailID").send_keys(gb.email)
+    context.driver.find_element_by_id("inputPasswordID").send_keys(gb.password)
 
 @when('Click on Login')
 def clicksubmit(context):

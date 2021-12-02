@@ -42,13 +42,15 @@ def step_impl(context):
     time.sleep(10)
 
 
-@given(u'Send Invutation to coach')
+@given(u'Send Invitation to coach')
 def step_impl(context):
     time.sleep(5)
     context.driver.find_element_by_xpath('//*[@id="opt-onboardingid"]').click()
+    time.sleep(5)
     context.driver.find_element_by_xpath('//*[@id="opt-Welcomeid"]').click()
     time.sleep(5)
     context.driver.find_element_by_id("dropdownMenuLink").click()
+    time.sleep(3)
     context.driver.find_element_by_id("coachtype").click()
     time.sleep(5)
     context.driver.find_element_by_name("coachfirstname").send_keys("CoachABC")

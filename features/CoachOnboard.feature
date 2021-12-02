@@ -4,7 +4,7 @@ Feature: Onboard of a new coach
     And open the Hit the temp URL
     And Copy the temp email address
     And Login as operation user
-    And Send Invutation to coach
+    And Send Invitation to coach
     And Again go to temp
     And select mail and Click on Start
     And Confirm the email address

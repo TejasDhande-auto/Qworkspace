@@ -40,8 +40,8 @@ def step_impl(context):
     time.sleep(10)
 
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys(gb.email)
-    context.driver.find_element_by_name("password").send_keys(gb.password)
+    context.driver.find_element_by_name("email").send_keys(gb.opsemail)
+    context.driver.find_element_by_name("password").send_keys(gb.opspassword)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
@@ -119,8 +119,8 @@ def step_impl(context):
 
 @when(u'Enter the password and click on next')
 def step_impl(context):
-    context.driver.find_element_by_id("password").send_keys(gb.password)
-    context.driver.find_element_by_id("confirmPassword").send_keys(gb.password)
+    context.driver.find_element_by_id("password").send_keys(gb.clientpassword)
+    context.driver.find_element_by_id("confirmPassword").send_keys(gb.clientpassword)
 
     time.sleep(3)
     context.driver.find_element_by_id("btnNext").click()
@@ -140,7 +140,7 @@ def step_impl(context):
 def step_impl(context):
     context.driver.implicitly_wait(10)
     context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("password").send_keys(gb.password)
+    context.driver.find_element_by_name("password").send_keys(gb.clientpassword)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
@@ -213,9 +213,9 @@ def coachselection(context):
     time.sleep(2)
     context.driver.execute_script("window.scrollTo(0,1080)")
     time.sleep(3)
-    context.driver.find_element_by_id("ag-464-input").click()
-    context.driver.find_element_by_id("ag-475-input").click()
-    context.driver.find_element_by_id("ag-486-input").click()
+    context.driver.find_element_by_id("ag-532-input").click()
+    context.driver.find_element_by_id("ag-543-input").click()
+    context.driver.find_element_by_id("ag-554-input").click()
     time.sleep(5)
     context.driver.find_element_by_xpath("/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[7]/button").click()
     time.sleep(5)
@@ -234,7 +234,7 @@ def loginforfirstsession(context):
 
     context.driver.implicitly_wait(10)
     context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("password").send_keys(gb.password)
+    context.driver.find_element_by_name("password").send_keys(gb.clientpassword)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(5)
 

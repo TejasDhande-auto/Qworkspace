@@ -3,6 +3,7 @@ import time
 from behave import *
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+#from allure_behave.hooks import allure_report
 
 
 @given('Launch the Chrome browser')
@@ -78,3 +79,5 @@ def step_impl(context):
 @then(u'Click on Ok')
 def step_impl(context):
     raise NotImplementedError(u'STEP: Then Click on Ok')
+
+#allure_report(r"C:\Users\kanaka\PycharmProjects\Qworkspace")
