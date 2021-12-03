@@ -6,7 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from features.steps import myglobal as gb
-
+from allure_commons.types import AttachmentType
+import allure
 
 def before_all(context):
     options = webdriver.ChromeOptions()
@@ -36,6 +37,7 @@ def selecttimeslot(context):
     count = 0
     if context.driver.find_element_by_xpath("//h6[text()='No free time available for selected day']").is_displayed():
         print("Coach is all day busy")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
     else:
 
@@ -65,6 +67,7 @@ def selecttimeslot(context):
             print("09:00 AM coach is busy")
 
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
@@ -94,6 +97,7 @@ def selecttimeslot(context):
             print("11:30 AM coach is busy")
 
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
@@ -123,6 +127,7 @@ def selecttimeslot(context):
             print("02:00 PM coach is busy")
 
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
@@ -152,6 +157,7 @@ def selecttimeslot(context):
             print("04:30 PM coach is busy")
 
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
@@ -181,6 +187,7 @@ def selecttimeslot(context):
             print("07:00 PM coach is busy")
 
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
@@ -253,13 +260,11 @@ def createevent(context):
             endtime = "7.00pm"
 
         time.sleep(5)
-        context.driver.find_element_by_xpath(
-            "/html/body/div[2]/div[1]/div[1]/div[1]/div/div/span/span/span/div[2]").click()
+        context.driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[1]/div[1]/div/div/span/span/span/div[2]").click()
         time.sleep(3)
         context.driver.find_element_by_xpath("//div[text()='Event']").click()
         time.sleep(10)
-        context.driver.find_element_by_xpath(
-            "/html/body/div[4]/div/div/div[2]/span/div/div[1]/div[3]/div[2]/div[1]/span/span").click()
+        context.driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/span/div/div[1]/div[3]/div[2]/div[1]/span/span").click()
         time.sleep(3)
         context.driver.find_element_by_xpath("//input[@aria-label='Title']").send_keys(title)
         time.sleep(3)
@@ -279,5 +284,6 @@ def createevent(context):
         time.sleep(5)
         context.driver.find_element_by_xpath("//input[@aria-label='End time']").send_keys(endtime)
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath("//span[text()='Save']").click()
         time.sleep(5)

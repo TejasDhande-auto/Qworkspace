@@ -1,11 +1,14 @@
-from behave import *
-from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
-from selenium import webdriver
-from allure_commons.types import AttachmentType
-import allure
 import time
-import myglobal as gb
+
+import allure
+import undetected_chromedriver as uc
+from allure_commons.types import AttachmentType
+from behave import *
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+from features import myglobal as gb
+
 
 @given('Hit Chrome browser')
 def HitBrowser(context):
@@ -93,9 +96,9 @@ def step_impl(context):
     context.driver.find_element_by_id('email').send_keys(Keys.CONTROL, 'v')
     time.sleep(3)
     context.driver.find_element_by_id('btnSubmit').click()
-    time.sleep(3)
+    time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(10)
+    time.sleep(5)
 
 
 @when(u'Again hit the temp mail link')
@@ -207,17 +210,23 @@ def step_impl(context):
 def coachselection(context):
     context.driver.switch_to.window("opsdashboard")
     time.sleep(5)
-    context.driver.find_element_by_xpath("/html/body/app-root/app-dashboard-navbar/div/div/section[3]/ul/ul[1]/li[4]/a/span").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-dashboard-navbar/div/div/section[3]/ul/ul[1]/li[4]/a/span").click()
     time.sleep(5)
-    context.driver.find_element_by_xpath("/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[1]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[1]/div[1]").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[1]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[1]/div[1]").click()
     time.sleep(2)
     context.driver.execute_script("window.scrollTo(0,1080)")
     time.sleep(3)
-    context.driver.find_element_by_id("ag-532-input").click()
-    context.driver.find_element_by_id("ag-543-input").click()
-    context.driver.find_element_by_id("ag-554-input").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[5]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[1]/div[1]/div/div/div/div[2]/input").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[5]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[2]/div[1]/div/div/div/div[2]/input").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[5]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[3]/div[1]/div/div/div/div[2]/input").click()
     time.sleep(5)
-    context.driver.find_element_by_xpath("/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[7]/button").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-coach-selection/div[1]/div/div[2]/div/div[7]/button").click()
     time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
@@ -333,7 +342,7 @@ def schedulefirstsession(context):
         print("08 pm coach busy")
 
     context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
-    time.sleep(15)
+    time.sleep(20)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
 

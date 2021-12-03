@@ -5,7 +5,7 @@ from selenium import webdriver
 from allure_commons.types import AttachmentType
 import allure
 import time
-import myglobal as gb
+from features import myglobal as gb
 
 @given(u'Laumch the browser')
 def step_impl(context):
@@ -36,8 +36,8 @@ def step_impl(context):
 
 
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys(gb.email)
-    context.driver.find_element_by_name("password").send_keys(gb.password)
+    context.driver.find_element_by_name("email").send_keys(gb.opsemail)
+    context.driver.find_element_by_name("password").send_keys(gb.opspassword)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
