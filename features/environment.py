@@ -5,7 +5,7 @@ import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from features.steps import myglobal as gb
+from features  import myglobal as gb
 from allure_commons.types import AttachmentType
 import allure
 
@@ -287,3 +287,95 @@ def createevent(context):
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath("//span[text()='Save']").click()
         time.sleep(5)
+
+def selecttimeslotforfirstsession(context):
+    count = 0
+    if context.driver.find_element_by_id("07:00 AM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("07:00 AM coach is busy")
+
+    if context.driver.find_element_by_id("08:00 AM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("8 am coach busy")
+
+    if context.driver.find_element_by_id("09:00 AM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("9 am coach busy")
+
+    if context.driver.find_element_by_id("10:00 AM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("10 am coach busy")
+
+    if context.driver.find_element_by_id("11:00 AM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("11 am coach busy")
+
+    if context.driver.find_element_by_id("12:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("12 am coach busy")
+
+    if context.driver.find_element_by_id("01:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("01 pm coach busy")
+
+    if context.driver.find_element_by_id("02:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("02 pm coach busy")
+
+    if context.driver.find_element_by_id("03:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("03 pm coach busy")
+
+    if context.driver.find_element_by_id("04:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("04 pm coach busy")
+
+    if context.driver.find_element_by_id("05:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("05 pm coach busy")
+
+    if context.driver.find_element_by_id("06:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("06 pm coach busy")
+
+    if context.driver.find_element_by_id("07:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("07 pm coach busy")
+
+    if context.driver.find_element_by_id("08:00 PM").is_displayed():
+        time.sleep(2)
+        count = count + 1
+    else:
+        print("08 pm coach busy")
+
+    if count == 14:
+        print("Coach is all day available")
+
+    if count == 0:
+        print("Coach is all day busy")
