@@ -20,8 +20,8 @@ def Createeventoncoachcalendar(context):
     environment.createevent(context)
     time.sleep(10)
 
-@when(u': Client will check coach availability')
-def Checktimeslots(context):
+@when(u': Client will check coach availability by login as "{email}","{password}"')
+def Checktimeslots(context,email,password):
     context.driver.find_element_by_tag_name("body").send_keys(Keys.CONTROL + 't')
     context.driver.maximize_window()
     time.sleep(5)
@@ -34,8 +34,8 @@ def Checktimeslots(context):
 
     environment.invokeloginpage(context)
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys("cahoyo3533@shirulo.com")
-    context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+    context.driver.find_element_by_name("email").send_keys(email)
+    context.driver.find_element_by_name("password").send_keys(password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 

@@ -1,5 +1,5 @@
 
-opsemail = "opsqdev2021@outlook.com"
+opsemail = "opsuat2021@outlook.com"
 opspassword = "Quantuvos@123"
 URL = "https://platform-dev.quantuvos.com/login"
 TEMPURL = "https://temp-mail.org/en/"

@@ -67,7 +67,7 @@ def step_impl(context):
     context.driver.execute_script("window.scrollTo(0, 500)")
     time.sleep(10)
 
-    context.driver.find_element_by_link_text("quantuvos@gmail.com").click()
+    context.driver.find_element_by_link_text("Hello and welcome to Quantuvos!").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 800)")
     time.sleep(5)

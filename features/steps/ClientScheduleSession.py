@@ -1,5 +1,6 @@
 import time
 
+import allure
 from behave import *
 from selenium.webdriver import ActionChains
 
@@ -7,12 +8,12 @@ from features import environment
 from datetime import date, timedelta
 
 
-@given(u'Client should logged in')
-def step_impl(context):
+@given(u'Client should logged in with valid credential "{email}" , "{password}"')
+def step_impl(context,email,password):
     environment.invokeloginpage(context)
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys("cahoyo3533@shirulo.com")
-    context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+    context.driver.find_element_by_name("email").send_keys(email)
+    context.driver.find_element_by_name("password").send_keys(password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(10)
 
