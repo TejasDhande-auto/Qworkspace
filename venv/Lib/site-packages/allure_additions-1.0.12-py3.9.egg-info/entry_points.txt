@@ -1,0 +1,3 @@
+[pytest11]
+allure-additions = allure_additions.conftest
+

@@ -1,0 +1,12 @@
+setup.cfg
+setup.py
+allure_additions/__init__.py
+allure_additions/allure_prefix.py
+allure_additions/conftest.py
+allure_additions.egg-info/PKG-INFO
+allure_additions.egg-info/SOURCES.txt
+allure_additions.egg-info/dependency_links.txt
+allure_additions.egg-info/entry_points.txt
+allure_additions.egg-info/not-zip-safe
+allure_additions.egg-info/requires.txt
+allure_additions.egg-info/top_level.txt

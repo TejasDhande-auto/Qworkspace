@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: allure-adaptor-nio
+Version: 0.4
+Summary: change get_marker to get_closest_marker
+Home-page: UNKNOWN
+Author: UNKNOWN
+Author-email: UNKNOWN
+License: UNKNOWN
+Platform: UNKNOWN
+Requires-Dist: lxml (>=3.2.0)
+Requires-Dist: pytest (>=2.7.3)
+Requires-Dist: namedlist
+Requires-Dist: six (>=1.9.0)
+
+UNKNOWN
+
+

@@ -9,14 +9,16 @@ from selenium.webdriver import ActionChains
 
 @given(u': Coach should busy on next seven days at different time')
 def Createeventoncoachcalendar(context):
-    context.driver.get("https://calendar.google.com/calendar/u/0/r?tab=mc&pli=1")
+    context.driver.delete_all_cookies()
+    time.sleep(10)
+    context.driver.get("https://calendar.google.com/calendar")
 
     context.driver.find_element_by_id("identifierId").send_keys('automatecoach@gmail.com')
     context.driver.find_element_by_id("identifierNext").click()
     time.sleep(5)
     context.driver.find_element_by_name("password").send_keys('Kanaka@123')
     context.driver.find_element_by_id("passwordNext").click()
-    time.sleep(10)
+    time.sleep(110)
     environment.createevent(context)
     time.sleep(10)
 

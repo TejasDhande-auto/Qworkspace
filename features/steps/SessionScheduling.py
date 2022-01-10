@@ -24,15 +24,17 @@ def clientschedulesession(context):
     context.driver.find_element_by_link_text("Sessions").click()
     time.sleep(10)
     today = date.today()
+    print(today)
     day = str(today.day + 1)
+    print(day)
     gmailtimeslot = "07.00 AM"
-    checkevent = "//span[text()='" + day + "']"
+    checkevent = "//span[text()='"+day+"']"
+    time.sleep(5)
     rightclick = context.driver.find_element_by_xpath(checkevent)
-    actionChains = ActionChains(context.driver)
-    actionChains.context_click(rightclick).perform()
+    action = ActionChains(context.driver)
+    action.context_click(rightclick).perform()
 
     time.sleep(10)
-
     context.driver.find_element_by_xpath("/html/body/div[2]/div/div/context-menu-content/div/ul/li[2]/a/h5/span").click()
     time.sleep(10)
     for i in range (1,8):
@@ -136,9 +138,9 @@ def Opsschedulesession(context):
         day = str(today.day)  # int-stringconversion
         month = today.strftime("%b")  # int-stringconversion
         selectaday = "//span[text()='" + month + " " + day + "']"
-        time.sleep(10)
+        time.sleep(15)
         context.driver.find_element_by_xpath(selectaday).click()
-        time.sleep(5)
+        time.sleep(10)
         print(today)
         environment.selecttimeslot(context)
         print("---------------------------")
