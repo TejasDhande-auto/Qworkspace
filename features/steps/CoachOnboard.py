@@ -9,14 +9,12 @@ from features import myglobal as gb
 
 @given(u'Laumch the browser')
 def step_impl(context):
-    options = webdriver.ChromeOptions()
-    options.add_argument("start-maximized")
-    context.driver = uc.Chrome(options=options)
+    context.driver.get(gb.TEMPURL)
 
 
 @given(u'open the Hit the temp URL')
 def step_impl(context):
-    context.driver.get(gb.TEMPURL)
+
     context.driver.maximize_window()
 
 
@@ -58,7 +56,7 @@ def step_impl(context):
     context.driver.find_element_by_name("coachemail").send_keys(Keys.CONTROL, 'v')
     time.sleep(5)
     context.driver.find_element_by_id("coachbtn").click()
-    time.sleep(5)
+    time.sleep(10)
 
 
 @given(u'Again go to temp')
@@ -70,7 +68,7 @@ def step_impl(context):
 
 @given(u'select mail and Click on Start')
 def step_impl(context):
-    context.driver.find_element_by_link_text("quantuvos@gmail.com").click()
+    context.driver.find_element_by_link_text("Hello and welcome to Quantuvos!").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 800)")
     time.sleep(5)

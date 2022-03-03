@@ -7,18 +7,18 @@ from features import environment
 from features import myglobal as gb
 from selenium.webdriver import ActionChains
 
-@given(u': Coach should busy on next seven days at different time')
-def Createeventoncoachcalendar(context):
+@given(u': Coach should busy on next seven days at different time by login as  "{email}" and "{password}"')
+def Createeventoncoachcalendar(context,email,password):
     context.driver.delete_all_cookies()
     time.sleep(10)
     context.driver.get("https://calendar.google.com/calendar")
 
-    context.driver.find_element_by_id("identifierId").send_keys('automatecoach@gmail.com')
+    context.driver.find_element_by_id("identifierId").send_keys(email)
     context.driver.find_element_by_id("identifierNext").click()
     time.sleep(5)
-    context.driver.find_element_by_name("password").send_keys('Kanaka@123')
+    context.driver.find_element_by_name("password").send_keys(password)
     context.driver.find_element_by_id("passwordNext").click()
-    time.sleep(110)
+    time.sleep(10)
     environment.createevent(context)
     time.sleep(10)
 
