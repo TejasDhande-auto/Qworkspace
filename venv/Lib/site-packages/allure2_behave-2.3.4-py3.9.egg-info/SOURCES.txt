@@ -1,0 +1,10 @@
+README.rst
+setup.cfg
+setup.py
+allure/__init__.py
+allure/allure.py
+allure2_behave.egg-info/PKG-INFO
+allure2_behave.egg-info/SOURCES.txt
+allure2_behave.egg-info/dependency_links.txt
+allure2_behave.egg-info/requires.txt
+allure2_behave.egg-info/top_level.txt

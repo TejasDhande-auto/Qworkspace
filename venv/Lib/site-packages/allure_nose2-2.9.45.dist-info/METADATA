@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: allure-nose2
+Version: 2.9.45
+Summary: Allure nose2 integration
+Home-page: https://github.com/allure-framework/allure-python
+Author: QAMetaSoftware, Stanislav Seliverstov
+Author-email: sseliverstov@qameta.io
+License: Apache-2.0
+Keywords: allure reporting nose2
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Dist: nose2
+Requires-Dist: allure-python-commons (==2.9.45)
+
+UNKNOWN
+
