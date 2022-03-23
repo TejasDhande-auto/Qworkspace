@@ -18,7 +18,7 @@ Feature: Check Client Dashboard Functionality
    Scenario: Check Session screen on Client Dashboard
      Given : Session screen should be open
      When : Check Notes section in session screen
-     And : Check Activites section on session screen
+     And : Check Activities section on session screen
      And : Check missing survey section on session screen
      And : Check session scheduling functionality
      Then : Sessions screen should work as expected

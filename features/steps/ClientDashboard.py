@@ -22,13 +22,16 @@ def step_impl(context,email,password):
 
 @when(u': Check Next session is scheduled or not')
 def step_impl(context):
+
     try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
         time.sleep(3)
     except:
         print("No survey pending")
 
     ##Next Session
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     if context.driver.find_element_by_xpath("//span[text()=' JOIN SESSION ']").is_enabled():
         print("Join session button is disabled")
     else:
@@ -160,6 +163,8 @@ def step_impl(context):
     context.driver.find_element_by_xpath("//i[@title='Click here send message.']").click()
     time.sleep(10)
     #Screenshot required to verify
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    time.sleep(2)
 
     #sendfilenotworking
     #uploadfile = context.driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-client-dashboard/div[1]/div/div[2]/div/div[2]/div[2]/app-chat/div/div/div[3]/button[2]/i')
@@ -209,10 +214,20 @@ def step_impl(context):
     time.sleep(2)
     context.driver.find_element_by_xpath('//*[@id="run"]/h6').click()
     time.sleep(3)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     context.driver.find_element_by_xpath('//*[@id="Preparing for your first Coaching Session"]').click()
     time.sleep(2)
     context.driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
-    time.sleep(3)
+    time.sleep(4)
+    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    if errmsg == "Activity already exists":
+        print(errmsg)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    else:
+        print("Activity has been added successfully")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
 
 @when(u': Check Advanced search Functionality')
 def step_impl(context):
@@ -252,8 +267,7 @@ def step_impl(context):
 
 @when(u': Check Notes section in session screen')
 def step_impl(context):
-
-
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     text1 = context.driver.find_element_by_xpath("//a[@class='nav-link font-size-9 koho active-tab-color']").text
     if text1 == "NOTES":
         print("No Missing survey")
@@ -263,20 +277,56 @@ def step_impl(context):
         print("Missing survey are pending")
         context.driver.find_element_by_xpath("//a[text()='NOTES']").click()
 
-    if context.driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").is_displayed():
-        print("Notes are available for current month")
-        print(context.driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
+    try:
+        context.driver.find_element_by_xpath("//span[text()='No notes for user']").is_displayed()
+        print("Notes are not available for current month")
+        print("Adding notes on day 15")
         action = ActionChains(context.driver)
-        action.move_to_element(context.driver.find_element_by_xpath("//span[text()=' Tuesday, February 8, 2022 ']")).move_to_element(context.driver.find_element_by_xpath("//img[@popover='Edit']")).click().perform()
-        time.sleep(5)
-        context.driver.find_element_by_xpath('//*[@id="AddNoteModel"]/div/div/div[2]/ckeditor/div[2]/div[2]/div').send_keys("My Automated Notes")
+        action.context_click(context.driver.find_element_by_xpath("//span[text()='15']")).perform()
+        time.sleep(2)
+        context.driver.find_element_by_xpath("//span[text()='Add Note']").click()
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//*[@id="AddNoteModel"]/div/div/div[2]/ckeditor/div[2]/div[2]/div').send_keys(
+            "My Automated Notes")
         time.sleep(2)
         context.driver.find_element_by_xpath("//span[text()='Save']").click()
         time.sleep(2)
+        print("Updated Notes")
+        print(context.driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
 
-@when(u': Check Activites section on session screen')
+
+    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        print("Notes")
+        print(context.driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
+        action = ActionChains(context.driver)
+        action.move_to_element(context.driver.find_element_by_xpath(
+            "/html/body/app-root/app-session/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[1]/span")) \
+            .move_to_element(context.driver.find_element_by_xpath("//img[@popover='Edit']")).click().perform()
+        time.sleep(5)
+        context.driver.find_element_by_xpath('//*[@id="AddNoteModel"]/div/div/div[2]/ckeditor/div[2]/div[2]/div').send_keys(
+            "My Automated Notes")
+        time.sleep(2)
+        context.driver.find_element_by_xpath("//span[text()='Save']").click()
+        time.sleep(2)
+        print("Updated Notes")
+        print(context.driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+    # deleting the created activity
+    action = ActionChains(context.driver)
+    action.move_to_element(context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-session/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[1]/span")) \
+        .move_to_element(context.driver.find_element_by_xpath("//img[@popover='Delete']")).click().perform()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//*[@id='uBody']/app-root/app-session/div[6]/div/div/div[3]/button[2]").click()
+    print("Note has been deleted")
+    time.sleep(2)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+
+@when(u': Check Activities section on session screen')
 def step_impl(context):
-
 
     time.sleep(5)
     context.driver.find_element_by_xpath("//a[text()='ACTIVITIES']").click()
@@ -331,6 +381,15 @@ def step_impl(context):
     time.sleep(2)
     context.driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
     time.sleep(3)
+    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    if errmsg == "Activity already exists":
+        print(errmsg)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    else:
+        print("Activity has been added successfully")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
     context.driver.back()
     time.sleep(2)
 
@@ -354,18 +413,21 @@ def step_impl(context):
 def step_impl(context):
     time.sleep(3)
     context.driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
-    time.sleep(3)
+    time.sleep(5)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
 @when(u': Check update preference functionality')
 def step_impl(context):
-    context.driver.execute_script("window.scrollBy(0,800)", "")
+    context.driver.execute_script("window.scrollBy(0,700)", "")
     time.sleep(5)
     context.driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
     time.sleep(3)
     context.driver.execute_script("window.scrollBy(800,1700)", "")
     time.sleep(2)
     context.driver.find_element_by_xpath("//button[@name='data[submit]']").click()
+    time.sleep(2)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 @then(u': Preferences should updated successfully')
 def step_impl(context):
