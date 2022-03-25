@@ -68,7 +68,7 @@ def step_impl(context):
 
 @given(u'select mail and Click on Start')
 def step_impl(context):
-    context.driver.find_element_by_link_text("Hello and welcome to Quantuvos!").click()
+    context.driver.find_element_by_link_text("Welcome to Quantuvos!").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 800)")
     time.sleep(5)
@@ -100,7 +100,7 @@ def step_impl(context):
 @given(u'Select mail and click on confirm')
 def step_impl(context):
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_link_text("Quantuvos Coach Email Confirmation").click()
+    context.driver.find_element_by_link_text("Please confirm your email").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 700)")
     context.driver.find_element_by_link_text("Confirm").click()

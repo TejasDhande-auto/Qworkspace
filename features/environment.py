@@ -41,307 +41,369 @@ def selecttimeslot(context):
     count = 0
     if context.driver.find_element_by_xpath("//h6[text()='No free time available for selected day']").is_displayed():
         print("Coach is not available for selected day")
-        allure.attach("Coach is not available for selected day","Coach is not available for selected day")
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-
     else:
 
-        if context.driver.find_element_by_id("12:00 AM").is_displayed():
+        for i in range(6):
+            context.driver.find_element_by_xpath('//button[@aria-label="Previous"]').click()
+            time.sleep(1)
+
+        time.sleep(5)
+
+        try:
+            context.driver.find_element_by_id("12:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("12:00 AM coach is busy")
 
-
-        if context.driver.find_element_by_id("12:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("12:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("12:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("01:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("01:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("01:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("01:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("01:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("01:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("02:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("02:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("02:00 AM coach is busy")
 
         time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
-        if context.driver.find_element_by_id("02:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("02:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("02:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("03:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("03:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("03:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("03:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("03:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("03:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("04:00 AM").is_displayed():
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("04:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("04:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("04:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("04:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("04:30 AM coach is busy")
 
-        time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
-        time.sleep(3)
-
-        if context.driver.find_element_by_id("05:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("05:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("05:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("05:30 AM").is_displayed():
-            count = count + 1
-        else:
-            print("05:30 AM coach is busy")
-
-        if context.driver.find_element_by_id("06:00 AM").is_displayed():
-            count = count + 1
-        else:
-            print("06:00 AM coach is busy")
-
-        if context.driver.find_element_by_id("06:30 AM").is_displayed():
-            count = count + 1
-        else:
-            print("06:30 AM coach is busy")
-
-        if context.driver.find_element_by_id("07:00 AM").is_displayed():
-            count = count + 1
-        else:
-            print("07:00 AM coach is busy")
-
         time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
-
-
-        if context.driver.find_element_by_id("07:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("05:30 AM").click()
             count = count + 1
-        else:
+        except:
+            print("05:30 AM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("06:00 AM").click()
+            count = count + 1
+        except:
+            print("06:00 AM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("06:30 AM").click()
+            count = count + 1
+        except:
+            print("06:30 AM coach is busy")
+
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("07:00 AM").click()
+            count = count + 1
+        except:
+            print("07:00 AM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("07:30 AM").click()
+            count = count + 1
+        except:
             print("07:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("08:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("08:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("08:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("08:30 AM").is_displayed():
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("08:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("08:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("09:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("09:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("09:00 AM coach is busy")
 
-
-        if context.driver.find_element_by_id("09:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("09:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("09:30 AM coach is busy")
 
         time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
-
-        if context.driver.find_element_by_id("10:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("10:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("10:00 AM coach is busy")
 
-        if context.driver.find_element_by_id("10:30 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("10:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("10:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("11:00 AM").is_displayed():
+        try:
+            context.driver.find_element_by_id("11:00 AM").click()
             count = count + 1
-        else:
+        except:
             print("11:00 AM coach is busy")
 
+        time.sleep(3)
 
-        if context.driver.find_element_by_id("11:30 AM").is_displayed():
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("11:30 AM").click()
             count = count + 1
-        else:
+        except:
             print("11:30 AM coach is busy")
 
-
-        if context.driver.find_element_by_id("12:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("12:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("12:00 PM coach is busy")
 
-
-        time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
-
-        time.sleep(3)
-
-        if context.driver.find_element_by_id("12:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("12:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("12:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("01:00 PM").is_displayed():
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("01:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("01:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("01:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("01:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("01:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("02:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("02:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("02:00 PM coach is busy")
 
+        time.sleep(3)
 
-        if context.driver.find_element_by_id("02:30 PM").is_displayed():
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("02:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("02:30 PM coach is busy")
 
-        time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
-        time.sleep(3)
-
-        if context.driver.find_element_by_id("03:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("03:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("03:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("03:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("03:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("03:30 AM coach is busy")
 
-        if context.driver.find_element_by_id("04:00 PM").is_displayed():
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("04:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("04:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("04:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("04:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("04:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("05:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("05:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("05:00 PM coach is busy")
 
-
         time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
-        if context.driver.find_element_by_id("05:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("05:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("05:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("06:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("06:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("06:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("06:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("06:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("06:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("07:00 PM").is_displayed():
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("07:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("07:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("07:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("07:30 PM").click()
             count = count + 1
-        else:
+        except:
             print("07:30 PM coach is busy")
 
-
-        time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
-        time.sleep(3)
-
-        if context.driver.find_element_by_id("08:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("08:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("08:00 PM coach is busy")
 
-        if context.driver.find_element_by_id("08:30 PM").is_displayed():
-            count = count + 1
-        else:
-            print("08:30 PM coach is busy")
-
-        if context.driver.find_element_by_id("09:00 PM").is_displayed():
-            count = count + 1
-        else:
-            print("09:00 PM coach is busy")
-
-
-        if context.driver.find_element_by_id("09:30 PM").is_displayed():
-            count = count + 1
-        else:
-            print("09:30 PM coach is busy")
-
-        if context.driver.find_element_by_id("10:00 PM").is_displayed():
-            count = count + 1
-        else:
-            print("10:00 PM coach is busy")
-
-
         time.sleep(3)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
         context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
         time.sleep(3)
 
-
-        if context.driver.find_element_by_id("10:30 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("08:30 PM").click()
             count = count + 1
-        else:
+        except:
+            print("08:30 PM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("09:00 PM").click()
+            count = count + 1
+        except:
+            print("09:00 PM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("09:30 PM").click()
+            count = count + 1
+        except:
+            print("09:30 PM coach is busy")
+
+        time.sleep(3)
+
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        try:
+            context.driver.find_element_by_id("10:00 PM").click()
+            count = count + 1
+        except:
+            print("10:00 PM coach is busy")
+
+        try:
+            context.driver.find_element_by_id("10:30 PM").click()
+            count = count + 1
+        except:
             print("10:30 PM coach is busy")
 
-        if context.driver.find_element_by_id("11:00 PM").is_displayed():
+        try:
+            context.driver.find_element_by_id("11:00 PM").click()
             count = count + 1
-        else:
+        except:
             print("11:00 PM coach is busy")
 
-        if count == 46:
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//*[@id="slick-carousel"]/button[2]').click()
+        time.sleep(3)
+
+        if count == 47:
             print("Coach is all day available")
 
 

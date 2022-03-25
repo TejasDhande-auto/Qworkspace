@@ -67,7 +67,7 @@ def step_impl(context):
     context.driver.execute_script("window.scrollTo(0, 500)")
     time.sleep(10)
 
-    context.driver.find_element_by_link_text("Hello and welcome to Quantuvos!").click()
+    context.driver.find_element_by_link_text("Welcome to Quantuvos!").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 800)")
     time.sleep(5)
@@ -89,7 +89,7 @@ def step_impl(context):
     time.sleep(10)
 
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_link_text("Quantuvos Email Confirmation").click()
+    context.driver.find_element_by_link_text("Please confirm your email").click()
     time.sleep(10)
     context.driver.execute_script("window.scrollTo(0, 600)")
     context.driver.find_element_by_link_text("Confirm").click()
@@ -105,7 +105,7 @@ def step_impl(context):
     time.sleep(5)
 
     time.sleep(5)
-    context.driver.get(gb.URL)
+    context.driver.find_element_by_xpath("//span[text()='Login ']").click()
     time.sleep(5)
 
     context.driver.implicitly_wait(10)
@@ -153,12 +153,11 @@ def step_impl(context):
         "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()
 
     time.sleep(10)
-    context.driver.find_element_by_xpath(
-        "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/div/div[3]/div[1]/div[2]/label").click()
-    context.driver.find_element_by_name("data[SessionTitle]").send_keys("First Automation")
-    context.driver.find_element_by_name("data[TopicDetails]").send_keys("First automation topic")
+    context.driver.find_element_by_xpath("//span[text()='Career Direction/Advancement: I want to talk about what next for me or something related to advancing in my career']").click()
+    #context.driver.find_element_by_name("data[SessionTitle]").send_keys("First Automation")
+    #context.driver.find_element_by_name("data[TopicDetails]").send_keys("First automation topic")
     context.driver.execute_script("window.scrollTo(0, 200)")
-    context.driver.find_element_by_name("data[Agreement]").click()
+    #context.driver.find_element_by_name("data[Agreement]").click()
     time.sleep(10)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()

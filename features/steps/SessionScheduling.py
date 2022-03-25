@@ -22,7 +22,7 @@ def clientlogin(context,email,password):
 def clientschedulesession(context):
     time.sleep(5)
     context.driver.find_element_by_link_text("Sessions").click()
-    time.sleep(10)
+    time.sleep(3)
     today = date.today()
     print(today)
     day = str(today.day + 1)
@@ -34,9 +34,9 @@ def clientschedulesession(context):
     action = ActionChains(context.driver)
     action.context_click(rightclick).perform()
 
-    time.sleep(10)
-    context.driver.find_element_by_xpath("/html/body/div[2]/div/div/context-menu-content/div/ul/li[2]/a/h5/span").click()
-    time.sleep(10)
+    time.sleep(3)
+    context.driver.find_element_by_xpath("//span[text()='Schedule a Session']").click()
+    time.sleep(5)
     for i in range (1,8):
         today = date.today() + timedelta(i)  # tommorrow date
         day = str(today.day)  # int-stringconversion

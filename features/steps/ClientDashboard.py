@@ -419,11 +419,13 @@ def step_impl(context):
 
 @when(u': Check update preference functionality')
 def step_impl(context):
-    context.driver.execute_script("window.scrollBy(0,700)", "")
+    context.driver.execute_script("window.scrollBy(0,500)", "")
     time.sleep(5)
+    context.driver.find_element_by_name("data[ReferralName]").clear()
+    time.sleep(2)
     context.driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
     time.sleep(3)
-    context.driver.execute_script("window.scrollBy(800,1700)", "")
+    context.driver.execute_script("window.scrollBy(500,1700)", "")
     time.sleep(2)
     context.driver.find_element_by_xpath("//button[@name='data[submit]']").click()
     time.sleep(2)
@@ -431,17 +433,15 @@ def step_impl(context):
 
 @then(u': Preferences should updated successfully')
 def step_impl(context):
+    toastmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    print(toastmsg)
     time.sleep(3)
-    context.driver.find_element_by_xpath("//span[text()='Activities']").click()
-    context.driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
+    context.driver.refresh()
     time.sleep(3)
-    context.driver.execute_script("window.scrollBy(0,800)", "")
+    context.driver.execute_script("window.scrollBy(0,500)", "")
     time.sleep(5)
-    print(context.driver.find_element_by_name("data[ReferralName]").text)
-    if context.driver.find_element_by_name("data[ReferralName]").text == "Kanaka Software":
-        print("Profile & preferences updated successfully")
-    else:
-        print("Something went wrong in PP")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
 
 
 @given(u': Settings screen should be open')
