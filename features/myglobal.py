@@ -1,7 +1,7 @@
 
-opsemail = "opsuat2021@outlook.com"
-opspassword = "Quantuvos@123"
-URL = "https://platform-uat.quantuvos.com/login"
+opsemail = "opsqdev@outlook.com"
+opspassword = "Kanaka@123"
+URL = "https://platform-dev.quantuvos.com/login"
 TEMPURL = "https://temp-mail.org/en/"
 clientemail = "qclientprofile@gmail.com"
 clientpassword = "1234Test."

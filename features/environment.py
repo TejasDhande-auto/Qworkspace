@@ -10,6 +10,9 @@ from allure_commons.types import AttachmentType
 import allure
 
 
+
+
+
 def before_all(context):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
