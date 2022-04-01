@@ -142,9 +142,9 @@ except:
 # uploadfile.send_keys("D://backup kanaka//kanaka new//kanaka new//desktop//Aug//1//ClientDashboard.png")
 
 ############################################# Network Q Resouces#################################
-time.sleep(3)
-driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
-time.sleep(3)
+# time.sleep(3)
+# driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
+# time.sleep(3)
 # try:
 #     driver.find_element_by_xpath("//a[text()='Webinars']").click()
 #     time.sleep(3)
@@ -171,17 +171,23 @@ time.sleep(3)
 #     driver.find_element_by_xpath("//a[text()='Home']").click()
 
 #Search by title Functionality
-time.sleep(3)
-driver.find_element_by_xpath("//input[@id='myInput']").send_keys("Prepar")
-time.sleep(2)
-driver.find_element_by_xpath('//*[@id="run"]/h6').click()
-time.sleep(3)
-driver.find_element_by_xpath("//input[@type='checkbox']").click()
-time.sleep(2)
-driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
-time.sleep(2)
-errmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
-print(errmsg)
+# time.sleep(3)
+# driver.find_element_by_xpath("//input[@id='myInput']").send_keys("Prepar")
+# time.sleep(2)
+# driver.find_element_by_xpath('//*[@id="run"]/h6').click()
+# time.sleep(3)
+# driver.find_element_by_xpath("//input[@type='checkbox']").click()
+# time.sleep(2)
+# driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
+# time.sleep(4)
+# errmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+# if errmsg == "Activity already exists":
+#     print(errmsg)
+#     driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+# else:
+#     print("Activity has been added successfully")
+#     driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+
 #Advanced Search
 # driver.find_element_by_xpath("//span[text()=' ADVANCED SERACH ']").click()
 # time.sleep(3)
@@ -217,17 +223,45 @@ print(errmsg)
 # else:
 #     print("Missing survey are pending")
 #     driver.find_element_by_xpath("//a[text()='NOTES']").click()
+# try:
+#     driver.find_element_by_xpath("//span[text()='No notes for user']").is_displayed()
+#     print("Notes are not available for current month")
+#     print("Adding notes on day 15")
+#     action = ActionChains(driver)
+#     action.context_click(driver.find_element_by_xpath("//span[text()='15']")).perform()
+#     time.sleep(2)
+#     driver.find_element_by_xpath("//span[text()='Add Note']").click()
+#     time.sleep(3)
+#     driver.find_element_by_xpath('//*[@id="AddNoteModel"]/div/div/div[2]/ckeditor/div[2]/div[2]/div').send_keys(
+#         "My Automated Notes")
+#     time.sleep(2)
+#     driver.find_element_by_xpath("//span[text()='Save']").click()
+#     time.sleep(2)
+#     print("Updated Notes")
+#     print(driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
 #
-# if driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").is_displayed():
-#     print("Notes are available for current month")
+#
+# except:
+#     print("Notes")
 #     print(driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
 #     action = ActionChains(driver)
-#     action.move_to_element(driver.find_element_by_xpath("//span[text()=' Tuesday, February 8, 2022 ']")).move_to_element(driver.find_element_by_xpath("//img[@popover='Edit']")).click().perform()
+#     action.move_to_element(driver.find_element_by_xpath("/html/body/app-root/app-session/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[1]/span"))\
+#         .move_to_element(driver.find_element_by_xpath("//img[@popover='Edit']")).click().perform()
 #     time.sleep(5)
 #     driver.find_element_by_xpath('//*[@id="AddNoteModel"]/div/div/div[2]/ckeditor/div[2]/div[2]/div').send_keys("My Automated Notes")
 #     time.sleep(2)
 #     driver.find_element_by_xpath("//span[text()='Save']").click()
 #     time.sleep(2)
+#     print("Updated Notes")
+#     print(driver.find_element_by_xpath("//div[@class='noteParentContainer w-70 pointer ng-star-inserted']").text)
+
+#deleting the created activity
+# action = ActionChains(driver)
+# action.move_to_element(driver.find_element_by_xpath("/html/body/app-root/app-session/div[1]/div/div[2]/div/div[2]/div/div/div/div/div/div[1]/span"))\
+#         .move_to_element(driver.find_element_by_xpath("//img[@popover='Delete']")).click().perform()
+# time.sleep(2)
+# driver.find_element_by_xpath("//*[@id='uBody']/app-root/app-session/div[6]/div/div/div[3]/button[2]").click()
+# print("Note has been deleted")
 #
 #
 # time.sleep(5)
@@ -269,27 +303,33 @@ print(errmsg)
 # time.sleep(2)
 
 ####################################################### P & P ##########################
-# time.sleep(3)
-# driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
-# time.sleep(3)
-# driver.execute_script("window.scrollBy(0,800)", "")
-# time.sleep(5)
-# driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
-# time.sleep(3)
-# driver.execute_script("window.scrollBy(800,1700)", "")
-# time.sleep(2)
-# driver.find_element_by_xpath("//button[@name='data[submit]']").click()
-# time.sleep(3)
-# driver.find_element_by_xpath("//span[text()='Activities']").click()
-# driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
-# time.sleep(3)
-# driver.execute_script("window.scrollBy(0,800)", "")
-# time.sleep(5)
-# print(driver.find_element_by_name("data[ReferralName]").text)
-# if driver.find_element_by_name("data[ReferralName]").text == "Kanaka Software":
-#     print("Profile & preferences updated successfully")
-# else:
-#     print("Something went wrong in PP")
+time.sleep(3)
+driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
+time.sleep(3)
+driver.execute_script("window.scrollBy(0,500)", "")
+time.sleep(5)
+driver.find_element_by_name("data[ReferralName]").clear()
+time.sleep(2)
+driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
+time.sleep(3)
+driver.execute_script("window.scrollBy(500,1700)", "")
+time.sleep(2)
+driver.find_element_by_xpath("//button[@name='data[submit]']").click()
+time.sleep(3)
+errmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+print(errmsg)
+driver.find_element_by_xpath("//span[text()='Activities']").click()
+driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
+time.sleep(3)
+driver.execute_script("window.scrollBy(0,500)", "")
+time.sleep(5)
+print(driver.find_element_by_xpath('//input[@name="data[CurrentRole]"]').text)
+print(driver.find_element_by_name("data[ReferralName]").text)
+time.sleep(2)
+if driver.find_element_by_name("data[ReferralName]").text == "Kanaka Software":
+    print("Profile & preferences updated successfully")
+else:
+    print("Something went wrong in PP")
 
 ############################Settings#######################################################
 # time.sleep(3)
