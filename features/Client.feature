@@ -2,7 +2,7 @@ Feature: Verify Client Dashboard
 
   Scenario: Verify Client login successfully
     When Login page should be open
-    And Enter client credentials as "democlientuat@gmail.com" and "Qwerty@123"
+    And Enter client credentials as "qclientprofile+1@outlook.com" and "Qwerty@123"
     Then Client dashboard should display
 
   Scenario: Verify Next Session is scheduled or not
@@ -90,7 +90,7 @@ Feature: Verify Client Dashboard
     Then  Active activities should display
     When  Click on Coach recommended active activity
     Then  Activity detail should display and Complete button should display
-    And  Click on Coach self active activity
+    When  Click on self active activity
     Then  Activity detail should display and Complete and Delete button should display
     And  Click on Add
     Then  Screen should navigate to Network Q screen
@@ -125,7 +125,7 @@ Feature: Verify Client Dashboard
 
   Scenario: Verify Change password functionality for client
     When Click on change
-    And Enter Old and New password and click on Submit
-    Then Client password should get changed
+    And Enter Incorrect old and New password and click on Submit
+    Then Appropriate error message should display
 
 
