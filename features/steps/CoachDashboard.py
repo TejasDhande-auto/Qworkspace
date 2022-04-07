@@ -26,6 +26,7 @@ def step_impl(context,email,password):
 def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     print("Coach login successfull")
+    allure.attach("",name="Coach logged in successfully")
 
 @when(u'Verify missing survey are pending')
 def step_impl(context):
@@ -33,6 +34,7 @@ def step_impl(context):
         time.sleep(5)
         context.driver.find_element_by_xpath("//button[text()='Ok']").click()
         print("Missing survey pending")
+        allure.attach("", name="Missing surveys pending")
         time.sleep(3)
         context.driver.find_element_by_xpath(
             "/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[2]/span[2]").click()
@@ -43,6 +45,7 @@ def step_impl(context):
     except:
         context.driver.find_element_by_xpath("//p[text()='You are all caught up.']").is_enabled()
         print("No missing survey pending")
+        allure.attach("", name="No missing survey pending against coach")
 
 @when(u'If pending click one of missing survey')
 def step_impl(context):
@@ -84,7 +87,8 @@ def step_impl(context):
 
 @when(u'Verify the client list')
 def step_impl(context):
-    print(context.driver.find_element_by_xpath('/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[3]').text)
+    allure.attach(context.driver.find_element_by_xpath('/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[3]').text,name="Clients being reschedule",attachment_type=AttachmentType.TEXT)
+
 
 
 @when(u'Click one of client')
@@ -95,6 +99,7 @@ def step_impl(context):
 @then(u'Selected client details screen should be open')
 def step_impl(context):
     print("TBD")
+
 
 @when(u'Click on filter and enter "ABc" as client name')
 def step_impl(context):
@@ -122,12 +127,15 @@ def step_impl(context):
     try:
         context.driver.find_element_by_xpath("//span[text()=' ADD ']").click()
         print(("No note added earlier for client"))
+        allure.attach("",name="No notes for selected client")
     except:
         context.driver.find_element_by_xpath(" //span[text()=' EDIT ']").click()
         print(" Editing earlier added notes for client")
+        allure.attach("", name="Editing earlier added notes for client")
 
     time.sleep(5)
-    context.driver.find_element_by_xpath("//div[@role='textbox']").clear()
+    context.driver.find_element_by_xpath("//div[@role='textbox']").send_keys(Keys.CONTROL,'a')
+    context.driver.find_element_by_xpath("//div[@role='textbox']").send_keys(Keys.DELETE)
     time.sleep(2)
     context.driver.find_element_by_xpath("//div[@role='textbox']").send_keys("Note for client name")
     time.sleep(2)
@@ -141,10 +149,10 @@ def step_impl(context):
         if context.driver.find_element_by_xpath("//p[text()='Note for client name']").is_displayed():
             print("Note added successfully")
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("",name="Notes added successfully")
 
     except:
-        print("Something went wrong notes not added")
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        raise Exception("Unable to add notes")
 
 
 @when(u'Check activities are assigned to client')
@@ -178,12 +186,11 @@ def step_impl(context):
 @then(u'Client profile should load successfully')
 def step_impl(context):
     try:
-
         if context.driver.find_element_by_xpath('//div[@class="formio-loader"]').is_displayed():
-            print("Something went wrong client profile not loading")
-            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            raise Exception("Unable to load client profile")
     except:
             print(" Lets do something on client profile")
+            allure.attach("",name="Client profile load successfully")
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
@@ -200,6 +207,7 @@ def step_impl(context):
         if session == "":
             print("Sessions list not showing something went wrong")
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            raise Exception("Unable to load session list")
     except:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
@@ -218,45 +226,87 @@ def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
-@given(u': Network Q screen on coach Dashboard should be open')
+@when(u'Click on Coach-Network Q Resources')
 def step_impl(context):
-    time.sleep(3)
-    context.driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
-    time.sleep(3)
+        time.sleep(3)
+        context.driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
+        time.sleep(3)
 
-@when(u': Check all tabs on network q screen on coach Dashboard')
+
+@then(u'Coach-Network Q Resources screen should be open')
+def step_impl(context):
+    if context.driver.find_element_by_xpath("//span[text()='Network Q Resources ']").is_displayed():
+        print("Network Q screen is displayed")
+        allure.attach("", name="Network Q screen is displayed")
+    else:
+        allure.attach("", name="Error : Network Q screen is not displayed")
+        raise Exception("Error : Network Q screen is not displayed")
+
+@when(u'Click on Tabs on Coach-Network Q Resources')
 def step_impl(context):
     try:
         context.driver.find_element_by_xpath("//a[text()='Webinars']").click()
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Webinars", attachment_type=AttachmentType.PNG)
+        time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Activity']").click()
+        time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Activity", attachment_type=AttachmentType.PNG)
         time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Podcasts']").click()
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Podcasts", attachment_type=AttachmentType.PNG)
+        time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Ted Talk']").click()
+        time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Ted Talk", attachment_type=AttachmentType.PNG)
         time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Article']").click()
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Article", attachment_type=AttachmentType.PNG)
+        time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Tips']").click()
+        time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Tips", attachment_type=AttachmentType.PNG)
         time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Assessment']").click()
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Assessment", attachment_type=AttachmentType.PNG)
+        time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Videos']").click()
+        time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Videos", attachment_type=AttachmentType.PNG)
         time.sleep(3)
         context.driver.find_element_by_xpath("//a[text()='Book']").click()
         time.sleep(3)
-        context.driver.find_element_by_xpath("//a[text()='Home']").click()
-
-    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Book", attachment_type=AttachmentType.PNG)
         time.sleep(3)
-        context.driver.find_element_by_xpath("//a[text()='Home']").click()
+    except:
+        raise Exception("Tabs missing")
 
 
-@when(u': Check Search functionality on coach Dashboard')
+    context.driver.find_element_by_xpath("//a[text()='Home']").click()
+    time.sleep(3)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Home", attachment_type=AttachmentType.PNG)
+    time.sleep(3)
+
+
+
+@then(u'Tab related resources should display to coach on screen')
 def step_impl(context):
+    print("Yes opened successfully")
+    allure.attach("", name="Screenshots has been attached")
+
+
+@when(u'Enter text in search box on Coach-Network Q Resources screen')
+def step_impl(context):
+
     time.sleep(3)
     context.driver.find_element_by_xpath("//input[@id='myInput']").send_keys("Prepar")
     time.sleep(2)
+
+@then(u'Matched resources should display to coach')
+def step_impl(context):
     context.driver.find_element_by_xpath('//*[@id="run"]/h6').click()
     time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
@@ -264,9 +314,9 @@ def step_impl(context):
     time.sleep(2)
 
 
-@when(u': Check Advanced search Functionality on coach Dashboard')
+@when(u'Enter text in advanced search box on Coach-Network Q Resources screen')
 def step_impl(context):
-    context.driver.find_element_by_xpath("//span[text()=' ADVANCED SERACH ']").click()
+    context.driver.find_element_by_xpath('//button[@title="Advanced Search"]').click()
     time.sleep(3)
     context.driver.find_element_by_xpath("//input[@name='titileSearchValue']").send_keys("Prepar")
     time.sleep(1)
@@ -280,30 +330,49 @@ def step_impl(context):
     context.driver.find_element_by_xpath("//button[text()='Apply']").click()
     time.sleep(3)
 
+@then(u'Matched resources to advanced search should display')
+def step_impl(context):
+
     if "Preparing for your first Coaching Session" == context.driver.find_element_by_xpath(
             "//span[text()=' Preparing for your first Coaching Session ']").text:
         print("Advanced search is successfull")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("",name="Matched resources displayed")
     else:
         context.driver.find_element_by_xpath(
             '//*[@id="WelcometoNetworkQ"]/div/div[2]/div/div/div[1]/div/div[2]/div/div/img').click()
         print("Filter Resets")
+        allure.attach("",name="Filter has been reset")
 
 
 
-@then(u': Network  Q screen on coach Dashboard should work as expected')
-def step_impl(context):
-    print("Working as expected")
-
-
-@given(u': Profile & Preferences screen on coach dashboard should be open')
+@given(u'Coach-Profile & Preferences screen should display')
 def step_impl(context):
     time.sleep(3)
     context.driver.find_element_by_xpath("//span[text()='Profile and Preferences']").click()
     time.sleep(3)
 
-@when(u': Check update preference functionality for coach')
+
+@when(u'If coach personal information display')
 def step_impl(context):
+    if context.driver.find_element_by_xpath(
+            "(//span[text()=' Profile and Preferences'])[1]").text == "Profile and Preferences":
+        allure.attach("", name="Profile & preferences screen is displayed")
+
+    else:
+        allure.attach("", name="Loading icon showing")
+
+
+@then(u'Coach Profile details displayed properly')
+def step_impl(context):
+    time.sleep(2)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    time.sleep(2)
+
+
+@when(u'Enter text in field and click on submit')
+def step_impl(context):
+
     context.driver.execute_script("window.scrollBy(0,700)", "")
     time.sleep(5)
     context.driver.find_element_by_xpath('//input[@name="data[AgeofKids]"]').clear()
@@ -317,7 +386,7 @@ def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
-@then(u': Coach Preferences should updated successfully')
+@then(u'Coach profile should be updated and updated value should display in field')
 def step_impl(context):
     time.sleep(3)
     context.driver.refresh()
@@ -326,34 +395,45 @@ def step_impl(context):
     time.sleep(5)
     if context.driver.find_element_by_xpath('//input[@name="data[AgeofKids]"]').text == "Don't want to disclose":
         print("Profile & preferences updated successfully")
+        allure.attach("",name="Profile & preferences updated successfully")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     else:
         print("Something went wrong in PP")
+        allure.attach("",name="Unable to update")
+        raise Exception("Unable to display updated details")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
-
-@given(u': Settings screen on Coach dashboard should be open')
+@when(u'Click on Coach-Settings')
 def step_impl(context):
     time.sleep(3)
     context.driver.find_element_by_xpath("//span[text()=' Settings']").click()
     time.sleep(2)
 
-@when(u': Check Add/Change calendar functionality on coach dashboard')
+
+@then(u'Coach-Settings screen should displayed')
+def step_impl(context):
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+
+@when(u'Add/Change outlook calendar for coach')
 def step_impl(context):
     try:
         print("Changing already added calendar")
+        allure.attach("",name="Changing already added calendar")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath(
             "/html/body/app-root/app-setting/div[1]/div/div[2]/div/div[1]/div/form/div[3]/div[1]/div/div[2]/div/img[1]").click()
         time.sleep(2)
     except:
         print(" Adding new calendar to platform")
+        allure.attach("", name="Adding new calendar to platform")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath('//img[@src="../../../assets/icons/addcalendarsyn.svg"]').click()
         time.sleep(2)
 
-    context.driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
+    context.driver.find_element_by_xpath(
+        '//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
     time.sleep(3)
     context.driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
     time.sleep(5)
@@ -371,33 +451,156 @@ def step_impl(context):
         context.driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
         time.sleep(5)
         print("New calendar added")
+        allure.attach("",name="New calendar added")
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
     except:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         print("Already added calendar added")
+        allure.attach("", name="Selected calendar has already been synced with platform")
+
 
     time.sleep(5)
 
-@then(u': Calendar updated succssfully')
-def step_impl(context):
-    print("Pass")
 
-@when(u': Click on change password and provide updated password')
+@then(u"Outlook calendar details should display on coach's settings screen")
+def step_impl(context):
+    time.sleep(2)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    calendarsyncstatus = context.driver.find_element_by_xpath('/html/body/app-root/app-setting/div[1]/div/div[2]/div/div[1]/div/form/div[3]/div[2]').text
+    if calendarsyncstatus == "Calendar NOT Synced":
+        allure.attach("", name="Calendar NOT Synced")
+    else:
+        allure.attach("", name="Calendar is synced")
+
+
+@when(u'Click on delete calendar')
+def step_impl(context):
+    time.sleep(3)
+    context.driver.find_element_by_xpath('//img[@title="Delete calendar"]').click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//button[text()='Remove']").click()
+    time.sleep(3)
+    try:
+        context.driver.find_element_by_xpath("//button[text()='OK']").click()
+        print("Deleted Gmail calendar")
+        allure.attach("",name="Synced calendar is Google ")
+
+    except:
+        print("Deleted outlook calendar")
+        allure.attach("",name="Synced calendar is Outlook")
+
+
+@then(u'Coach-Calendar should be deleted from platform')
+def step_impl(context):
+    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    if errmsg == "Calendar has been deleted successfully ":
+        print(errmsg)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Calendar has been deleted successfully")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    else:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Error in deleting calendar")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    time.sleep(2)
+
+
+@when(u'Add Google calendar for coach')
+def step_impl(context):
+    try:
+        context.driver.find_element_by_xpath('(//img[@class="cursor-pointer"])[2]').click()
+        time.sleep(2)
+    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Something went wrong while adding google calendar")
+    try:
+        time.sleep(5)
+        context.driver.find_element_by_xpath("//div[text()=' Google calendar ']").click()
+        time.sleep(2)
+        time.sleep(5)
+        context.driver.find_element_by_id("identifierId").send_keys("automatecoach@gmail.com")
+        context.driver.find_element_by_id("identifierNext").click()
+        time.sleep(5)
+        context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+        context.driver.find_element_by_id("passwordNext").click()
+        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            time.sleep(1)
+            context.driver.execute_script("window.scrollTo(0, 500)")
+            time.sleep(3)
+            context.driver.find_element_by_xpath(
+                "//span[text()='Continue']").click()  # driver.find_element_by_xpath("//span[text()='Cancel']").click()
+            time.sleep(5)
+            allure.attach("",name="Required permissions are given")
+
+        except:
+            allure.attach("", name="Access permission has already been given for selected Google calendar")
+
+    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        raise Exception("Unable to click on Add icon")
+
+
+@then(u"Google calendar details should display on coach's settings screen")
+def step_impl(context):
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    calendarsyncstatus = context.driver.find_element_by_xpath(
+        '/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
+    if calendarsyncstatus == "Calendar NOT Synced":
+        allure.attach("", name="Calendar NOT Synced")
+    else:
+        allure.attach("", name="Calendar is synced")
+
+
+@when(u'Click on change password icon')
 def step_impl(context):
     time.sleep(2)
     context.driver.find_element_by_xpath("//img[@title='Change Password']").click()
     time.sleep(3)
-    context.driver.find_element_by_name("oldPassword").send_keys("Kanaka@123")
+
+@when(u'Enter Incorrect old password and New password and click on Submit')
+def step_impl(context):
+    context.driver.find_element_by_name("oldPassword").send_keys("Kanaka@1234")
     context.driver.find_element_by_name("newPassword").send_keys("Qwerty@123")
     context.driver.find_element_by_name("confirmPassword").send_keys("Qwerty@123")
     time.sleep(3)
     context.driver.find_element_by_xpath("//button[text()='Submit']").click()
     time.sleep(2)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-
-@then(u': Password should be changed')
-def step_impl(context):
+    time.sleep(2)
+    context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
     time.sleep(3)
+
+
+@then(u'Appropriate error message should display on screen')
+def step_impl(context):
+    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    if errmsg == "old password is incorrect..":
+        print(errmsg)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="old password is incorrect : Expected")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    else:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Password change successfully")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    time.sleep(2)
+
+@when(u'Click on Logout')
+def step_impl(context):
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//span[text()=' Logout']")
+    time.sleep(2)
+
+@then(u'Login page should display')
+def step_impl(context):
+    text1 = context.driver.find_element_by_xpath("//span[text()='Welcome back to ']").text
+    if text1 == "Welcome back to":
+        allure.attach("","User logged out successfully")
+
+    else:
+        raise Exception("Logout Functionality breaks")
 
 

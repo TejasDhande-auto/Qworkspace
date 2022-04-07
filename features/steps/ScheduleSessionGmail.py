@@ -48,6 +48,7 @@ def Checktimeslots(context,email,password):
     day = str(today.day + 1)
     gmailtimeslot = "07.00 AM"
     checkevent = "//span[text()='" + day + "']"
+
     rightclick = context.driver.find_element_by_xpath(checkevent)
     actionChains = ActionChains(context.driver)
     actionChains.context_click(rightclick).perform()
@@ -55,7 +56,7 @@ def Checktimeslots(context,email,password):
     time.sleep(10)
 
     context.driver.find_element_by_xpath(
-        "/html/body/div[2]/div/div/context-menu-content/div/ul/li[2]/a/h5/span").click()
+        "//span[text()='Schedule a Session']").click()
     time.sleep(10)
     for i in range(1, 8):
         today = date.today() + timedelta(i)  # tommorrow date

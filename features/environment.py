@@ -10,9 +10,6 @@ from allure_commons.types import AttachmentType
 import allure
 
 
-
-
-
 def before_all(context):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
@@ -38,7 +35,6 @@ def invoketempmailpage(context):
 
 
 def selecttimeslot(context):
-
     context.driver.find_element_by_xpath("//label[text()=' 30 Minutes ']").click()
     time.sleep(5)
     count = 0
@@ -419,7 +415,7 @@ def createevent(context):
         year = str(today.year)  # int-stringconversion
 
         startdate = month + " " + day + "," + " " + year  # gmaildateformat
-        #enddate = month + " " + day + "," + " " + year   gmaildateformat
+        # enddate = month + " " + day + "," + " " + year   gmaildateformat
         title = ""
         starttime = ""
         endtime = ""
@@ -460,11 +456,13 @@ def createevent(context):
             endtime = "7.00pm"
 
         time.sleep(5)
-        context.driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[1]/div[1]/div/div/span/span/span/div[2]").click()
+        context.driver.find_element_by_xpath(
+            "/html/body/div[2]/div[1]/div[1]/div[1]/div/div/span/span/span/div[2]").click()
         time.sleep(3)
         context.driver.find_element_by_xpath("//div[text()='Event']").click()
         time.sleep(10)
-        context.driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/span/div/div[1]/div[3]/div[2]/div[1]/span/span").click()
+        context.driver.find_element_by_xpath(
+            "/html/body/div[4]/div/div/div[2]/span/div/div[1]/div[3]/div[2]/div[1]/span/span").click()
         time.sleep(3)
         context.driver.find_element_by_xpath("//input[@aria-label='Title']").send_keys(title)
         time.sleep(3)
@@ -488,155 +486,157 @@ def createevent(context):
         context.driver.find_element_by_xpath("//span[text()='Save']").click()
         time.sleep(5)
 
+
 def selecttimeslotforfirstsession(context):
     count = 0
+    time.sleep(5)
 
-    if context.driver.find_element_by_id("12:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("12:00 AM").click()
         count = count + 1
-    else:
-        print("12 am coach busy")
+    except:
+        print("12:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("01:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("01:00 AM").click()
         count = count + 1
-    else:
-        print("01 am coach busy")
+    except:
+        print("01:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("02:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("02:00 AM").click()
         count = count + 1
-    else:
-        print("02 am coach busy")
+    except:
+        print("02:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("03:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("03:00 AM").click()
         count = count + 1
-    else:
-        print("03 am coach busy")
+    except:
+        print("03:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("04:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("04:00 AM").click()
         count = count + 1
-    else:
-        print("04 am coach busy")
+    except:
+        print("04:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("05:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("05:00 AM").click()
         count = count + 1
-    else:
-        print("05 am coach busy")
+    except:
+        print("05:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("06:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("06:00 AM").click()
         count = count + 1
-    else:
-        print("06 am coach busy")
+    except:
+        print("06:00 AM coach is busy")
 
-
-    if context.driver.find_element_by_id("07:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("07:00 AM").click()
         count = count + 1
-    else:
+    except:
         print("07:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("08:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("08:00 AM").click()
         count = count + 1
-    else:
-        print("8 am coach busy")
+    except:
+        print("08:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("09:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("09:00 AM").click()
         count = count + 1
-    else:
-        print("9 am coach busy")
+    except:
+        print("09:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("10:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("10:00 AM").click()
         count = count + 1
-    else:
-        print("10 am coach busy")
+    except:
+        print("10:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("11:00 AM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("11:00 AM").click()
         count = count + 1
-    else:
-        print("11 am coach busy")
+    except:
+        print("11:00 AM coach is busy")
 
-    if context.driver.find_element_by_id("12:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("12:00 PM").click()
         count = count + 1
-    else:
-        print("12 pm coach busy")
+    except:
+        print("12:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("01:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("01:00 PM").click()
         count = count + 1
-    else:
-        print("01 pm coach busy")
+    except:
+        print("01:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("02:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("02:00 PM").click()
         count = count + 1
-    else:
-        print("02 pm coach busy")
+    except:
+        print("02:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("03:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("03:00 PM").click()
         count = count + 1
-    else:
-        print("03 pm coach busy")
+    except:
+        print("03:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("04:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("04:00 PM").click()
         count = count + 1
-    else:
-        print("04 pm coach busy")
+    except:
+        print("04:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("05:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("05:00 PM").click()
         count = count + 1
-    else:
-        print("05 pm coach busy")
+    except:
+        print("05:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("06:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("06:00 PM").click()
         count = count + 1
-    else:
-        print("06 pm coach busy")
+    except:
+        print("06:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("07:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("07:00 PM").click()
         count = count + 1
-    else:
-        print("07 pm coach busy")
+    except:
+        print("07:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("08:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("08:00 PM").click()
         count = count + 1
-    else:
-        print("08 pm coach busy")
+    except:
+        print("08:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("09:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("09:00 PM").click()
         count = count + 1
-    else:
-        print("9 pm coach busy")
+    except:
+        print("09:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("10:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("10:00 PM").click()
         count = count + 1
-    else:
-        print("10 pm coach busy")
+    except:
+        print("10:00 PM coach is busy")
 
-    if context.driver.find_element_by_id("11:00 PM").is_displayed():
-        time.sleep(2)
+    try:
+        context.driver.find_element_by_id("11:00 PM").click()
         count = count + 1
-    else:
-        print("11 pm coach busy")
 
-    if count == 19:
+    except:
+        print("11:00 PM coach is busy")
+
+    if count == 24:
         print("Coach is all day available")
 
     if count == 0:

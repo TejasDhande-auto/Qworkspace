@@ -47,28 +47,54 @@ Feature: Verify  Coach Dashboard
      When Send message to client
      Then Message should sent
 
-   Scenario: Check Network Q on coach Dashboard
-     Given : Network Q screen on coach Dashboard should be open
-     When : Check all tabs on network q screen on coach Dashboard
-     And : Check Search functionality on coach Dashboard
-     And : Check Advanced search Functionality on coach Dashboard
-     Then : Network  Q screen on coach Dashboard should work as expected
+   Scenario: Verify Coach-Network Q Resources screen on is displayed
+    When  Click on Coach-Network Q Resources
+    Then  Coach-Network Q Resources screen should be open
 
-  Scenario: Check Profile & Preferences screen on coach  dashboard
-     Given : Profile & Preferences screen on coach dashboard should be open
-     When : Check update preference functionality for coach
-     Then : Coach Preferences should updated successfully
+  Scenario: Verify Tab switching on Coach-Network Q Resources screen
+    When Click on Tabs on Coach-Network Q Resources
+    Then Tab related resources should display to coach on screen
 
+  Scenario: Verify Search functionality on Coach-Network Q Resources screen
+    When Enter text in search box on Coach-Network Q Resources screen
+    Then Matched resources should display to coach
 
-    Scenario: Check Add/Edit calendar functionality on Settings screen on coach dashboard
-      Given : Settings screen on Coach dashboard should be open
-      When : Check Add/Change calendar functionality on coach dashboard
-      Then : Calendar updated succssfully
-
-    Scenario: Check Change password functionality on Settings screen on coach dashboard
-      Given : Settings screen on Coach dashboard should be open
-      When : Click on change password and provide updated password
-      Then : Password should be changed
+  Scenario: Verify Advanced search functionality on Coach-Network Q Resources screen
+    When Enter text in advanced search box on Coach-Network Q Resources screen
+    Then Matched resources to advanced search should display
 
 
+  Scenario: Verify Coach profile details are displayed properly
+    Given Coach-Profile & Preferences screen should display
+    When If coach personal information display
+    Then Coach Profile details displayed properly
+
+  Scenario: Verify Coach profile details are updated properly
+    When Enter text in field and click on submit
+    Then Coach profile should be updated and updated value should display in field
+
+  Scenario: Verify Coach-Settings screen is displayed
+    When Click on Coach-Settings
+    Then Coach-Settings screen should displayed
+
+  Scenario: Verify Add/Change MS calendar functionality for coach
+    When Add/Change outlook calendar for coach
+    Then Outlook calendar details should display on coach's settings screen
+
+  Scenario: Verify delete calendar functionality for coach
+    When Click on delete calendar
+    Then Coach-Calendar should be deleted from platform
+
+  Scenario: Verify Add/Change Google calendar functionality for coach
+    When Add Google calendar for coach
+    Then Google calendar details should display on coach's settings screen
+
+  Scenario: Verify Change password functionality for coach
+    When Click on change password icon
+    And Enter Incorrect old password and New password and click on Submit
+    Then Appropriate error message should display on screen
+
+  Scenario: Verify Logout functionality for coach dashboard
+    When Click on Logout
+    Then Login page should display
 

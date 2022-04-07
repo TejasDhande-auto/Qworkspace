@@ -1041,7 +1041,7 @@ def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 
-@when(u'Add/Change calendar')
+@when(u'Add/Change outlook calendar for client')
 def step_impl(context):
     try:
         context.driver.find_element_by_xpath(
@@ -1076,12 +1076,12 @@ def step_impl(context):
     except:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         print("Already added calendar added")
-        allure.attach("", name="Already been sync calendar added - not ask for permission")
+        allure.attach("", name="Access permission has already been given for selected MS calendar")
 
     time.sleep(5)
 
 
-@then(u'Update calendar details should display on screen')
+@then(u"Outlook calendar details should display on Client's settings screen")
 def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     calendarsyncstatus = context.driver.find_element_by_xpath('/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
@@ -1091,7 +1091,76 @@ def step_impl(context):
         allure.attach("", name="Calendar is synced")
 
 
+@when(u'Click on delete')
+def step_impl(context):
+    time.sleep(3)
+    context.driver.find_element_by_xpath('//img[@title="Delete calendar"]').click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//button[text()='Remove']").click()
+    time.sleep(3)
+    try:
+        context.driver.find_element_by_xpath("//button[text()='OK']").click()
+        print("Deleted Gmail calendar")
 
+    except:
+        print("Deleted outlook calendar")
+
+@then (u'Calendar should be deleted from platform')
+def step_impl(context):
+    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+    if errmsg == "Calendar has been deleted successfully ":
+        print(errmsg)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Calendar has been deleted successfully")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    else:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach("", name="Error in deleting calendar")
+        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+    time.sleep(2)
+
+@when(u'Add Google calendar for client')
+def step_impl(context):
+    try:
+        context.driver.find_element_by_xpath('(//img[@class="cursor-pointer"])[2]').click()
+        time.sleep(2)
+    except:
+        allure.attach("",name="Something went wrong while adding google calendar")
+    try:
+        time.sleep(5)
+        context.driver.find_element_by_xpath("//div[text()=' Google calendar ']").click()
+        time.sleep(2)
+        time.sleep(5)
+        context.driver.find_element_by_id("identifierId").send_keys("automatecoach@gmail.com")
+        context.driver.find_element_by_id("identifierNext").click()
+        time.sleep(5)
+        context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+        context.driver.find_element_by_id("passwordNext").click()
+        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            time.sleep(1)
+            context.driver.execute_script("window.scrollTo(0, 500)")
+            time.sleep(3)
+            context.driver.find_element_by_xpath("//span[text()='Continue']").click()   #driver.find_element_by_xpath("//span[text()='Cancel']").click()
+            time.sleep(5)
+
+        except:
+            allure.attach("",name="Access permission has already been given for selected Google calendar")
+
+    except:
+        raise Exception("Unable to click on Add icon")
+
+
+@then(u"Google calendar details should display on Client's settings screen")
+def step_impl(context):
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+    calendarsyncstatus = context.driver.find_element_by_xpath(
+        '/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
+    if calendarsyncstatus == "Calendar NOT Synced":
+        allure.attach("", name="Calendar NOT Synced")
+    else:
+        allure.attach("", name="Calendar is synced")
 
 @when(u'Click on change')
 def step_impl(context):
@@ -1108,6 +1177,7 @@ def step_impl(context):
     time.sleep(3)
     context.driver.find_element_by_xpath("//button[text()='Submit']").click()
     time.sleep(2)
+    context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
     time.sleep(3)
 
 
@@ -1123,5 +1193,4 @@ def step_impl(context):
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         allure.attach("", name="Password change successfully")
         context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
-    context.driver.back()
     time.sleep(2)

@@ -119,13 +119,25 @@ Feature: Verify Client Dashboard
     When Click on Settings
     Then Settings screen should displayed
 
-  Scenario: Verify Add/Change calendar functionality for client
-    When Add/Change calendar
-    Then Update calendar details should display on screen
+  Scenario: Verify Add/Change MS calendar functionality for client
+    When Add/Change outlook calendar for client
+    Then Outlook calendar details should display on Client's settings screen
+
+  Scenario: Verify delete calendar functionality for client
+    When Click on delete
+    Then Calendar should be deleted from platform
+
+  Scenario: Verify Add/Change Google calendar functionality for client
+    When Add Google calendar for client
+    Then Google calendar details should display on Client's settings screen
 
   Scenario: Verify Change password functionality for client
     When Click on change
     And Enter Incorrect old and New password and click on Submit
     Then Appropriate error message should display
+
+  Scenario: Verify Logout functionality for coach dashboard
+    When Click on Logout
+    Then Login page should display
 
 
