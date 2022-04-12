@@ -63,6 +63,10 @@ Feature: Verify  Coach Dashboard
     When Enter text in advanced search box on Coach-Network Q Resources screen
     Then Matched resources to advanced search should display
 
+  Scenario: Verify Submit Resource functionality on Coach-Network Q Resources screen
+    Given Submit Resource modal window should be open
+    When Enter the resource details and click on save
+    Then Resource should be submitted for approval
 
   Scenario: Verify Coach profile details are displayed properly
     Given Coach-Profile & Preferences screen should display

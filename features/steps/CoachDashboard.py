@@ -35,12 +35,6 @@ def step_impl(context):
         context.driver.find_element_by_xpath("//button[text()='Ok']").click()
         print("Missing survey pending")
         allure.attach("", name="Missing surveys pending")
-        time.sleep(3)
-        context.driver.find_element_by_xpath(
-            "/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[2]/span[2]").click()
-        time.sleep(2)
-        context.driver.find_element_by_xpath("//button[@aria-label='Close']").click()
-        time.sleep(2)
 
     except:
         context.driver.find_element_by_xpath("//p[text()='You are all caught up.']").is_enabled()
@@ -49,17 +43,77 @@ def step_impl(context):
 
 @when(u'If pending click one of missing survey')
 def step_impl(context):
-     print("TBD")
+    try:
+        time.sleep(3)
+        context.driver.find_element_by_xpath(
+            "/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[2]/span[2]").click()
+        time.sleep(2)
+    except:
+        allure.attach("",name="No missing survey")
 
 
 @when(u'Submit the survey')
 def step_impl(context):
-    print("TBD")
+    try:
+        time.sleep(3)
+        element = context.driver.find_element_by_xpath("//td[text()='The coaching session was useful to the client.']")
+        context.driver.execute_script("return arguments[0].scrollIntoView();", element)
+        time.sleep(5)
+        context.driver.find_element_by_xpath("(//input[@value='2'])[1]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='4'])[2]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='2'])[3]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='4'])[4]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='2'])[5]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='4'])[6]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='2'])[7]").click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath("(//input[@value='4'])[8]").click()
+        time.sleep(2)
+        context.driver.execute_script("arguments[0].scrollIntoView();",context.driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]'))
+        time.sleep(2)
+        context.driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]').send_keys(" Hgdgdhg ")
+        context.driver.execute_script("return arguments[0].scrollIntoView();",
+                                      context.driver.find_element_by_xpath('//input[@name="data[OtherInfo]"]'))
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//button[@name="data[submit]"]').click()
+        time.sleep(5)
+
+        try:
+            time.sleep(2)
+            context.driver.find_element_by_xpath("//button[text()='Ok']").click()
+
+        except:
+            pass
+
+    except:
+        pass
 
 
 @then(u'Survey should be submitted')
 def step_impl(context):
-    print("TBD")
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Survey data submitted successfully":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="resource URL already exist")
+
+        else:
+            allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,
+                          name="Diffrent error msg", attachment_type=AttachmentType.TEXT)
+            print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+
+        time.sleep(2)
+
+    except:
+        raise Exception("Unable to submit resource")
+
 
 @when(u'Click on Week')
 def step_impl(context):
@@ -93,12 +147,26 @@ def step_impl(context):
 
 @when(u'Click one of client')
 def step_impl(context):
-    print("TBD")
+    try:
+        time.sleep(2)
+        context.driver.find_element_by_xpath('(//div[@class="ClientsBeingRescheduled koho"])[1]').click()
+        time.sleep(3)
+    except:
+        allure.attach("",name="No client for reschedule")
+
 
 
 @then(u'Selected client details screen should be open')
 def step_impl(context):
-    print("TBD")
+    allure.attach(context.driver.get_screenshot_as_png(), name="Client detail", attachment_type=AttachmentType.PNG)
+    try:
+        time.sleep(2)
+        context.driver.back()
+        time.sleep(5)
+        context.driver.find_element_by_xpath("//button[text()='Ok']").click()
+
+    except:
+        pass
 
 
 @when(u'Click on filter and enter "ABc" as client name')
@@ -169,13 +237,24 @@ def step_impl(context):
 
 @when(u'click one of activity if assigned')
 def step_impl(context):
-    print("Will contuniue this")
+    try:
+        time.sleep(2)
+        context.driver.find_element_by_xpath('(//div[@id="run"])[1]').click()
+    except:
+        allure.attach("","no activities")
+
 
 
 @then(u'Activity should open')
 def step_impl(context):
-    print("Will contuniue this")
+    try:
+        time.sleep(2)
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
+        time.sleep(2)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Activity detail", attachment_type=AttachmentType.PNG)
 
+    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Activity detail", attachment_type=AttachmentType.PNG)
 
 @when(u'Check client profile is loading')
 def step_impl(context):
@@ -347,6 +426,60 @@ def step_impl(context):
         allure.attach("",name="Filter has been reset")
 
 
+@given(u'Submit Resource modal window should be open')
+def step_impl(context):
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//span[text()='SUBMIT NEW RESOURCE']").click()
+    time.sleep(2)
+
+@when(u'Enter the resource details and click on save')
+def step_impl(context):
+    time.sleep(2)
+    context.driver.find_element_by_xpath('//input[@id="Title"]').send_keys("uhs")
+
+    context.driver.find_element_by_xpath('//textarea[@id="Description"]').send_keys("fsffsfsf")
+    context.driver.find_element_by_xpath('//input[@id="Author"]').send_keys("sfsfsfs")
+    time.sleep(2)
+    context.driver.execute_script("arguments[0].scrollIntoView();",
+                          context.driver.find_element_by_xpath("//label[text()='Resource for coach']"))
+    time.sleep(5)
+    context.driver.find_element_by_xpath('//select[@id="Type"]').click()
+    context.driver.find_element_by_xpath("//option[text()='Tips']").click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath('//select[@id="Category"]').click()
+    context.driver.find_element_by_xpath("//option[text()='Diversity, Equity and Inclusion']").click()
+    time.sleep(1)
+    context.driver.find_element_by_xpath('//input[@id="URL"]').send_keys("www.itssuotmation.things")
+    time.sleep(1)
+    context.driver.find_element_by_xpath('//input[@id="DurationTime"]').send_keys("15")
+    time.sleep(1)
+    context.driver.find_element_by_xpath("//span[text()='Save']").click()
+
+@then(u'Resource should be submitted for approval')
+def step_impl(context):
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "resource URL already exist":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="resource URL already exist")
+
+        elif errmsg == "Resources has been submitted for approval":
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="Resource has been submitted for approval")
+            context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+
+        else:
+            allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,name="Diffrent error msg", attachment_type=AttachmentType.TEXT)
+            print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+
+        time.sleep(2)
+
+    except:
+        raise Exception("Unable to submit resource")
+
+
+
 
 @given(u'Coach-Profile & Preferences screen should display')
 def step_impl(context):
@@ -381,7 +514,7 @@ def step_impl(context):
     time.sleep(2)
     context.driver.find_element_by_xpath('//input[@name="data[AgeofKids]"]').send_keys("Don't want to disclose")
     time.sleep(3)
-    context.driver.execute_script("window.scrollBy(700,3000)", "")
+    context.driver.execute_script("window.scrollBy(700,3500)", "")
     time.sleep(5)
     context.driver.find_element_by_xpath('//button[@type="submit"]').click()
     time.sleep(3)
@@ -574,7 +707,7 @@ def step_impl(context):
     context.driver.find_element_by_name("confirmPassword").send_keys("Qwerty@123")
     time.sleep(3)
     context.driver.find_element_by_xpath("//button[text()='Submit']").click()
-    time.sleep(2)
+    time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(2)
     context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
@@ -583,17 +716,21 @@ def step_impl(context):
 
 @then(u'Appropriate error message should display on screen')
 def step_impl(context):
-    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
-    if errmsg == "old password is incorrect..":
-        print(errmsg)
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        allure.attach("", name="old password is incorrect : Expected")
-        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
-    else:
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        allure.attach("", name="Password change successfully")
-        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
-    time.sleep(2)
+    try :
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "old password is incorrect..":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="old password is incorrect : Expected")
+            context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+        else:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="Password changed successfully")
+            context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+        time.sleep(2)
+
+    except:
+        raise Exception("Not a proper toaster")
 
 @when(u'Click on Logout')
 def step_impl(context):

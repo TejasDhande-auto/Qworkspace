@@ -1,124 +1,87 @@
-import time
-from datetime import date, timedelta
-from features import myglobal as gb
+from behave import *
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 import undetected_chromedriver as uc
 from selenium import webdriver
+from allure_commons.types import AttachmentType
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import ActionChains
-
+import allure
+import time
 
 options = webdriver.ChromeOptions()
 options.add_argument("start-maximized")
 driver = uc.Chrome(options=options)
 driver.get("https://platform-dev.quantuvos.com/login")
-driver.implicitly_wait(10)
-driver.find_element_by_name("email").send_keys("opsqdev2021@outlook.com")
-driver.find_element_by_name("password").send_keys("Quantuvos@123")
-driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
-time.sleep(10)
 
-# driver.find_element_by_id("identifierId").send_keys('automatecoach@gmail.com')
-# driver.find_element_by_id("identifierNext").click()
-# time.sleep(5)
-# driver.find_element_by_name("password").send_keys('Kanaka@123')
-# driver.find_element_by_id("passwordNext").click()
-#
-#
-# today = date.today() + timedelta(1)  # tommorrow date
-# day = str(today.day)  # int-stringconversion
-# month = today.strftime("%b")  # int-stringconversion
-# year = str(today.year)  # int-stringconversion
-#
-# startdate = month + " " + day + "," + " " + year  # gmaildateformat
-# enddate = month + " " + day + "," + " " + year  # gmaildateformat
-#
-# title = "Single Event  7-8 am"
-# starttime = "7.00am"
-# endtime = "8.00am"
-#
-# time.sleep(5)
-# driver.find_element_by_xpath("/html/body/div[2]/div[1]/div[1]/div[1]/div/div/span/span/span/div[2]").click()
-# time.sleep(3)
-# driver.find_element_by_xpath("//div[text()='Event']").click()
-# time.sleep(10)
-# driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/span/div/div[1]/div[3]/div[2]/div[1]/span/span").click()
-# time.sleep(3)
-# driver.find_element_by_xpath("//input[@aria-label='Title']").send_keys(title)
-# time.sleep(3)
-# driver.find_element_by_id("xStDaIn").click()
-# time.sleep(3)
-# driver.find_element_by_id("xStDaIn").send_keys(Keys.DELETE)
-# time.sleep(5)
-# driver.find_element_by_id("xStDaIn").send_keys(startdate)
-# time.sleep(3)
-# driver.find_element_by_id("xStDaIn").send_keys(Keys.ENTER)
-# driver.find_element_by_id("xStDaIn").send_keys(Keys.TAB)
+driver.implicitly_wait(10)
+driver.find_element_by_name("email").send_keys("democlientuat@gmail.com")
+driver.find_element_by_name("password").send_keys("Kanaka@123")
+driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
+time.sleep(5)
+# #############################Home Screen ##################################
+try:
+    driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
+    time.sleep(3)
+except:
+    print("No survey pending")
+
+driver.implicitly_wait(5)
+driver.find_element_by_xpath("//span[text()='Sessions']").click()
+time.sleep(5)
+
+time.sleep(2)
+mtext = driver.find_element_by_xpath(
+    '//div[@aria-labelledby="netProID-tab"]').text
+print(mtext)
+if mtext == "You are all caught up.":
+    print("Working as expected")
+
+
+else:
+    print("Missing survey displayed ")
+
+
+time.sleep(2)
+driver.find_element_by_xpath("//span[text()=' Settings']").click()
+time.sleep(2)
+print(driver.find_element_by_xpath('/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text)
+# driver.find_element_by_xpath("(//div[text()=' 5 '])[1]").click()
 # time.sleep(2)
-#
-# driver.find_element_by_xpath("//input[@aria-label='Start time']").send_keys(Keys.DELETE)
-# driver.find_element_by_xpath("//input[@aria-label='Start time']").send_keys(starttime)
-# driver.find_element_by_xpath("//input[@aria-label='Start time']").send_keys(Keys.TAB)
+# driver.find_element_by_xpath("//button[text()=' Say More ']").click()
 # time.sleep(5)
-# driver.find_element_by_xpath("//input[@aria-label='End time']").send_keys(endtime)
-# time.sleep(3)
-# driver.find_element_by_xpath("//span[text()='Save']").click()
+# driver.find_element_by_xpath("(//span[text()='No'])[1]").click()
+# time.sleep(1)
+# # driver.execute_script("window.scrollTo(0,500)")
+# # time.sleep(5)
+# element = driver.find_element_by_xpath("//td[text()='The coaching session was useful to me.']")
+# driver.execute_script("return arguments[0].scrollIntoView();", element)
 # time.sleep(5)
-#
-#
-# driver.find_element_by_tag_name("body").send_keys(Keys.CONTROL + 't')
-# driver.maximize_window()
+# driver.find_element_by_xpath("(//input[@value='2'])[1]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='4'])[2]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='2'])[3]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='4'])[4]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='2'])[5]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='4'])[6]").click()
+# time.sleep(1)
+# driver.find_element_by_xpath("(//input[@value='2'])[7]").click()
+# time.sleep(2)
+# driver.execute_script("return arguments[0].scrollIntoView();", driver.find_element_by_xpath('(//label[@class="col-form-label  field-required"])[5]'))
+# time.sleep(2)
+# driver.find_element_by_xpath("//span[text()='Excellent']").click()
+# time.sleep(2)
+# driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]').send_keys("Automated session is always valuable")
+# time.sleep(2)
+# driver.find_element_by_xpath('//button[@name="data[submit]"]').click()
 # time.sleep(5)
-# driver.execute_script("window.open('about:blank','opsdashboard');")
-# driver.switch_to.window("opsdashboard")
-# driver.get(gb.URL)
-# driver.maximize_window()
-# time.sleep(10)
-# driver.implicitly_wait(10)
-# driver.find_element_by_name("email").send_keys("cahoyo3533@shirulo.com")
-# driver.find_element_by_name("password").send_keys("Kanaka@123")
-# driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
-# time.sleep(10)
+# successmsg = driver.find_element_by_xpath('//div[@id="toast-container"]').text
+# if successmsg == "Survey data saved successfully":
+#     print(successmsg)
 #
-# time.sleep(5)
-# driver.find_element_by_link_text("Sessions").click()
-# time.sleep(10)
-# today = date.today()
-# day = str(today.day + 1)
-# gmailtimeslot = "07.00 AM"
-# checkevent = "//span[text()='" + day + "']"
-# rightclick = driver.find_element_by_xpath(checkevent)
-# actionChains = ActionChains(driver)
-# actionChains.context_click(rightclick).perform()
-#
-# time.sleep(10)
-#
-# driver.find_element_by_xpath("/html/body/div[2]/div/div/context-menu-content/div/ul/li[2]/a/h5/span").click()
-# time.sleep(15)
-# today = date.today() + timedelta(1)  # tommorrow date
-# day = str(today.day)  # int-stringconversion
-# month = today.strftime("%b")  # int-stringconversion
-# selectaday = "//span[text()='" + month + " " + day + "']"
-# driver.find_element_by_xpath(selectaday).click()
-#
-#
-# tmst = 7
-# for i in range(12):
-#     tmst = tmst+1
-#     str = "0"+tmst+":00 AM"
-#
-#     timeslot = driver.find_element_by_id(str)
-#     if timeslot.is_displayed():
-#         pass
-#     else:
-#         print(str+"coach busy")
-#
-# tmst = 1
-# for i in range(10):
-#     tmst = tmst+1
-#     str = "0"+tmst+":00 PM"
-#
-#     timeslot = driver.find_element_by_id(str)
-#     if timeslot.is_displayed():
-#         pass
-#     else:
-#         print(str+"coach busy")
+# else:
+#     print("error in survey")
+# #

@@ -17,21 +17,28 @@ driver.implicitly_wait(10)
 driver.find_element_by_name("email").send_keys("democlientuat@gmail.com")
 driver.find_element_by_name("password").send_keys("Kanaka@123")
 driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
-time.sleep(5)
+time.sleep(10)
 # #############################Home Screen ##################################
-try:
-    driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
-    time.sleep(3)
-except:
-    print("No survey pending")
+# try:
+#     driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
+#     time.sleep(5)
+# except:
+#     print("No survey pending")
 # # #Next Session
-# if driver.find_element_by_xpath("//span[text()=' JOIN SESSION ']").is_enabled():
-#     sessiontime =  driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-client-dashboard/div[1]/div/div[2]/div/div[1]/div/div[1]/div/div/div[1]/label/span').text
-#     print(sessiontime)
-#     print("Join session button is disabled")
-# else:
-#     driver.find_element_by_xpath("//span[text()=' JOIN SESSION ']").click()
-#     print("Session details showed")
+# try:
+#     time.sleep(3)
+#     if driver.find_element_by_xpath("//span[text()=' JOIN SESSION ']").click():
+#         time.sleep(5)
+#         driver.find_element_by_xpath("//button[text()='Close ']").click()
+#         time.sleep(5)
+#         print("Join session button is enabled")
+#         allure.attach("", name="Join session button is enabled")
+#     else:
+#         pass
+# 
+# except:
+#     pass
+
 #
 # #Coaching Goals
 # time.sleep(5)
@@ -71,7 +78,7 @@ except:
 #     print("Something went wrong goals not deleted")
 
 
-#  #Activities
+ #Activities
 # time.sleep(2)
 # driver.find_element_by_xpath("//span[text()='ACTIVE']").click()
 # time.sleep(5)
@@ -101,7 +108,7 @@ except:
 # time.sleep(8)
 # driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-client-dashboard/div[1]/div/div[2]/div/div[1]/div/div[3]/div[2]/div[2]/a/img').click()
 # time.sleep(5)
-# if " Activities" == driver.find_element_by_xpath("//span[text()=' Activities']").text:
+# if "Activities" == driver.find_element_by_xpath("//span[text()=' Activities']").text:
 #      print("Navigated to Activities page successfully")
 # time.sleep(2)
 # driver.find_element_by_xpath("//span[text()='Home']").click()
@@ -303,33 +310,33 @@ except:
 # time.sleep(2)
 
 ####################################################### P & P ##########################
-time.sleep(3)
-driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
-time.sleep(3)
-driver.execute_script("window.scrollBy(0,500)", "")
-time.sleep(5)
-driver.find_element_by_name("data[ReferralName]").clear()
-time.sleep(2)
-driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
-time.sleep(3)
-driver.execute_script("window.scrollBy(500,1700)", "")
-time.sleep(2)
-driver.find_element_by_xpath("//button[@name='data[submit]']").click()
-time.sleep(3)
-errmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
-print(errmsg)
-driver.find_element_by_xpath("//span[text()='Activities']").click()
-driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
-time.sleep(3)
-driver.execute_script("window.scrollBy(0,500)", "")
-time.sleep(5)
-print(driver.find_element_by_xpath('//input[@name="data[CurrentRole]"]').text)
-print(driver.find_element_by_name("data[ReferralName]").text)
-time.sleep(2)
-if driver.find_element_by_name("data[ReferralName]").text == "Kanaka Software":
-    print("Profile & preferences updated successfully")
-else:
-    print("Something went wrong in PP")
+# time.sleep(3)
+# driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
+# time.sleep(3)
+# driver.execute_script("window.scrollBy(0,500)", "")
+# time.sleep(5)
+# driver.find_element_by_name("data[ReferralName]").clear()
+# time.sleep(2)
+# driver.find_element_by_name("data[ReferralName]").send_keys("Kanaka Software")
+# time.sleep(3)
+# driver.execute_script("window.scrollBy(500,1700)", "")
+# time.sleep(2)
+# driver.find_element_by_xpath("//button[@name='data[submit]']").click()
+# time.sleep(3)
+# errmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+# print(errmsg)
+# driver.find_element_by_xpath("//span[text()='Activities']").click()
+# driver.find_element_by_xpath("//span[text()=' Profile and Preferences']").click()
+# time.sleep(3)
+# driver.execute_script("window.scrollBy(0,500)", "")
+# time.sleep(5)
+# print(driver.find_element_by_xpath('//input[@name="data[CurrentRole]"]').text)
+# print(driver.find_element_by_name("data[ReferralName]").text)
+# time.sleep(2)
+# if driver.find_element_by_name("data[ReferralName]").text == "Kanaka Software":
+#     print("Profile & preferences updated successfully")
+# else:
+#     print("Something went wrong in PP")
 
 ############################Settings#######################################################
 # time.sleep(3)
@@ -344,13 +351,14 @@ else:
 # driver.find_element_by_xpath("//button[text()='Submit']").click()
 # time.sleep(2)
 
-#add calendar
+# #add calendar
 # try:
 #     driver.find_element_by_xpath("/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[1]/div/div[1]").click()
 #     time.sleep(2)
 # except:
 #     driver.find_element_by_xpath("/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div/img").click()
 #     time.sleep(2)
+#
 #
 # driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
 # time.sleep(3)
@@ -364,11 +372,77 @@ else:
 # time.sleep(3)
 # driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
 # time.sleep(3)
-# driver.execute_script("window.scrollTo(0, 500)")
+#
+# try:
+#     driver.execute_script("window.scrollTo(0, 500)")
+#     time.sleep(3)
+#     driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
+#     time.sleep(2)
+#
+# except:
+#     print("Access already given")
+#
+#
+# #delete
 # time.sleep(3)
-# driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
+# driver.find_element_by_xpath('//img[@title="Delete calendar"]').click()
 # time.sleep(2)
+# driver.find_element_by_xpath("//button[text()='Remove']").click()
+# time.sleep(3)
+# try:
+#     driver.find_element_by_xpath("//button[text()='OK']").click()
+#     print("Deleted Gmail calendar")
+#
+# except:
+#     print("Deleted outlook calendar")
 
+#add calendar
+# try:
+#     driver.find_element_by_xpath('(//img[@class="cursor-pointer"])[2]').click()
+#     time.sleep(2)
+# except:
+#     print("calendar not deleted")
+#
+# time.sleep(2)
+# driver.find_element_by_xpath("//div[text()=' Google calendar ']").click()
+# time.sleep(2)
+# time.sleep(5)
+# driver.find_element_by_id("identifierId").send_keys("automatecoach@gmail.com")
+# driver.find_element_by_id("identifierNext").click()
+# time.sleep(5)
+# driver.find_element_by_name("password").send_keys("Kanaka@123")
+# driver.find_element_by_id("passwordNext").click()
+# time.sleep(3)
+# try:
+#     driver.find_element_by_xpath("//div[text()='Confirm your recovery email']").click()
+#     time.sleep(3)
+#     driver.find_element_by_xpath('//input[@aria-label="Enter recovery email address"]').send_keys("democoachuat@gmail.com")
+#     time.sleep(2)
+#     driver.find_element_by_xpath("//span[text()='Next']").click()
+#     time.sleep(2)
+#
+# except:
+#     pass
+#
+# try:
+#     driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+#     time.sleep(1)
+#     driver.execute_script("window.scrollTo(0, 500)")
+#     time.sleep(3)
+#     driver.find_element_by_xpath("//span[text()='Continue']").click()   #driver.find_element_by_xpath("//span[text()='Cancel']").click()
+#     time.sleep(10)
+#
+# except:
+#     print("Calendar already added")
 
-
-
+# try:
+#     driver.find_element_by_xpath("(//div[text()='Quantuvos'])[1]").click()
+#     time.sleep(2)
+#     driver.find_element_by_xpath("(//span[text()='Remove access'])[1]").click()
+#     time.sleep(2)
+#     driver.find_element_by_xpath("(//span[text()='OK'])[2]").click()
+#
+# except:
+#     pass
+#
+# print("Calendar access already been removed")

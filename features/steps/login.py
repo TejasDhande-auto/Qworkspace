@@ -7,8 +7,8 @@ from selenium import webdriver
 
 @given(u': Login screen should display')
 def step_impl(context):
-    context.driver.get("https://platform-uat.quantuvos.com/login")
-    time.sleep(5)
+    context.driver.get("https://platform-dev.quantuvos.com/login")
+    time.sleep(8)
 
 @when(u': Enter username "{email}"an and password "{password}" and click on login')
 def step_impl(context,email,password):

@@ -66,7 +66,7 @@ driver.find_element_by_xpath("//input[@name='PointOfContact']").send_keys("Selen
 time.sleep(5)
 driver.find_element_by_xpath("//input[@name='ContactNo']").send_keys("9876543210")
 time.sleep(5)
-driver.find_element_by_xpath("Email").send_keys("automate@customer.com")
+driver.find_element_by_name("Email").send_keys("automate@customer.com")
 time.sleep(5)
 driver.find_element_by_xpath("//select[@value='Active']").click()
 time.sleep(3)
