@@ -5,7 +5,7 @@ from allure_commons.types import AttachmentType
 from behave import *
 from selenium.webdriver.common.keys import Keys
 
-from features import myglobal as gb
+from features import myglobal as gb,environment as env
 
 @when(u': Send an invitation to individual client (name="{name}",email="{email}",hours="{hours}")')
 def step_impl(context,name,email,hours):
@@ -212,90 +212,7 @@ def step_impl(context,email):
         "/html/body/app-root/app-select-coach/div[1]/div/div[2]/div[3]/button/span").click()
     time.sleep(5)
 
-
-    try:
-        context.driver.find_element_by_id("07:00 AM").click()
-        time.sleep(2)
-    except Exception:
-        print("7 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("08:00 AM").click()
-        time.sleep(2)
-    except Exception:
-        print("8 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("09:00 AM").click()
-        time.sleep(2)
-    except Exception:
-        print("9 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("10:00 AM").click()
-        time.sleep(2)
-    except Exception:
-        print("10 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("11:00 AM").click()
-        time.sleep(2)
-    except Exception:
-        print("11 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("12:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("12 am coach busy")
-
-    try:
-        context.driver.find_element_by_id("01:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("01 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("02:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("02 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("03:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("03 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("04:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("04 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("05:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("05 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("06:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("06 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("07:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("07 pm coach busy")
-
-    try:
-        context.driver.find_element_by_id("08:00 PM").click()
-        time.sleep(2)
-    except Exception:
-        print("08 pm coach busy")
+    env.selecttimeslotforfirstsession(context)
 
     context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
     time.sleep(25)

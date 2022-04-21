@@ -1,18 +1,9 @@
-Feature: Onboard of a new coach
-  Scenario: Coach Onboarding
-    Given Laumch the browser
-    And open the Hit the temp URL
-    And Copy the temp email address
-    And Login as operation user
-    And Send Invitation to coach
-    And Again go to temp
-    And select mail and Click on Start
-    And Confirm the email address
-    And Once again go to temp
-    And Select mail and click on confirm
-    And Set the password
-    And login as coach user
-    And Fill the coach detail
-    Then Coach profile submitted
+
+Feature: Coach Onbaording
+
+  Scenario: Onboard new coach
+    When : Send an invitation to coach (name="QTestCoach1",email="qtestcoach+1@outlook.com")
+    And : Complete the coach onboarding process (email="qtestcoach+1@outlook.com")
+    Then : Coach dashboard should be open
 
 

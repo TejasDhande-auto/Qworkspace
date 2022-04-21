@@ -27,12 +27,6 @@ def invokeloginpage(context):
     context.driver.implicitly_wait(10)
 
 
-def invoketempmailpage(context):
-    time.sleep(5)
-    context.driver.get(gb.TEMPURL)
-    context.driver.maximize_window()
-    context.driver.implicitly_wait(10)
-
 
 def selecttimeslot(context):
     context.driver.find_element_by_xpath("//label[text()=' 30 Minutes ']").click()
