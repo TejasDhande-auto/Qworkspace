@@ -112,7 +112,7 @@ def step_impl(context):
         time.sleep(2)
 
     except:
-        raise Exception("Unable to submit resource")
+        allure.attach("",name="No survey pending")
 
 
 @when(u'Click on Week')
@@ -151,6 +151,8 @@ def step_impl(context):
         time.sleep(2)
         context.driver.find_element_by_xpath('(//div[@class="ClientsBeingRescheduled koho"])[1]').click()
         time.sleep(3)
+        allure.attach(context.driver.get_screenshot_as_png(), name="Client detail", attachment_type=AttachmentType.PNG)
+        context.driver.back()
     except:
         allure.attach("",name="No client for reschedule")
 
@@ -158,10 +160,7 @@ def step_impl(context):
 
 @then(u'Selected client details screen should be open')
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Client detail", attachment_type=AttachmentType.PNG)
     try:
-        time.sleep(2)
-        context.driver.back()
         time.sleep(5)
         context.driver.find_element_by_xpath("//button[text()='Ok']").click()
 
@@ -169,16 +168,15 @@ def step_impl(context):
         pass
 
 
-@when(u'Click on filter and enter "ABc" as client name')
-def step_impl(context):
+@when(u'Click on filter and enter "{clientname}" as client name')
+def step_impl(context,clientname):
     context.driver.find_element_by_xpath("//span[text()='Clients']").click()
     time.sleep(5)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-client-listing/div/div/div[2]/div/div[1]/ag-grid-angular/div/div[1]/div[2]/div[1]/div[2]/div/div/div[1]/div[3]/span/span").click()
     time.sleep(3)
     context.driver.find_element_by_xpath(
-        "/html/body/app-root/app-client-listing/div/div/div[2]/div/div[1]/ag-grid-angular/div/div[3]/div/div/div/div/div[2]/div/div[2]/input").send_keys(
-        "Demoutlookclient")
+        "/html/body/app-root/app-client-listing/div/div/div[2]/div/div[1]/ag-grid-angular/div/div[3]/div/div/div/div/div[2]/div/div[2]/input").send_keys(clientname)
     time.sleep(4)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-client-listing/div/div/div[2]/div/div[1]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div/div[1]").click()
@@ -388,7 +386,9 @@ def step_impl(context):
 
 @then(u'Matched resources should display to coach')
 def step_impl(context):
-    context.driver.find_element_by_xpath('//*[@id="run"]/h6').click()
+    context.driver.find_element_by_xpath("(//div[@id='run'])[1]").click()
+    time.sleep(3)
+    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     context.driver.find_element_by_xpath("//button[text()='Close']").click()
@@ -457,9 +457,11 @@ def step_impl(context):
 
 @then(u'Resource should be submitted for approval')
 def step_impl(context):
+    time.sleep(3)
     try:
         errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
         if errmsg == "resource URL already exist":
+            context.driver.find_element_by_xpath("//span[text()='Cancel']").click()
             print(errmsg)
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
             allure.attach("", name="resource URL already exist")
@@ -472,12 +474,13 @@ def step_impl(context):
         else:
             allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,name="Diffrent error msg", attachment_type=AttachmentType.TEXT)
             print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+            context.driver.find_element_by_xpath("//span[text()='Cancel']").click()
 
         time.sleep(2)
 
     except:
         raise Exception("Unable to submit resource")
-
+        context.driver.find_element_by_xpath("//span[text()='Cancel']").click()
 
 
 

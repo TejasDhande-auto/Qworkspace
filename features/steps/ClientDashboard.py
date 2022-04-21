@@ -361,22 +361,20 @@ def step_impl(context):
     allure.attach("", name="Screenshots has been attached")
 
 
-@when(u'Enter text in search box')
-def step_impl(context):
+@when(u'Search for "{text}" in client-network q')
+def step_impl(context,text):
     time.sleep(3)
-    context.driver.find_element_by_xpath("//input[@id='myInput']").send_keys("Prepar")
+    context.driver.find_element_by_xpath("//input[@id='myInput']").send_keys(text)
     time.sleep(2)
-
 
 @then(u'Related resources should display')
 def step_impl(context):
-    context.driver.find_element_by_xpath('//*[@id="run"]/h6').click()
+    context.driver.find_element_by_xpath("(//div[@id='run'])[1]").click()
     time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    context.driver.find_element_by_xpath('//*[@id="Preparing for your first Coaching Session"]').click()
+    context.driver.find_element_by_xpath('(//input[@type="checkbox"])[1]').click()
     time.sleep(2)
-    context.driver.find_element_by_xpath(
-        '//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
+    context.driver.find_element_by_xpath("(//button[text()='Ok'])[1]").click()
     time.sleep(4)
     errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
     if errmsg == "Activity already exists":
@@ -789,24 +787,28 @@ def step_impl(context):
 
 @then(u'Activity detail should display and Complete button should display')
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(2)
-    if context.driver.find_element_by_xpath("//button[text()='Complete ']").is_displayed() \
-            and context.driver.find_element_by_xpath("//button[text()='Open ']").is_displayed() \
-            and context.driver.find_element_by_xpath("(//button[text()='Close'])[last()-1]").is_displayed():
-        print("Successfull")
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         time.sleep(2)
-        allure.attach("", name="Activity details are displayed")
-        allure.attach("", name="Button displayed > Complete,Open and Close")
+        if context.driver.find_element_by_xpath("//button[text()='Complete ']").is_displayed() \
+                and context.driver.find_element_by_xpath("//button[text()='Open ']").is_displayed() \
+                and context.driver.find_element_by_xpath("(//button[text()='Close'])[last()-1]").is_displayed():
+            print("Successfull")
+            time.sleep(2)
+            allure.attach("", name="Activity details are displayed")
+            allure.attach("", name="Button displayed > Complete,Open and Close")
 
-    else:
+        else:
+            time.sleep(2)
+            print("wrong")
+            allure.attach("", name="Error in displaying activity details")
+
         time.sleep(2)
-        print("wrong")
-        allure.attach("", name="Error in displaying activity details")
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[last()-1]").click()
+        time.sleep(2)
 
-    time.sleep(2)
-    context.driver.find_element_by_xpath("(//button[text()='Close'])[last()-1]").click()
-    time.sleep(2)
+    except:
+        pass
 
 
 @when(u'Click on self active activity')
@@ -834,23 +836,27 @@ def step_impl(context):
 
 @then(u'Activity detail should display and Complete and Delete button should display')
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(2)
-    if context.driver.find_element_by_xpath("//span[text()='Complete']").is_displayed() \
-            and context.driver.find_element_by_xpath("//span[text()='Close']").is_displayed() \
-            and context.driver.find_element_by_xpath("//span[text()='Remove']").is_displayed() \
-            and context.driver.find_element_by_xpath("//span[text()='Open']").is_displayed():
-        print("Successfull")
-        allure.attach("", name="Activity details are displayed")
-        allure.attach("", name="Button displayed > Complete,Open,Close and Remove")
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        time.sleep(2)
+        if context.driver.find_element_by_xpath("//span[text()='Complete']").is_displayed() \
+                and context.driver.find_element_by_xpath("//span[text()='Close']").is_displayed() \
+                and context.driver.find_element_by_xpath("//span[text()='Remove']").is_displayed() \
+                and context.driver.find_element_by_xpath("//span[text()='Open']").is_displayed():
+            print("Successfull")
+            allure.attach("", name="Activity details are displayed")
+            allure.attach("", name="Button displayed > Complete,Open,Close and Remove")
 
-    else:
-        print("wrong")
-        allure.attach("", name="Error : displaying self activity details")
+        else:
+            print("wrong")
+            allure.attach("", name="Error : displaying self activity details")
 
-    time.sleep(2)
-    context.driver.find_element_by_xpath("//span[text()='Close']").click()
-    time.sleep(2)
+        time.sleep(2)
+        context.driver.find_element_by_xpath("//span[text()='Close']").click()
+        time.sleep(2)
+
+    except:
+        pass
 
 
 @then(u'Click on Add')
@@ -934,23 +940,27 @@ def step_impl(context):
 
 @then(u'Activity detail should display')
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(2)
-    if context.driver.find_element_by_xpath("//button[text()='Open']").is_displayed() \
-            and context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").is_displayed():
-        print("Successfull")
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         time.sleep(2)
-        allure.attach("", name="Activity details are displayed")
-        allure.attach("", name="Button displayed > Open and Close")
+        if context.driver.find_element_by_xpath("//button[text()='Open']").is_displayed() \
+                and context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").is_displayed():
+            print("Successfull")
+            time.sleep(2)
+            allure.attach("", name="Activity details are displayed")
+            allure.attach("", name="Button displayed > Open and Close")
 
-    else:
+        else:
+            time.sleep(2)
+            print("wrong")
+            allure.attach("", name="Error in displaying activity details")
+
         time.sleep(2)
-        print("wrong")
-        allure.attach("", name="Error in displaying activity details")
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
+        time.sleep(2)
 
-    time.sleep(2)
-    context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
-    time.sleep(2)
+    except:
+        pass
 
 
 @then(u'Click on Coach self archived activity')
@@ -978,23 +988,27 @@ def step_impl(context):
 
 @then(u'Activity detail should display on popup')
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(2)
-    if context.driver.find_element_by_xpath("//button[text()='Open']").is_displayed() \
-            and context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").is_displayed():
-        print("Successfull")
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         time.sleep(2)
-        allure.attach("", name="Activity details are displayed")
-        allure.attach("", name="Button displayed > Open and Close")
+        if context.driver.find_element_by_xpath("//button[text()='Open']").is_displayed() \
+                and context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").is_displayed():
+            print("Successfull")
+            time.sleep(2)
+            allure.attach("", name="Activity details are displayed")
+            allure.attach("", name="Button displayed > Open and Close")
 
-    else:
+        else:
+            time.sleep(2)
+            print("wrong")
+            allure.attach("", name="Error in displaying activity details")
+
         time.sleep(2)
-        print("wrong")
-        allure.attach("", name="Error in displaying activity details")
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
+        time.sleep(2)
 
-    time.sleep(2)
-    context.driver.find_element_by_xpath("(//button[text()='Close'])[2]").click()
-    time.sleep(2)
+    except:
+        pass
 
 
 @given(u'Profile & Preferences screen should display')
@@ -1208,11 +1222,11 @@ def step_impl(context):
     time.sleep(3)
 
 
-@when(u'Enter Incorrect old and New password and click on Submit')
-def step_impl(context):
-    context.driver.find_element_by_name("oldPassword").send_keys("Kanaka@12345")
-    context.driver.find_element_by_name("newPassword").send_keys("Qwerty@123")
-    context.driver.find_element_by_name("confirmPassword").send_keys("Qwerty@123")
+@when(u'Enter Incorrect old "{oldpwd}" and New password "{newpwd}" and click on Submit')
+def step_impl(context,oldpwd,newpwd):
+    context.driver.find_element_by_name("oldPassword").send_keys(oldpwd)
+    context.driver.find_element_by_name("newPassword").send_keys(newpwd)
+    context.driver.find_element_by_name("confirmPassword").send_keys(newpwd)
     time.sleep(3)
     context.driver.find_element_by_xpath("//button[text()='Submit']").click()
     time.sleep(2)
@@ -1226,7 +1240,7 @@ def step_impl(context):
     if errmsg == "old password is incorrect..":
         print(errmsg)
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        allure.attach("", name="old password is incorrect : Expected")
+        allure.attach("", name="old password is incorrect")
         context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
     else:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)

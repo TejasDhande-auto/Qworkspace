@@ -7,25 +7,8 @@ from selenium.webdriver.common.keys import Keys
 
 from features import myglobal as gb
 
-
-@given(u': Temporary mail should be opened')
-def step_impl(context):
-    context.driver.execute_script("window.open('about:blank','tempmail');")
-    context.driver.switch_to.window("tempmail")
-    context.driver.get(gb.TEMPURL)
-    # context.driver.maximize_window()
-
-    time.sleep(15)
-    context.driver.find_element_by_id("click-to-delete").click()
-    time.sleep(15)
-    context.driver.find_element_by_id('click-to-copy').click()
-
-
-@when(u': Send an invitation to individual client')
-def step_impl(context):
-    time.sleep(5)
-    context.driver.find_element_by_tag_name("body").send_keys(Keys.CONTROL + 't')
-    time.sleep(5)
+@when(u': Send an invitation to individual client (name="{name}",email="{email}",hours="{hours}")')
+def step_impl(context,name,email,hours):
     context.driver.execute_script("window.open('about:blank','opsdashboard');")
     context.driver.switch_to.window("opsdashboard")
     context.driver.get(gb.URL)
@@ -50,10 +33,10 @@ def step_impl(context):
     context.driver.find_element_by_id("individual-client").click()
 
     time.sleep(10)
-    context.driver.find_element_by_name("individualclientfirstname").send_keys("IndividualAutomate")
-    context.driver.find_element_by_name("individualclientlastname").send_keys("Client")
-    context.driver.find_element_by_name("individualclientemail").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("individualclientallocationhour").send_keys("55")
+    context.driver.find_element_by_name("individualclientfirstname").send_keys(name)
+    context.driver.find_element_by_name("individualclientlastname").send_keys("Plusclient")
+    context.driver.find_element_by_name("individualclientemail").send_keys(email)
+    context.driver.find_element_by_name("individualclientallocationhour").send_keys(hours)
     time.sleep(5)
     context.driver.find_element_by_id("btndisable").click()
     time.sleep(3)
@@ -61,60 +44,76 @@ def step_impl(context):
     time.sleep(10)
 
 
-@when(u': Complete the onboarding process')
-def step_impl(context):
-    context.driver.switch_to.window("tempmail")
-    context.driver.execute_script("window.scrollTo(0, 500)")
-    time.sleep(10)
+@when(u': Complete the onboarding process (email="{email}")')
+def step_impl(context,email):
+    try:
+        context.driver.switch_to.window("Mail")
 
-    context.driver.find_element_by_link_text("Welcome to Quantuvos!").click()
-    time.sleep(10)
-    context.driver.execute_script("window.scrollTo(0, 800)")
-    time.sleep(5)
-    context.driver.find_element_by_link_text("Start").click()
-    time.sleep(10)
+    except:
+        context.driver.execute_script("window.open('about:blank','Mail');")
+        context.driver.switch_to.window("Mail")
+        context.driver.get("https://outlook.live.com/mail")
+        time.sleep(10)
+        context.driver.find_element_by_link_text("Sign in").click()
+        time.sleep(5)
 
+        context.driver.find_element_by_id('i0116').send_keys("qtestclient@outlook.com")
+        time.sleep(5)
+        context.driver.find_element_by_id('idSIButton9').click()
+        time.sleep(10)
+        context.driver.find_element_by_xpath('//input[@type="password"]').send_keys("Kanaka@123")
+        time.sleep(3)
+        context.driver.find_element_by_id('idSIButton9').click()
+        time.sleep(5)
+        context.driver.find_element_by_xpath('//input[@type="submit"]').click()
+        time.sleep(10)
+        try:
+            context.driver.find_element_by_xpath(
+                "/html/body/div[3]/div/div[2]/div[2]/div[2]/div/div/div[1]/div[2]/div/div[3]/div/div/div/div/div/div/div[2]/div[1]/div/div[2]/div[2]").click()
+            time.sleep(2)
+        except:
+            pass
+
+    # First mail
     time.sleep(10)
-    context.driver.find_element_by_id('email').send_keys(Keys.CONTROL, 'v')
+    context.driver.find_element_by_xpath("(//span[text()='Welcome to Quantuvos!'])[1]").click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//a[text()='Start']").click()
+    context.driver.switch_to.window(context.driver.window_handles[3])
+    time.sleep(3)
+    context.driver.find_element_by_xpath('//input[@id="email"]').send_keys(email)
     time.sleep(3)
     context.driver.find_element_by_id('btnSubmit').click()
     time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
 
-    context.driver.execute_script("window.open('about:blank','thirdtab');")
-    context.driver.switch_to.window("thirdtab")
-    context.driver.get(gb.TEMPURL)
-    context.driver.execute_script("window.scrollTo(0, 500)")
-    time.sleep(10)
+    context.driver.close()
 
-    context.driver.implicitly_wait(10)
-    context.driver.find_element_by_link_text("Please confirm your email").click()
-    time.sleep(10)
-    context.driver.execute_script("window.scrollTo(0, 600)")
-    context.driver.find_element_by_link_text("Confirm").click()
-    time.sleep(10)
-
-    context.driver.find_element_by_id("password").send_keys(gb.password)
-    context.driver.find_element_by_id("confirmPassword").send_keys(gb.password)
+    context.driver.switch_to.window("Mail")
+    time.sleep(3)
+    context.driver.find_element_by_xpath("(//span[text()='Please confirm your email'])[1]").click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//a[text()='Confirm']").click()
+    context.driver.switch_to.window(context.driver.window_handles[3])
 
     time.sleep(3)
+    context.driver.find_element_by_xpath('//input[@name="password"]').send_keys(gb.password)
+    context.driver.find_element_by_xpath('//input[@name="confirmPassword"]').send_keys(gb.password)
+
+    time.sleep(5)
     context.driver.find_element_by_id("btnNext").click()
     time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
-
-    time.sleep(5)
     context.driver.find_element_by_xpath("//span[text()='Login ']").click()
-    time.sleep(5)
-
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
+
+    context.driver.find_element_by_name("email").send_keys(email)
     context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
-    time.sleep(10)
-
     time.sleep(5)
+
     context.driver.find_element_by_name('data[FirstName]').send_keys("ABC")
     context.driver.find_element_by_name('data[LastName]').send_keys("XYZ")
     context.driver.find_element_by_xpath(
@@ -135,6 +134,8 @@ def step_impl(context):
     time.sleep(2)
     context.driver.execute_script("window.scrollTo(0, 800)")
     time.sleep(5)
+    context.driver.find_element_by_xpath('(//input[@value="Select All"])[1]').click()
+    time.sleep(3)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()
 
@@ -164,10 +165,10 @@ def step_impl(context):
     time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
+    context.driver.close()
 
-
-@when(u': Schedule the first session')
-def step_impl(context):
+@when(u': Schedule the first session (email="{email}")')
+def step_impl(context,email):
     context.driver.switch_to.window("opsdashboard")
     time.sleep(5)
     context.driver.find_element_by_xpath(
@@ -191,14 +192,14 @@ def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
 
-    context.driver.execute_script("window.open('about:blank','forthtab');")
-    context.driver.switch_to.window("forthtab")
-    context.driver.get(gb.URL)
-    context.driver.maximize_window()
-    time.sleep(10)
-
+    context.driver.switch_to.window("Mail")
+    time.sleep(5)
+    context.driver.find_element_by_xpath("//span[text()='We’ve got your coaches!']").click()
+    time.sleep(2)
+    context.driver.find_element_by_xpath("//a[text()='Select Your Coach']").click()
     context.driver.implicitly_wait(10)
-    context.driver.find_element_by_name("email").send_keys(Keys.CONTROL, 'v')
+    context.driver.switch_to.window(context.driver.window_handles[3])
+    context.driver.find_element_by_name("email").send_keys(email)
     context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(5)
@@ -312,9 +313,11 @@ def step_impl(context):
     except:
         print("There is problem")
 
+    context.driver.close()
 
-@when(u': Send an invitation to customer client')
-def step_impl(context):
+
+@when(u': Send an invitation to customer client (name="{name}",email="{email}",hours="{hours}")')
+def step_impl(context,name,email,hours):
     context.driver.switch_to.window("opsdashboard")
     time.sleep(10)
     context.driver.find_element_by_xpath('//*[@id="opt-Welcomeid"]').click()
@@ -325,11 +328,11 @@ def step_impl(context):
     context.driver.find_element_by_id("clienttype").click()
 
     time.sleep(10)
-    context.driver.find_element_by_name("customerclientfirstname").send_keys("CustomerAutomate")
-    context.driver.find_element_by_name("customerclientlastname").send_keys("Client")
-    context.driver.find_element_by_name("customerclientemail").send_keys(Keys.CONTROL, 'v')
-    context.driver.find_element_by_name("customerclientallocationhour").send_keys("65")
-    context.driver.find_element_by_name("customerclientcompanyid").send_keys("5")
+    context.driver.find_element_by_name("customerclientfirstname").send_keys(name)
+    context.driver.find_element_by_name("customerclientlastname").send_keys("Plussystem")
+    context.driver.find_element_by_name("customerclientemail").send_keys(email)
+    context.driver.find_element_by_name("customerclientallocationhour").send_keys(hours)
+    context.driver.find_element_by_name("customerclientcompanyid").send_keys("kanaka")
     time.sleep(5)
     context.driver.find_element_by_id("btnsubmit").click()
     time.sleep(3)

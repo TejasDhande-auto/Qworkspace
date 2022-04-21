@@ -2,7 +2,7 @@ Feature: Verify  Coach Dashboard
 
   Scenario: Verify Coach login successfully
     When Login page should be open
-    And Enter coach credentials "democoachuat@gmail.com" and "Kanaka@123"
+    And Enter coach credentials "qtestcoach+1@gmail.com" and "Qwerty@123"
     Then Coach dashboard should display
 
   Scenario: Verify Missing survey section on Calendar screen
@@ -23,7 +23,7 @@ Feature: Verify  Coach Dashboard
     Then Selected client details screen should be open
 
   Scenario: Verify filter functionality on client column on Clients screen
-    When Click on filter and enter "ABc" as client name
+    When Click on filter and enter "Qtestclient1" as client name
     Then Client details screen should open
 
   Scenario: Verify notes section under client details screen

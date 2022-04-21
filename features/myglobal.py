@@ -2,7 +2,6 @@
 opsemail = "opsqdev@outlook.com"
 opspassword = "Kanaka@123"
 URL = "https://platform-dev.quantuvos.com/login"
-TEMPURL = "https://temp-mail.org/en/"
 clientemail = "qclientprofile@gmail.com"
 clientpassword = "1234Test."
 coachemail = "qcoachprofile@gmail.com"

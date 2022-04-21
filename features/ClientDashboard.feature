@@ -2,7 +2,7 @@ Feature: Verify Client Dashboard
 
   Scenario: Verify Client login successfully
     When Login page should be open
-    And Enter client credentials as "democlientuat@gmail.com" and "Kanaka@123"
+    And Enter client credentials as "qtestclient+1@gmail.com" and "Qwerty@123"
     Then Client dashboard should display
 
   Scenario: Verify Next Session is scheduled or not
@@ -46,7 +46,7 @@ Feature: Verify Client Dashboard
     Then Clicked tab related resources should display on screen
 
   Scenario: Verify Search functionality on Network Q Resources screen
-    When Enter text in search box
+    When Search for "Networking" in client-network q
     Then Related resources should display
 
   Scenario: Verify Advanced search functionality on Network Q Resources screen
@@ -133,7 +133,7 @@ Feature: Verify Client Dashboard
 
   Scenario: Verify Change password functionality for client
     When Click on change
-    And Enter Incorrect old and New password and click on Submit
+    And Enter Incorrect old "Kanaka@1234" and New password "Qwerty@123" and click on Submit
     Then Appropriate error message should display
 
   Scenario: Verify Logout functionality for coach dashboard
