@@ -19,11 +19,11 @@ driver.find_element_by_name("password").send_keys("Kanaka@123")
 driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
 time.sleep(10)
 # #############################Home Screen ##################################
-# try:
-#     driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
-#     time.sleep(5)
-# except:
-#     print("No survey pending")
+try:
+    driver.find_element_by_xpath('//*[@id="postSurveyPOPUP"]/div/div/div[1]/span/img').click()
+    time.sleep(5)
+except:
+    print("No survey pending")
 # # #Next Session
 # try:
 #     time.sleep(3)
@@ -149,9 +149,9 @@ time.sleep(10)
 # uploadfile.send_keys("D://backup kanaka//kanaka new//kanaka new//desktop//Aug//1//ClientDashboard.png")
 
 ############################################# Network Q Resouces#################################
-# time.sleep(3)
-# driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
-# time.sleep(3)
+time.sleep(3)
+driver.find_element_by_xpath("//span[text()='Network Q Resources']").click()
+time.sleep(3)
 # try:
 #     driver.find_element_by_xpath("//a[text()='Webinars']").click()
 #     time.sleep(3)
@@ -196,25 +196,26 @@ time.sleep(10)
 #     driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
 
 #Advanced Search
-# driver.find_element_by_xpath("//span[text()=' ADVANCED SERACH ']").click()
-# time.sleep(3)
-# driver.find_element_by_xpath("//input[@name='titileSearchValue']").send_keys("Prepar")
-# time.sleep(1)
-# driver.find_element_by_xpath("//input[@name='descriptionSearchValue']").send_keys("Prepare")
-# time.sleep(1)
-# driver.find_element_by_xpath("//input[@name='authorSearchValue']").send_keys("Steve")
-# time.sleep(1)
-# driver.find_element_by_xpath("//*[@id='flexRadioDefault1']").click()  #And1
-# driver.find_element_by_xpath("//*[@id='flexRadioDefault3']").click()  #and2
-# time.sleep(2)
-# driver.find_element_by_xpath("//button[text()='Apply']").click()
-# time.sleep(3)
-#
-# if "Preparing for your first Coaching Session" == driver.find_element_by_xpath("//span[text()=' Preparing for your first Coaching Session ']").text:
-#     print("Advanced search is successfull")
-# else:
-#     driver.find_element_by_xpath('//*[@id="WelcometoNetworkQ"]/div/div[2]/div/div/div[1]/div/div[2]/div/div/img').click()
-#     print("Filter Resets")
+driver.find_element_by_xpath('//button[@title="Advanced Search"]').click()
+time.sleep(3)
+driver.find_element_by_xpath("//input[@name='titileSearchValue']").send_keys("Prepar")
+time.sleep(1)
+driver.find_element_by_xpath("//input[@name='descriptionSearchValue']").send_keys("Prepare")
+time.sleep(1)
+driver.find_element_by_xpath("//input[@name='authorSearchValue']").send_keys("Steve")
+time.sleep(1)
+driver.find_element_by_xpath("//*[@id='flexRadioDefault1']").click()  #And1
+driver.find_element_by_xpath("//*[@id='flexRadioDefault3']").click()  #and2
+time.sleep(2)
+driver.find_element_by_xpath("//button[text()='Apply']").click()
+time.sleep(3)
+print(driver.find_element_by_xpath("//div[@id='run']").text)
+
+if "Preparing for your first Coaching Session" == driver.find_element_by_xpath("//div[@id='run']").text:
+    print("Advanced search is successfull")
+else:
+    driver.find_element_by_xpath('//*[@id="WelcometoNetworkQ"]/div/div[2]/div/div/div[1]/div/div[2]/div/div/img').click()
+    print("Filter Resets")
 
 
 ########################################### Sessions#######################
