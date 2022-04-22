@@ -120,7 +120,7 @@ def opslogin(context,email,password):
 def searchforclientbyops(context,clientname):
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-clients/div[1]/div/div[2]/div/div[2]/ag-grid-angular/div/div[1]/div[2]/div[1]/div[2]/div/div/div[2]/div[3]/span/span").click()
-    time.sleep(3)
+    time.sleep(30)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-clients/div[1]/div/div[2]/div/div[2]/ag-grid-angular/div/div[3]/div/div/div/div/div[2]/div/div[2]/input").send_keys(
         clientname)

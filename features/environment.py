@@ -16,8 +16,8 @@ def before_all(context):
     context.driver = uc.Chrome(options=options)
 
 
-# def after_all(context):
-#     context.driver.quit()
+def after_all(context):
+    context.driver.quit()
 
 
 def invokeloginpage(context):

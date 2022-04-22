@@ -1143,20 +1143,22 @@ def step_impl(context):
     try:
         context.driver.find_element_by_xpath("//button[text()='OK']").click()
         print("Deleted Gmail calendar")
-
+        allure.attach("",name="Deleted Gmail calendar")
     except:
         print("Deleted outlook calendar")
+        allure.attach("", name="Deleted Gmail calendar")
 
 @then (u'Calendar should be deleted from platform')
 def step_impl(context):
     errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
-    if errmsg == "Calendar has been deleted successfully ":
+    if errmsg == "Calendar has been deleted successfully":
         print(errmsg)
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         allure.attach("", name="Calendar has been deleted successfully")
         context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
     else:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,name="Toaster message",attachment_type=AttachmentType.TEXT)
         allure.attach("", name="Error in deleting calendar")
         context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
     time.sleep(2)

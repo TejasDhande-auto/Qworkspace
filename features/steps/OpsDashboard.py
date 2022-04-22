@@ -36,6 +36,46 @@ def step_impl(context):
     else:
         raise Exception("Sessions screen is not default selected")
 
+@when(u'Select session')
+def step_impl(context):
+    time.sleep(3)
+    allure.attach("",name="Selecting session one bye one")
+
+@then(u'Related buttons should enable')
+def step_impl(context):
+    status = ("Scheduled", "Rescheduled", "Rescheduling", "Follow Up", "Cancelled", "Completed")
+    for i in range(6):
+
+        time.sleep(5)
+        context.driver.find_element_by_xpath('(//span[@class="ag-icon ag-icon-menu"])[2]').click()
+        time.sleep(1)
+        context.driver.find_element_by_xpath('(//input[@placeholder="Filter..."])[1]').clear()
+        context.driver.find_element_by_xpath('(//input[@placeholder="Filter..."])[1]').send_keys(status[i])
+        time.sleep(2)
+        context.driver.find_element_by_xpath('(//div[@aria-colindex="1"])[2]').click()
+        time.sleep(1)
+        Current_status = status[i]
+        print(Current_status)
+        if context.driver.find_element_by_xpath("//button[text()='View']").is_enabled() and context.driver.find_element_by_xpath(
+                "//button[text()='Edit']").is_enabled() and context.driver.find_element_by_xpath(
+            "//button[text()='Reschedule']").is_enabled() and Current_status == "Scheduled" or Current_status == "Rescheduling" or Current_status == "Follow Up":
+
+            allure.attach("All three buttons are enabled",name=status[i], attachment_type=AttachmentType.TEXT)
+            print("Looks good for", status[i])
+
+        elif context.driver.find_element_by_xpath("//button[text()='View']").is_enabled() and context.driver.find_element_by_xpath(
+                "//button[text()='Edit']").is_enabled() and Current_status == "Rescheduled":
+
+            allure.attach("View and Edit buttons are enabled",name=status[i], attachment_type=AttachmentType.TEXT)
+
+        elif context.driver.find_element_by_xpath(
+                "//button[text()='View']").is_enabled() and Current_status == "Completed" or Current_status == "Cancelled":
+
+            allure.attach("View button is enabled",name=status[i], attachment_type=AttachmentType.TEXT)
+
+        else:
+            raise Exception
+
 
 @when(u'Click on dropdown and select next 10 days')
 def step_impl(context):
@@ -211,7 +251,7 @@ def step_impl(context):
         context.driver.find_element_by_xpath("(//button[text()='Cancel'])[1]").click()
 
     else:
-        allure.attach("",name="New customer has been added succesfully")
+        allure.attach("",name="New customer has been added successfully")
         allure.attach(context.driver.get_screenshot_as_png(), name="Customer Added",
                       attachment_type=AttachmentType.PNG)
         time.sleep(2)
@@ -374,7 +414,7 @@ def step_impl(context):
     context.driver.find_element_by_name("customerclientlastname").send_keys("Client")
     context.driver.find_element_by_name("customerclientemail").send_keys("gfhsgj@shh.in")
     context.driver.find_element_by_name("customerclientallocationhour").send_keys("65")
-    context.driver.find_element_by_name("customerclientcompanyid").send_keys("5")
+    context.driver.find_element_by_name("customerclientcompanyid").send_keys("Kanaka")
     time.sleep(5)
     context.driver.find_element_by_id("btnsubmit").click()
     time.sleep(3)
@@ -920,11 +960,11 @@ def step_impl(context):
         "/html/body/app-root/app-resources-approval/div[1]/div/div[2]/div/div[1]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div[1]/div[1]/div/div/div/div[2]/input").click()
     time.sleep(2)
     context.driver.find_element_by_xpath("//button[text()='Approve']").click()
-    time.sleep(2)
+    time.sleep(5)
 
 @then(u'Resource should be approved')
 def step_impl(context):
-    time.sleep(5)
+    time.sleep(2)
     resourceapprove = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
     print(resourceapprove)
     if resourceapprove == "Selected resource(s) approved":

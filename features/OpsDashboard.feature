@@ -5,6 +5,10 @@ Feature: Verify Operation Dashboard functionality
     And Enter Ops credentials "opsqdev@outlook.com" and "Kanaka@123"
     Then Operation dashboard should display
 
+    Scenario: Verify enabling/disabling of buttons based on session selected
+    When Select session
+    Then Related buttons should enable
+
   Scenario: Verify Upcoming session filter on Sessions screen
     Given Sessions screen should be open
     When Click on dropdown and select next 10 days
@@ -15,7 +19,6 @@ Feature: Verify Operation Dashboard functionality
     Then Sessions in next 30 days should display
     When Click on dropdown and select All option
     Then All Sessions details should display
-
 
   Scenario: Verify Search functionality on sessions screen
     When Type "Scheduled" in search box
