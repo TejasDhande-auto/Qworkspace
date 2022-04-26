@@ -165,7 +165,60 @@ def step_impl(context,email):
     time.sleep(5)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
+    context.driver.find_element_by_xpath("//button[text()='OK']").click()
+    time.sleep(2)
+    # context.driver.find_element_by_xpath("//span[text()=' Skip and Continue ']").click()
+    # time.sleep(2)
+    # allure.attach(context.driver.get_screenshot_as_png(), name="Info Popup", attachment_type=AttachmentType.PNG)
+    # time.sleep(2)
+    # context.driver.find_element_by_xpath("//button[text()='OK']").click()
+    # time.sleep(2)
+    # context.driver.close()
+
+@when(u': Sync the Google Calendar')
+def step_impl(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element_by_xpath("//div[text()=' Google calendar ']").click()
+        time.sleep(2)
+        time.sleep(5)
+        context.driver.find_element_by_id("identifierId").send_keys("automatecoach@gmail.com")
+        context.driver.find_element_by_id("identifierNext").click()
+        time.sleep(5)
+        context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+        context.driver.find_element_by_id("passwordNext").click()
+        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath("//div[text()='Confirm your recovery email']").click()
+            time.sleep(3)
+            context.driver.find_element_by_xpath('//input[@aria-label="Enter recovery email address"]').send_keys(
+                "democoachuat@gmail.com")
+            time.sleep(2)
+            context.driver.find_element_by_xpath("//span[text()='Next']").click()
+            time.sleep(2)
+
+        except:
+            pass
+        try:
+            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            time.sleep(1)
+            context.driver.execute_script("window.scrollTo(0, 500)")
+            time.sleep(3)
+            context.driver.find_element_by_xpath("//span[text()='Continue']").click()   #driver.find_element_by_xpath("//span[text()='Cancel']").click()
+            time.sleep(5)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+        except:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("",name="Access permission has already been given for selected Google calendar")
+
+    except:
+        raise Exception("Unable to sync calendar")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+    time.sleep(2)
     context.driver.close()
+
 
 @when(u': Schedule the first session (email="{email}")')
 def step_impl(context,email):
@@ -255,3 +308,40 @@ def step_impl(context,name,email,hours):
     time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(10)
+
+@when(u': Sync the MS calendar')
+def step_impl(context):
+    try:
+        time.sleep(2)
+        context.driver.find_element_by_xpath("//div[text()=' Microsoft calendar ']").click()
+        time.sleep(3)
+        context.driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
+        time.sleep(5)
+        context.driver.find_element_by_id('idSIButton9').click()
+        time.sleep(5)
+        context.driver.find_element_by_id('i0118').send_keys("Kanaka@123")
+        time.sleep(3)
+        context.driver.find_element_by_id('idSIButton9').click()
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
+        time.sleep(3)
+        try:
+            context.driver.execute_script("window.scrollTo(0, 500)")
+            time.sleep(3)
+            context.driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
+            time.sleep(5)
+            print("New calendar added")
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="New calendar added")
+
+        except:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            print("Already added calendar added")
+            allure.attach("", name="Access permission has already been given for selected MS calendar")
+
+    except:
+        raise Exception("Unable to sync MS calendar")
+
+
+    time.sleep(2)
+    context.driver.close()

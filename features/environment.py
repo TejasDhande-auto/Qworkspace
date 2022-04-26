@@ -9,14 +9,13 @@ from features import myglobal as gb
 from allure_commons.types import AttachmentType
 import allure
 
-
-def before_all(context):
+def before_feature(context,feature):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
     context.driver = uc.Chrome(options=options)
 
 
-def after_all(context):
+def after_feature(context,feature):
     context.driver.quit()
 
 
