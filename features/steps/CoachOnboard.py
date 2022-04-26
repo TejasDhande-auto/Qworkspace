@@ -154,7 +154,5 @@ def step_impl(context,email):
 @then(u': Coach dashboard should be open')
 def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    time.sleep(3)
-    context.driver.find_element_by_xpath("/html/body/app-root/app-coach-calendar-access/div[1]/div[3]/button/span").click()
     time.sleep(5)
 
