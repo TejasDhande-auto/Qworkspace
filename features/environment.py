@@ -13,7 +13,12 @@ def before_feature(context,feature):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
     context.driver = uc.Chrome(options=options)
+    context.driver.delete_all_cookies()
 
+    # options = webdriver.ChromeOptions()
+    # options.add_argument("user-data-dir=C:/Users/kanaka/AppData/Local/Google/Chrome/User")
+    # chrome_driver_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
+    # context.driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=options)
 
 def after_feature(context,feature):
     context.driver.quit()

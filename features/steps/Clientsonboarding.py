@@ -256,7 +256,12 @@ def step_impl(context,email):
     context.driver.find_element_by_name("password").send_keys(gb.password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(5)
-
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Calendar error", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath("//button[text()=' OK ']").click()
+        allure.attach("",name="Client calendar is not properly synchronized")
+    except:
+        pass
     time.sleep(5)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-select-coach/div[1]/div/div[2]/div[2]/div[3]/div/div[1]").click()
@@ -264,7 +269,13 @@ def step_impl(context,email):
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-select-coach/div[1]/div/div[2]/div[3]/button/span").click()
     time.sleep(5)
-
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Calendar error", attachment_type=AttachmentType.PNG)
+        context.driver.find_element_by_xpath("//button[text()='Continue']").click()
+        allure.attach("",name="Client calendar is not properly synchronized")
+    except:
+        pass
+    time.sleep(5)
     env.selecttimeslotforfirstsession(context)
 
     context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
