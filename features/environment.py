@@ -19,9 +19,9 @@ def before_feature(context,feature):
     # options.add_argument("user-data-dir=C:/Users/kanaka/AppData/Local/Google/Chrome/User")
     # chrome_driver_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
     # context.driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=options)
-
-def after_feature(context,feature):
-    context.driver.quit()
+#
+# def after_feature(context,feature):
+#     context.driver.quit()
 
 
 def invokeloginpage(context):
@@ -39,10 +39,14 @@ def selecttimeslot(context):
     if context.driver.find_element_by_xpath("//h6[text()='No free time available for selected day']").is_displayed():
         print("Coach is not available for selected day")
     else:
-
-        for i in range(6):
-            context.driver.find_element_by_xpath('//button[@aria-label="Previous"]').click()
-            time.sleep(1)
+        try:
+            for i in range(6):
+                context.driver.find_element_by_xpath('//button[@aria-label="Previous"]').click()
+                time.sleep(1)
+        except:
+            for i in range(6):
+                context.driver.find_element_by_xpath('//button[@aria-label="Previous"]').click()
+                time.sleep(1)
 
         time.sleep(5)
 

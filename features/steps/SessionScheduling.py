@@ -28,7 +28,7 @@ def clientschedulesession(context):
     day = str(today.day + 1)
     print(day)
     gmailtimeslot = "07.00 AM"
-    checkevent = "//span[text()='"+day+"']"
+    checkevent = "(//span[text()='"+day+"'])[2]"
     time.sleep(5)
     rightclick = context.driver.find_element_by_xpath(checkevent)
     action = ActionChains(context.driver)

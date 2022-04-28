@@ -12,6 +12,6 @@ Feature: Session scheduling across all 3 three user roles
 
 
     Scenario: Session scheduling by Ops User
-    Given Operation person should logged in with valid credential "opsqdev@outlook.com" , "Quantuvos@123"
+    Given Operation person should logged in with valid credential "opsqdev@outlook.com" , "Kanaka@123"
     When Schedule session with the client "QtestClient1"
     Then Session scheduled for client and coach

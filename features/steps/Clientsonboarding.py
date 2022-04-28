@@ -326,7 +326,7 @@ def step_impl(context):
         time.sleep(2)
         context.driver.find_element_by_xpath("//div[text()=' Microsoft calendar ']").click()
         time.sleep(3)
-        context.driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
+        context.driver.find_element_by_id('i0116').send_keys("qtestclient@outlook.com")
         time.sleep(5)
         context.driver.find_element_by_id('idSIButton9').click()
         time.sleep(5)
@@ -334,8 +334,11 @@ def step_impl(context):
         time.sleep(3)
         context.driver.find_element_by_id('idSIButton9').click()
         time.sleep(3)
-        context.driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
-        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
+            time.sleep(3)
+        except:
+            pass
         try:
             context.driver.execute_script("window.scrollTo(0, 500)")
             time.sleep(3)
