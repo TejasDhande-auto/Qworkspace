@@ -1,5 +1,5 @@
 import time
-
+from datetime import date, timedelta
 import allure
 from allure_commons.types import AttachmentType
 from behave import *
@@ -702,6 +702,75 @@ def step_impl(context):
 
     context.driver.find_element_by_xpath("//a[text()=' Back']").click()
     time.sleep(5)
+
+@when(u'Select client "{clientname}" amd Click Schedule session button')
+def step_impl(context,clientname):
+    time.sleep(25)
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-clients/div[1]/div/div[2]/div/div[2]/ag-grid-angular/div/div[1]/div[2]/div[1]/div[2]/div/div/div[2]/div[3]/span/span").click()
+    time.sleep(5)
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-clients/div[1]/div/div[2]/div/div[2]/ag-grid-angular/div/div[3]/div/div/div/div/div[2]/div/div[2]/input").send_keys(
+        clientname)
+    time.sleep(5)
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-clients/div[1]/div/div[2]/div/div[2]/ag-grid-angular/div/div[1]/div[2]/div[3]/div[2]/div/div/div/div[1]/div/div/div/div[2]/input").click()
+    time.sleep(3)
+    context.driver.find_element_by_xpath("//button[text()='Schedule Session ']").click()
+
+@then(u'Next session calendar should display to ops user')
+def step_impl(context):
+    time.sleep(7)
+    try:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Client calendar error",
+                      attachment_type=AttachmentType.PNG)
+        time.sleep(2)
+        context.driver.find_element_by_xpath("(//button[text() = 'Continue'])[3]").click()
+        time.sleep(5)
+    except:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Schedule Next Session calendar",
+                      attachment_type=AttachmentType.PNG)
+
+
+@when(u'Ops user select available date and time and click on save')
+def step_impl(context):
+
+    for i in range (1,3):
+        today = date.today() + timedelta(i)  # tommorrow date
+        day = str(today.day)  # int-stringconversion
+        month = today.strftime("%b")  # int-stringconversion
+        selectaday = "//span[text()='" + month + " " + day + "']"
+        time.sleep(15)
+        context.driver.find_element_by_xpath(selectaday).click()
+        time.sleep(10)
+        print(today)
+        environment.selecttimeslot(context)
+        print("---------------------------")
+        if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
+            context.driver.find_element_by_xpath("//button[text()='Save']").click()
+            time.sleep(10)
+
+        else:
+            context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
+            allure.attach("", name="Client is not available for selected day")
+
+
+@then(u'Session should be scheduled for client and coach')
+def step_impl(context):
+    time.sleep(3)
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Unable to schedule session":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="Unable to schedule session")
+        else:
+            allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,
+                          name="Succcess message", attachment_type=AttachmentType.TEXT)
+            print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+
+    except:
+        allure.attach("",name="Client is not available")
 
 
 @when(u'Click Add button on clients screen')

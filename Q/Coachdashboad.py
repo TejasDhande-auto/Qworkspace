@@ -25,39 +25,39 @@ time.sleep(10)
 try:
     time.sleep(5)
     driver.find_element_by_xpath("//button[text()='Ok']").click()
-    print("Missing survey pending")
-    time.sleep(3)
-    driver.find_element_by_xpath("/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[2]/span[2]").click()
-    time.sleep(5)
-    # driver.find_element_by_xpath("//button[@aria-label='Close']").click()
+    # print("Missing survey pending")
+    # time.sleep(3)
+    # driver.find_element_by_xpath("/html/body/app-root/app-coach-dashboard/div[1]/div[1]/div[2]/div/div[2]/div[2]/span[2]").click()
+    # time.sleep(5)
+    # # driver.find_element_by_xpath("//button[@aria-label='Close']").click()
+    # # time.sleep(2)
+    # element = driver.find_element_by_xpath("//td[text()='The coaching session was useful to the client.']")
+    # driver.execute_script("return arguments[0].scrollIntoView();", element)
+    # time.sleep(5)
+    # driver.find_element_by_xpath("(//input[@value='2'])[1]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='4'])[2]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='2'])[3]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='4'])[4]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='2'])[5]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='4'])[6]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='2'])[7]").click()
+    # time.sleep(1)
+    # driver.find_element_by_xpath("(//input[@value='4'])[8]").click()
     # time.sleep(2)
-    element = driver.find_element_by_xpath("//td[text()='The coaching session was useful to the client.']")
-    driver.execute_script("return arguments[0].scrollIntoView();", element)
-    time.sleep(5)
-    driver.find_element_by_xpath("(//input[@value='2'])[1]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='4'])[2]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='2'])[3]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='4'])[4]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='2'])[5]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='4'])[6]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='2'])[7]").click()
-    time.sleep(1)
-    driver.find_element_by_xpath("(//input[@value='4'])[8]").click()
-    time.sleep(2)
-    driver.execute_script("arguments[0].scrollIntoView();",driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]'))
-    time.sleep(2)
-    driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]').send_keys(" Hgdgdhg ")
-    driver.execute_script("return arguments[0].scrollIntoView();",
-                                  driver.find_element_by_xpath('//input[@name="data[OtherInfo]"]'))
-    time.sleep(3)
-    driver.find_element_by_xpath('//button[@name="data[submit]"]').click()
-    time.sleep(5)
+    # driver.execute_script("arguments[0].scrollIntoView();",driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]'))
+    # time.sleep(2)
+    # driver.find_element_by_xpath('//input[@name="data[SessionValuable]"]').send_keys(" Hgdgdhg ")
+    # driver.execute_script("return arguments[0].scrollIntoView();",
+    #                               driver.find_element_by_xpath('//input[@name="data[OtherInfo]"]'))
+    # time.sleep(3)
+    # driver.find_element_by_xpath('//button[@name="data[submit]"]').click()
+    # time.sleep(5)
 
 
 
@@ -108,7 +108,7 @@ except:
 # except:
 #     print("Something went wrong notes not added")
 #
-#
+# #
 # #Activities
 # time.sleep(2)
 # driver.find_element_by_xpath("//a[text()=' ACTIVITIES']").click()
@@ -118,7 +118,25 @@ except:
 # else:
 #     print(" Lets see toward activities")
 #
+# driver.find_element_by_xpath("//span[text()=' ADD ']").click()
+# time.sleep(5)
+# driver.find_element_by_xpath("//input[@id='myInput']").send_keys("prepa")
+# time.sleep(2)
+# driver.find_element_by_xpath('//*[@id="run"]/h6').click()
+# time.sleep(3)
+# driver.find_element_by_xpath('(//input[@type="checkbox"])[1]').click()
+# time.sleep(2)
+# driver.find_element_by_xpath("//button[text()='Ok']").click()
+# time.sleep(3)
+# driver.find_element_by_xpath("(//button[text()='Ok'])[2]").click()
 #
+# toastmsg = driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+# if toastmsg == "Activity already exists":
+#     print("Exit already")
+#
+# else:
+#     print(toastmsg)
+
 # # #Client Profile
 # time.sleep(2)
 # driver.find_element_by_xpath("//a[text()='PROFILE']").click()
@@ -277,45 +295,45 @@ except:
 #     print("Something went wrong in PP")
 
 #
-# #------------------------------------------------Settings-----------------------------
-# time.sleep(3)
-# driver.find_element_by_xpath("//span[text()=' Settings']").click()
-# time.sleep(2)
-# driver.find_element_by_xpath("//img[@title='Change Password']").click()
-# time.sleep(3)
-# driver.find_element_by_name("oldPassword").send_keys("Kanaka@123")
-# driver.find_element_by_name("newPassword").send_keys("Qwerty@123")
-# driver.find_element_by_name("confirmPassword").send_keys("Qwerty@123")
-# time.sleep(3)
-# driver.find_element_by_xpath("//button[text()='Submit']").click()
-# time.sleep(2)
-#
-# #add calendar
-# try:
-#     print("Changing already added calendar")
-#     driver.find_element_by_xpath("/html/body/app-root/app-setting/div[1]/div/div[2]/div/div[1]/div/form/div[3]/div[1]/div/div[2]/div/img[1]").click()
-#     time.sleep(2)
-# except:
-#     print(" Adding new calendar to platform")
-#     driver.find_element_by_xpath('//img[@src="../../../assets/icons/addcalendarsyn.svg"]').click()
-#     time.sleep(2)
-#
-# driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
-# time.sleep(3)
-# driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
-# time.sleep(5)
-# driver.find_element_by_id('idSIButton9').click()
-# time.sleep(5)
-# driver.find_element_by_id('i0118').send_keys("Kanaka@123")
-# time.sleep(3)
-# driver.find_element_by_id('idSIButton9').click()
-# time.sleep(3)
-# driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
-# time.sleep(3)
-# driver.execute_script("window.scrollTo(0, 500)")
-# time.sleep(3)
-# driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
-# time.sleep(2)
+#------------------------------------------------Settings-----------------------------
+time.sleep(3)
+driver.find_element_by_xpath("//span[text()=' Settings']").click()
+time.sleep(2)
+driver.find_element_by_xpath("//img[@title='Change Password']").click()
+time.sleep(3)
+driver.find_element_by_name("oldPassword").send_keys("Kanaka@123")
+driver.find_element_by_name("newPassword").send_keys("Qwerty@123")
+driver.find_element_by_name("confirmPassword").send_keys("Qwerty@123")
+time.sleep(3)
+driver.find_element_by_xpath("//button[text()='Submit']").click()
+time.sleep(2)
+
+#add calendar
+try:
+    print("Changing already added calendar")
+    driver.find_element_by_xpath("/html/body/app-root/app-setting/div[1]/div/div[2]/div/div[1]/div/form/div[3]/div[1]/div/div[2]/div/img[1]").click()
+    time.sleep(2)
+except:
+    print(" Adding new calendar to platform")
+    driver.find_element_by_xpath('//img[@src="../../../assets/icons/addcalendarsyn.svg"]').click()
+    time.sleep(2)
+
+driver.find_element_by_xpath('//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
+time.sleep(3)
+driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
+time.sleep(5)
+driver.find_element_by_id('idSIButton9').click()
+time.sleep(5)
+driver.find_element_by_id('i0118').send_keys("Kanaka@123")
+time.sleep(3)
+driver.find_element_by_id('idSIButton9').click()
+time.sleep(3)
+driver.find_element_by_xpath('//*[@id="idSIButton9"]').click()
+time.sleep(3)
+driver.execute_script("window.scrollTo(0, 500)")
+time.sleep(3)
+driver.find_element_by_xpath('//*[@id="idBtn_Accept"]').click()
+time.sleep(2)
 
 #
 #

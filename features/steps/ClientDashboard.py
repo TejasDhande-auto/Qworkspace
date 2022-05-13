@@ -7,7 +7,7 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
 
 from features import myglobal as gb, environment
-
+from datetime import date, timedelta
 
 @when(u'Enter client credentials as "{email}" and "{password}"')
 def step_impl(context, email, password):
@@ -727,6 +727,79 @@ def step_impl(context):
     except:
         allure.attach("",name="No missing survey")
 
+@when(u"Right click on tomorrow's date and click Schedule a session")
+def step_impl(context):
+    today = date.today()
+    print(today)
+    todayday = today.day + 1
+    day = str(today.day + 1)
+    print(day)
+    if todayday >= 15:
+        checkevent = "(//span[text()='" + day + "'])[2]"
+    else:
+        checkevent = "(//span[text()='" + day + "'])[1]"
+    time.sleep(5)
+    rightclick = context.driver.find_element_by_xpath(checkevent)
+    action = ActionChains(context.driver)
+    action.context_click(rightclick).perform()
+
+    time.sleep(3)
+    context.driver.find_element_by_xpath("//span[text()='Schedule a Session']").click()
+    time.sleep(5)
+
+@then(u'Schedule next session calendar should display to client')
+def step_impl(context):
+    if context.driver.find_element_by_xpath("(//button[text() = 'Continue'])[3]").is_displayed():
+        allure.attach(context.driver.get_screenshot_as_png(), name="Client calendar error",
+                      attachment_type=AttachmentType.PNG)
+        time.sleep(2)
+        context.driver.find_element_by_xpath("(// button[text() = 'Continue'])[3]").click()
+        time.sleep(5)
+    else:
+        allure.attach(context.driver.get_screenshot_as_png(), name="Schedule Next Session calendar",
+                      attachment_type=AttachmentType.PNG)
+
+@when(u"Select coach available date and time and click on save")
+def step_impl(context):
+    for i in range(1, 3):
+        today = date.today() + timedelta(i)  # tommorrow date
+        day = str(today.day)  # int-stringconversion
+        month = today.strftime("%b")  # int-stringconversion
+        selectaday = "(//span[text()='" + month + " " + day + "'])"
+        time.sleep(2)
+        context.driver.find_element_by_xpath(selectaday).click()
+        time.sleep(5)
+        print(today)
+        allure.attach(context.driver.find_element_by_xpath(selectaday).text, name="Date",
+                      attachment_type=AttachmentType.TEXT)
+        environment.selecttimeslot(context)
+        print("---------------------------")
+
+    if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
+        context.driver.find_element_by_xpath("//button[text()='Save']").click()
+        time.sleep(10)
+
+    else:
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
+        allure.attach("", name="Client is not available for selected day")
+
+@then(u'Session should be scheduled with coach')
+def step_impl(context):
+    time.sleep(3)
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Unable to schedule session":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="Unable to schedule session")
+        else:
+            allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,
+                          name="Succcess message", attachment_type=AttachmentType.TEXT)
+            print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+
+    except:
+        allure.attach("",name="Client is not available")
+
 
 @when(u'Click on Activities')
 def step_impl(context):
@@ -1095,7 +1168,7 @@ def step_impl(context):
         time.sleep(2)
     context.driver.find_element_by_xpath(
         '//*[@id="uBody"]/app-root/app-coach-calendar-access/div[1]/div[2]/div[2]').click()
-    time.sleep(3)
+    time.sleep(5)
     context.driver.find_element_by_id('i0116').send_keys("automatecoach@outlook.com")
     time.sleep(5)
     context.driver.find_element_by_id('idSIButton9').click()
@@ -1125,43 +1198,64 @@ def step_impl(context):
 
 @then(u"Outlook calendar details should display on Client's settings screen")
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    calendarsyncstatus = context.driver.find_element_by_xpath('/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
-    if calendarsyncstatus == "Calendar NOT Synced":
-        allure.attach("",name="Calendar NOT Synced")
-    else:
-        allure.attach("", name="Calendar is synced")
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Calendar has already been synced with platform":
+            allure.attach("", name="Calendar has already been synced with platform")
+
+        elif errmsg == "Calendar has been synced successfully":
+            allure.attach("", name="Calendar has already been synced with platform")
+            time.sleep(2)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            calendarsyncstatus = context.driver.find_element_by_xpath(
+                '/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
+            if calendarsyncstatus == "Calendar NOT Synced":
+                allure.attach("", name="Calendar NOT Synced")
+            else:
+                allure.attach("", name="Calendar is synced")
+
+    except:
+        raise Exception("Unable to sync MS calendar")
 
 
 @when(u'Click on delete')
 def step_impl(context):
-    time.sleep(3)
-    context.driver.find_element_by_xpath('//img[@title="Delete calendar"]').click()
-    time.sleep(2)
-    context.driver.find_element_by_xpath("//button[text()='Remove']").click()
-    time.sleep(3)
     try:
-        context.driver.find_element_by_xpath("//button[text()='OK']").click()
-        print("Deleted Gmail calendar")
-        allure.attach("",name="Deleted Gmail calendar")
+        time.sleep(3)
+        context.driver.find_element_by_xpath('//img[@title="Delete calendar"]').click()
+        time.sleep(2)
+        context.driver.find_element_by_xpath("//button[text()='Remove']").click()
+        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath("//button[text()='OK']").click()
+            print("Deleted Gmail calendar")
+            allure.attach("",name="Synced calendar is Google ")
+
+        except:
+            print("Deleted outlook calendar")
+            allure.attach("",name="Synced calendar is Outlook")
+
     except:
-        print("Deleted outlook calendar")
-        allure.attach("", name="Deleted Gmail calendar")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
 @then (u'Calendar should be deleted from platform')
 def step_impl(context):
-    errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
-    if errmsg == "Calendar has been deleted successfully":
-        print(errmsg)
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Calendar has been deleted successfully":
+            print(errmsg)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("", name="Calendar has been deleted successfully")
+            context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+        else:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,name="Toaster message",attachment_type=AttachmentType.TEXT)
+            allure.attach("", name="Error in deleting calendar")
+            context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+        time.sleep(2)
+
+    except:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        allure.attach("", name="Calendar has been deleted successfully")
-        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
-    else:
-        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-        allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,name="Toaster message",attachment_type=AttachmentType.TEXT)
-        allure.attach("", name="Error in deleting calendar")
-        context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
-    time.sleep(2)
 
 @when(u'Add Google calendar for client')
 def step_impl(context):
@@ -1209,13 +1303,26 @@ def step_impl(context):
 
 @then(u"Google calendar details should display on Client's settings screen")
 def step_impl(context):
-    allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-    calendarsyncstatus = context.driver.find_element_by_xpath(
-        '/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
-    if calendarsyncstatus == "Calendar NOT Synced":
-        allure.attach("", name="Calendar NOT Synced")
-    else:
-        allure.attach("", name="Calendar is synced")
+    print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
+    try:
+        errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
+        if errmsg == "Calendar has already been synced with platform":
+                allure.attach("",name="Calendar has already been synced with platform")
+
+        elif errmsg == "Calendar has been synced successfully":
+            allure.attach("",name="Calendar has been synced with platform")
+            time.sleep(2)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            calendarsyncstatus = context.driver.find_element_by_xpath(
+                '/html/body/app-root/app-setting/div[1]/div/div[2]/div/div/div/div/div/form/div[2]/div/div[2]').text
+            if calendarsyncstatus == "Calendar NOT Synced":
+                allure.attach("", name="Calendar NOT Synced")
+            else:
+                allure.attach("", name="Calendar is synced")
+
+
+    except:
+        raise Exception("Unable to sync Google calendar")
 
 @when(u'Click on change')
 def step_impl(context):

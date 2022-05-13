@@ -19,9 +19,9 @@ def before_feature(context,feature):
     # options.add_argument("user-data-dir=C:/Users/kanaka/AppData/Local/Google/Chrome/User")
     # chrome_driver_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
     # context.driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=options)
-#
-# def after_feature(context,feature):
-#     context.driver.quit()
+
+def after_feature(context,feature):
+    context.driver.quit()
 
 
 def invokeloginpage(context):
@@ -38,6 +38,7 @@ def selecttimeslot(context):
     count = 0
     if context.driver.find_element_by_xpath("//h6[text()='No free time available for selected day']").is_displayed():
         print("Coach is not available for selected day")
+        allure.attach("",name="Coach is not available for selected day")
     else:
         try:
             for i in range(6):

@@ -2,7 +2,7 @@ Feature: Verify Client Dashboard
 
   Scenario: Verify Client login successfully
     When Login page should be open
-    And Enter client credentials as "qtestclient+1@gmail.com" and "Qwerty@123"
+    And Enter client credentials as "qtestclient+demo1@gmail.com" and "Qwerty@123"
     Then Client dashboard should display
 
   Scenario: Verify Next Session is scheduled or not
@@ -80,6 +80,12 @@ Feature: Verify Client Dashboard
     When  Missing survey is pending
     And  Fill the missing survey
     Then  Missing survey should get submitted
+
+  Scenario: Verify Session scheduling functionality
+    When Right click on tomorrow's date and click Schedule a session
+    Then Schedule next session calendar should display to client
+    When Select coach available date and time and click on save
+    Then Session should be scheduled with coach
 
   Scenario: Verify Activities screen is displayed
     When  Click on Activities

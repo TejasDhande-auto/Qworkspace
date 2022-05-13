@@ -26,6 +26,12 @@ Feature: Verify  Coach Dashboard
     When Click on filter and enter "Qtestclient1" as client name
     Then Client details screen should open
 
+  Scenario: Verify Session scheduling functionality
+    When Click on Schedule+ button
+    Then Schedule next session calendar should display
+    When Select and date and time and click on save
+    Then Session should be scheduled
+
   Scenario: Verify notes section under client details screen
     When Crete or edit note for client
     Then Created/edited note should display on screen
@@ -34,6 +40,10 @@ Feature: Verify  Coach Dashboard
     When Check activities are assigned to client
     And  click one of activity if assigned
     Then Activity should open
+
+  Scenario: Verify Add activity to client functionality
+    When Click on Add button and select resource from NetQ
+    Then Proper toaster message should display to coach
 
    Scenario: Verify Client profile section under client details screen
      When Check client profile is loading

@@ -116,6 +116,12 @@ Feature: Verify Operation Dashboard functionality
     And Edit the details of client
     Then Client details should get updated by ops user
 
+  Scenario: Verify Session scheduling functionality
+    When Select client "Qtestclient1" and Click Schedule session button
+    Then Next session calendar should display to ops user
+    When Ops user select available date and time and click on save
+    Then Session should be scheduled for client and coach
+
   Scenario: Verify Add Client functionality on client screen
     When Click Add button on clients screen
     Then Individual client invitation screen should be open
