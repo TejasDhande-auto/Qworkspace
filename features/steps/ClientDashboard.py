@@ -775,11 +775,11 @@ def step_impl(context):
         environment.selecttimeslot(context)
         print("---------------------------")
 
-    if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
+    try:
         context.driver.find_element_by_xpath("//button[text()='Save']").click()
         time.sleep(10)
 
-    else:
+    except:
         context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
         allure.attach("", name="Client is not available for selected day")
 
@@ -1237,6 +1237,7 @@ def step_impl(context):
 
     except:
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+        raise Exception("Unable to delete calendar")
 
 @then (u'Calendar should be deleted from platform')
 def step_impl(context):

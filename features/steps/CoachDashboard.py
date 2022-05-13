@@ -220,11 +220,11 @@ def step_impl(context):
         environment.selecttimeslot(context)
         print("---------------------------")
 
-    if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
+    try:
         context.driver.find_element_by_xpath("//button[text()='Save']").click()
         time.sleep(10)
 
-    else:
+    except:
         context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
         allure.attach("",name="Client is not available for selected day")
 

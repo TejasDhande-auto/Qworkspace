@@ -703,7 +703,7 @@ def step_impl(context):
     context.driver.find_element_by_xpath("//a[text()=' Back']").click()
     time.sleep(5)
 
-@when(u'Select client "{clientname}" amd Click Schedule session button')
+@when(u'Select client "{clientname}" and Click Schedule session button')
 def step_impl(context,clientname):
     time.sleep(25)
     context.driver.find_element_by_xpath(

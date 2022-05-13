@@ -151,6 +151,48 @@ def step_impl(context,email):
     context.driver.find_element_by_xpath("//button[text()='Submit']").click()
     time.sleep(5)
 
+
+@when(u': Sync the Google Calendar with platform')
+def step_impl(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element_by_xpath("//div[text()=' Google calendar ']").click()
+        time.sleep(2)
+        time.sleep(5)
+        context.driver.find_element_by_id("identifierId").send_keys("automatecoach@gmail.com")
+        context.driver.find_element_by_id("identifierNext").click()
+        time.sleep(5)
+        context.driver.find_element_by_name("password").send_keys("Kanaka@123")
+        context.driver.find_element_by_id("passwordNext").click()
+        time.sleep(3)
+        try:
+            context.driver.find_element_by_xpath("//div[text()='Confirm your recovery email']").click()
+            time.sleep(3)
+            context.driver.find_element_by_xpath('//input[@aria-label="Enter recovery email address"]').send_keys(
+                "democoachuat@gmail.com")
+            time.sleep(2)
+            context.driver.find_element_by_xpath("//span[text()='Next']").click()
+            time.sleep(2)
+
+        except:
+            pass
+        try:
+            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            time.sleep(1)
+            context.driver.execute_script("window.scrollTo(0, 500)")
+            time.sleep(3)
+            context.driver.find_element_by_xpath("//span[text()='Continue']").click()   #driver.find_element_by_xpath("//span[text()='Cancel']").click()
+            time.sleep(5)
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
+        except:
+            allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+            allure.attach("",name="Access permission has already been given for selected Google calendar")
+
+    except:
+        raise Exception("Unable to sync calendar")
+        allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
+
 @then(u': Coach dashboard should be open')
 def step_impl(context):
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
