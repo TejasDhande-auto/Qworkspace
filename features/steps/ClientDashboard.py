@@ -734,14 +734,21 @@ def step_impl(context):
     todayday = today.day + 1
     day = str(today.day + 1)
     print(day)
-    if todayday >= 15:
+    checkevent1 = "(//span[text()='" + day + "'])[1]"
+    if todayday >= 25:
         checkevent = "(//span[text()='" + day + "'])[2]"
     else:
         checkevent = "(//span[text()='" + day + "'])[1]"
     time.sleep(5)
-    rightclick = context.driver.find_element_by_xpath(checkevent)
-    action = ActionChains(context.driver)
-    action.context_click(rightclick).perform()
+    try:
+        rightclick = context.driver.find_element_by_xpath(checkevent)
+        action = ActionChains(context.driver)
+        action.context_click(rightclick).perform()
+
+    except:
+        case2 = context.driver.find_element_by_xpath(checkevent1)
+        action = ActionChains(context.driver)
+        action.context_click(case2).perform()
 
     time.sleep(3)
     context.driver.find_element_by_xpath("//span[text()='Schedule a Session']").click()
@@ -957,7 +964,7 @@ def step_impl(context):
         '//*[@id="uBody"]/app-root/app-network-q-resources/div[2]/div/div/div[3]/button[2]').click()
 
 
-@then(u'Proper toaster messgae should display')
+@then(u'Proper toaster message should display')
 def step_impl(context):
     time.sleep(3)
     errmsg = context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text
@@ -971,13 +978,15 @@ def step_impl(context):
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         allure.attach("", name="Activity has been added successfully")
         context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').click()
+
+    time.sleep(2)
     context.driver.back()
     time.sleep(2)
 
 
 @when(u'Click on Archived on activities screen')
 def step_impl(context):
-    time.sleep(2)
+    time.sleep(3)
     context.driver.find_element_by_xpath("//a[text()='Archived']").click()
     time.sleep(2)
 

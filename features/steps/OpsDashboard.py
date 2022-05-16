@@ -746,13 +746,14 @@ def step_impl(context):
         print(today)
         environment.selecttimeslot(context)
         print("---------------------------")
-        if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
-            context.driver.find_element_by_xpath("//button[text()='Save']").click()
-            time.sleep(10)
 
-        else:
-            context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
-            allure.attach("", name="Client is not available for selected day")
+    if context.driver.find_element_by_xpath("//button[text()='Save']").is_enabled():
+        context.driver.find_element_by_xpath("//button[text()='Save']").click()
+        time.sleep(10)
+
+    else:
+        context.driver.find_element_by_xpath("(//button[text()='Close'])[3]").click()
+        allure.attach("", name="Client is not available for selected day")
 
 
 @then(u'Session should be scheduled for client and coach')
@@ -776,8 +777,11 @@ def step_impl(context):
 @when(u'Click Add button on clients screen')
 def step_impl(context):
     time.sleep(25)
-    context.driver.find_element_by_xpath("//button[text()='Add']").click()
-    time.sleep(5)
+    try:
+        context.driver.find_element_by_xpath("//button[text()='Add']").click()
+        time.sleep(5)
+    except:
+        raise Exception("Add button is disabled")
 
 
 @then(u'Individual client invitation screen should be open')

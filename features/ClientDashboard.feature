@@ -56,7 +56,7 @@ Feature: Verify Client Dashboard
   Scenario: Verify Sessions screen is displayed
     When  Click on Sessions
     Then  Sessions screen should be open
-
+#
   Scenario: Verify active tab on sessions screen
     When Notes tab is active
     Then Missing survey tab should display "Your all caught up"
@@ -101,7 +101,7 @@ Feature: Verify Client Dashboard
     And  Click on Add
     Then  Screen should navigate to Network Q screen
     And  Add Self activity for client
-    Then  Proper toaster messgae should display
+    Then  Proper toaster message should display
 
   Scenario: Verify Archived activities Activities screen
     When  Click on Archived on activities screen
