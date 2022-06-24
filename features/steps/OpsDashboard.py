@@ -9,11 +9,11 @@ from selenium.webdriver.common.keys import Keys
 from features import myglobal as gb, environment
 from selenium.webdriver.support.ui import Select
 
-@when(u'Enter Ops credentials "opsqdev@outlook.com" and "Kanaka@123"')
-def step_impl(context):
+@when(u'Enter Ops credentials "{email}" and "{password}"')
+def step_impl(context,email,password):
     time.sleep(10)
-    context.driver.find_element_by_name("email").send_keys("opsqdev2021@outlook.com")
-    context.driver.find_element_by_name("password").send_keys("Quantuvos@123")
+    context.driver.find_element_by_name("email").send_keys(email)
+    context.driver.find_element_by_name("password").send_keys(password)
     context.driver.find_element_by_xpath('//*[@id="btnSubmit"]').click()
     time.sleep(5)
 
@@ -767,7 +767,7 @@ def step_impl(context):
             allure.attach("", name="Unable to schedule session")
         else:
             allure.attach(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text,
-                          name="Succcess message", attachment_type=AttachmentType.TEXT)
+                          name="Success message", attachment_type=AttachmentType.TEXT)
             print(context.driver.find_element_by_xpath('//*[@id="toast-container"]/div').text)
 
     except:

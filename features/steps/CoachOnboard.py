@@ -177,7 +177,7 @@ def step_impl(context):
         except:
             pass
         try:
-            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            context.driver.find_element_by_xpath('(//input[@type="checkbox"])[3]').click()
             time.sleep(1)
             context.driver.execute_script("window.scrollTo(0, 500)")
             time.sleep(3)

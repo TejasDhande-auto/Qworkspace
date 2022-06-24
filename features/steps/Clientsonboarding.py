@@ -5,10 +5,11 @@ from allure_commons.types import AttachmentType
 from behave import *
 from selenium.webdriver.common.keys import Keys
 
-from features import myglobal as gb,environment as env
+from features import myglobal as gb, environment as env
+
 
 @when(u': Send an invitation to individual client (name="{name}",email="{email}",hours="{hours}")')
-def step_impl(context,name,email,hours):
+def step_impl(context, name, email, hours):
     context.driver.execute_script("window.open('about:blank','opsdashboard');")
     context.driver.switch_to.window("opsdashboard")
     context.driver.get(gb.URL)
@@ -45,7 +46,7 @@ def step_impl(context,name,email,hours):
 
 
 @when(u': Complete the onboarding process (email="{email}")')
-def step_impl(context,email):
+def step_impl(context, email):
     try:
         context.driver.switch_to.window("Mail")
 
@@ -154,11 +155,12 @@ def step_impl(context,email):
         "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()
 
     time.sleep(10)
-    context.driver.find_element_by_xpath("//span[text()='Career Direction/Advancement: I want to talk about what next for me or something related to advancing in my career']").click()
-    #context.driver.find_element_by_name("data[SessionTitle]").send_keys("First Automation")
-    #context.driver.find_element_by_name("data[TopicDetails]").send_keys("First automation topic")
+    context.driver.find_element_by_xpath(
+        "//span[text()='Career Direction/Advancement: I want to talk about what next for me or something related to advancing in my career']").click()
+    # context.driver.find_element_by_name("data[SessionTitle]").send_keys("First Automation")
+    # context.driver.find_element_by_name("data[TopicDetails]").send_keys("First automation topic")
     context.driver.execute_script("window.scrollTo(0, 200)")
-    #context.driver.find_element_by_name("data[Agreement]").click()
+    # context.driver.find_element_by_name("data[Agreement]").click()
     time.sleep(10)
     context.driver.find_element_by_xpath(
         "/html/body/app-root/app-clientform/div[4]/div/formio/div/div/div/div/ul/li[3]/button").click()
@@ -174,6 +176,7 @@ def step_impl(context,email):
     # context.driver.find_element_by_xpath("//button[text()='OK']").click()
     # time.sleep(2)
     # context.driver.close()
+
 
 @when(u': Sync the Google Calendar')
 def step_impl(context):
@@ -200,17 +203,18 @@ def step_impl(context):
         except:
             pass
         try:
-            context.driver.find_element_by_xpath('//input[@aria-labelledby="selectioni7"]').click()
+            context.driver.find_element_by_xpath('(//input[@type="checkbox"])[3]').click()
             time.sleep(1)
             context.driver.execute_script("window.scrollTo(0, 500)")
             time.sleep(3)
-            context.driver.find_element_by_xpath("//span[text()='Continue']").click()   #driver.find_element_by_xpath("//span[text()='Cancel']").click()
+            context.driver.find_element_by_xpath(
+                "//span[text()='Continue']").click()  # driver.find_element_by_xpath("//span[text()='Cancel']").click()
             time.sleep(5)
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
 
         except:
             allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
-            allure.attach("",name="Access permission has already been given for selected Google calendar")
+            allure.attach("", name="Access permission has already been given for selected Google calendar")
 
     except:
         raise Exception("Unable to sync calendar")
@@ -221,7 +225,7 @@ def step_impl(context):
 
 
 @when(u': Schedule the first session (email="{email}")')
-def step_impl(context,email):
+def step_impl(context, email):
     context.driver.switch_to.window("opsdashboard")
     time.sleep(5)
     context.driver.find_element_by_xpath(
@@ -259,7 +263,7 @@ def step_impl(context,email):
     try:
         allure.attach(context.driver.get_screenshot_as_png(), name="Calendar error", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath("//button[text()=' OK ']").click()
-        allure.attach("",name="Client calendar is not properly synchronized")
+        allure.attach("", name="Client calendar is not properly synchronized")
     except:
         pass
     time.sleep(5)
@@ -272,13 +276,14 @@ def step_impl(context,email):
     try:
         allure.attach(context.driver.get_screenshot_as_png(), name="Calendar error", attachment_type=AttachmentType.PNG)
         context.driver.find_element_by_xpath("//button[text()='Continue']").click()
-        allure.attach("",name="Client calendar is not properly synchronized")
+        allure.attach("", name="Client calendar is not properly synchronized")
     except:
         pass
     time.sleep(5)
     env.selecttimeslotforfirstsession(context)
 
-    context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
+    context.driver.find_element_by_xpath(
+        "/html/body/app-root/app-weekly-calendar/div[3]/div/div[1]/form/div[3]/button/span").click()
     time.sleep(25)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(5)
@@ -287,7 +292,8 @@ def step_impl(context,email):
 @then(u': Client dashboard should be open')
 def step_impl(context):
     try:
-        context.driver.find_element_by_xpath("/html/body/app-root/app-weekly-calendar/div[3]/div/div[2]/div/div/div[2]/button").click()
+        context.driver.find_element_by_xpath(
+            "/html/body/app-root/app-weekly-calendar/div[3]/div/div[2]/div/div/div[2]/button").click()
         time.sleep(6)
         allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
         time.sleep(5)
@@ -298,7 +304,7 @@ def step_impl(context):
 
 
 @when(u': Send an invitation to customer client (name="{name}",email="{email}",hours="{hours}")')
-def step_impl(context,name,email,hours):
+def step_impl(context, name, email, hours):
     context.driver.switch_to.window("opsdashboard")
     time.sleep(10)
     context.driver.find_element_by_xpath('//*[@id="opt-Welcomeid"]').click()
@@ -319,6 +325,7 @@ def step_impl(context,name,email,hours):
     time.sleep(3)
     allure.attach(context.driver.get_screenshot_as_png(), name="Screenshot", attachment_type=AttachmentType.PNG)
     time.sleep(10)
+
 
 @when(u': Sync the MS calendar')
 def step_impl(context):
@@ -355,7 +362,6 @@ def step_impl(context):
 
     except:
         raise Exception("Unable to sync MS calendar")
-
 
     time.sleep(2)
     context.driver.close()
