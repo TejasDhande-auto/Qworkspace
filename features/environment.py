@@ -9,7 +9,8 @@ from features import myglobal as gb
 from allure_commons.types import AttachmentType
 import allure
 
-def before_feature(context,feature):
+
+def before_feature(context):
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
     context.driver = uc.Chrome(options=options)
@@ -20,7 +21,8 @@ def before_feature(context,feature):
     # chrome_driver_path = "C:/Program Files/Google/Chrome/Application/chrome.exe"
     # context.driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=options)
 
-def after_feature(context,feature):
+
+def after_feature(context):
     context.driver.quit()
 
 
@@ -31,14 +33,13 @@ def invokeloginpage(context):
     context.driver.implicitly_wait(10)
 
 
-
 def selecttimeslot(context):
     context.driver.find_element_by_xpath("//label[text()=' 30 Minutes ']").click()
     time.sleep(5)
     count = 0
     if context.driver.find_element_by_xpath("//h6[text()='No free time available for selected day']").is_displayed():
         print("Coach is not available for selected day")
-        allure.attach("",name="Coach is not available for selected day")
+        allure.attach("", name="Coach is not available for selected day")
     else:
         try:
             for i in range(6):
