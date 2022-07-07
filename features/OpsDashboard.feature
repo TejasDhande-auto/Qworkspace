@@ -2,7 +2,7 @@ Feature: Verify Operation Dashboard functionality
 
   Scenario: Verify Ops login functionality
     When Login page should be open
-    And Enter Ops credentials "opsuat2021@outlook.com" and "Quantuvos@123"
+    And Enter Ops credentials "opsqdev2021@outlook.com" and "Quantuvos@123"
     Then Operation dashboard should display
 
     Scenario: Verify enabling/disabling of buttons based on session selected

@@ -1,5 +1,5 @@
 
-opsemail = "opsuat2021@outlook.com"
+opsemail = "opsqdev2021@outlook.com"
 opspassword = "Quantuvos@123"
-URL = "https://platform-uat.quantuvos.com/login"
+URL = "https://platform-dev.quantuvos.com/login"
 password = "Qwerty@123"

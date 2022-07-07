@@ -4,13 +4,15 @@ from datetime import date, timedelta
 import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-
+from webdriver_auto_update import check_driver
 from features import myglobal as gb
 from allure_commons.types import AttachmentType
 import allure
 
 
-def before_feature(context):
+def before_feature(context,feature):
+    check_driver('C:/Users/kanaka/PycharmProjects/Qworkspace')
+
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
     context.driver = uc.Chrome(options=options)
@@ -22,7 +24,7 @@ def before_feature(context):
     # context.driver = webdriver.Chrome(executable_path=chrome_driver_path, chrome_options=options)
 
 
-def after_feature(context):
+def after_feature(context,feature):
     context.driver.quit()
 
 
