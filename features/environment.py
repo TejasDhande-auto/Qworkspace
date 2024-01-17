@@ -1,21 +1,16 @@
 import time
 from datetime import date, timedelta
 
-import undetected_chromedriver as uc
-from selenium import webdriver
+from seleniumbase import Driver
 from selenium.webdriver.common.keys import Keys
-from webdriver_auto_update import check_driver
 from features import myglobal as gb
 from allure_commons.types import AttachmentType
 import allure
 
 
 def before_feature(context,feature):
-    check_driver('C:/Users/kanaka/PycharmProjects/Qworkspace')
 
-    options = webdriver.ChromeOptions()
-    options.add_argument("start-maximized")
-    context.driver = uc.Chrome(options=options)
+    context.driver = Driver(uc=True, incognito=True)
     context.driver.delete_all_cookies()
 
     # options = webdriver.ChromeOptions()
