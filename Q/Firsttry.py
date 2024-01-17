@@ -1,16 +1,10 @@
-from behave import *
-from selenium.webdriver import ActionChains
-from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
-from selenium import webdriver
-from allure_commons.types import AttachmentType
-from selenium.webdriver.common.keys import Keys
-import allure
+from seleniumbase import Driver
 import time
 
-options = webdriver.ChromeOptions()
-options.add_argument("start-maximized")
-driver = uc.Chrome(options=options)
+# options = webdriver.ChromeOptions()
+# options.add_argument("start-maximized")
+# driver = uc.Chrome(options=options)
+driver = Driver(uc=True, incognito=True)
 driver.get("https://platform-dev.quantuvos.com/login")
 
 driver.implicitly_wait(10)
