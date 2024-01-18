@@ -1,7 +1,4 @@
 from behave import *
-from selenium.webdriver.common.keys import Keys
-import undetected_chromedriver as uc
-from selenium import webdriver
 from allure_commons.types import AttachmentType
 import allure
 import time
